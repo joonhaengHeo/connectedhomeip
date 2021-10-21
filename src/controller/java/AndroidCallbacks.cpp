@@ -94,3 +94,73 @@ void GetConnectedDeviceCallback::OnDeviceConnectionFailureFn(void * context, Nod
 
     env->CallVoidMethod(javaCallback, failureMethod, nodeId, exception);
 }
+
+OpenCommissioningCallback::OpenCommissioningCallback(jobject javaCallback) :
+    mOnSuccess(OnOpenCommissioningFn, this), mOnFailure(OnOpenCommissioningFailureFn, this)
+{
+    JNIEnv * env = JniReferences::GetInstance().GetEnvForCurrentThread();
+    VerifyOrReturn(env != nullptr, ChipLogError(Controller, "Could not get JNIEnv for current thread"));
+    mJavaCallbackRef = env->NewGlobalRef(javaCallback);
+    if (mJavaCallbackRef == nullptr)
+    {
+        ChipLogError(Controller, "Could not create global reference for Java callback");
+    }
+    ChipLogError(Controller, "OpenCommissioningCallback : %p, %p", mOnSuccess.Cancel(), mOnFailure.Cancel());
+}
+
+OpenCommissioningCallback::~OpenCommissioningCallback()
+{
+    JNIEnv * env = JniReferences::GetInstance().GetEnvForCurrentThread();
+    VerifyOrReturn(env != nullptr, ChipLogError(Controller, "Could not get JNIEnv for current thread"));
+    env->DeleteGlobalRef(mJavaCallbackRef);
+}
+
+void OpenCommissioningCallback::OnOpenCommissioningFn(void * context)
+{
+    JNIEnv * env         = JniReferences::GetInstance().GetEnvForCurrentThread();
+    auto * self          = static_cast<OpenCommissioningCallback *>(context);
+    jobject javaCallback = self->mJavaCallbackRef;
+
+    jclass openCommissioningCallbackCls = nullptr;
+    JniReferences::GetInstance().GetClassRef(env, "chip/devicecontroller/OpenCommissioningCallbackJni$OpenCommissioningCallback",
+                                             openCommissioningCallbackCls);
+    VerifyOrReturn(openCommissioningCallbackCls != nullptr,
+                   ChipLogError(Controller, "Could not find OpenCommissioningCallback class"));
+    JniClass openCommissioningCallbackJniCls(openCommissioningCallbackCls);
+
+    jmethodID successMethod;
+    JniReferences::GetInstance().FindMethod(env, javaCallback, "onOpenCommissioning", "(Ljava/lang/String;Ljava/lang/String;)V", &successMethod);
+    VerifyOrReturn(successMethod != nullptr, ChipLogError(Controller, "Could not find onOpenCommissioning method"));
+
+    env->CallVoidMethod(javaCallback, successMethod, env->NewStringUTF(self->QRCode.c_str()), env->NewStringUTF(self->manualPairingCode.c_str()));
+}
+
+void OpenCommissioningCallback::OnOpenCommissioningFailureFn(void * context, uint8_t error)
+{
+    JNIEnv * env         = JniReferences::GetInstance().GetEnvForCurrentThread();
+    auto * self          = static_cast<OpenCommissioningCallback *>(context);
+    jobject javaCallback = self->mJavaCallbackRef;
+
+    jclass openCommissioningCallbackCls = nullptr;
+    JniReferences::GetInstance().GetClassRef(env, "chip/devicecontroller/OpenCommissioningCallbackJni$OpenCommissioningCallback",
+                                             openCommissioningCallbackCls);
+    VerifyOrReturn(openCommissioningCallbackCls != nullptr,
+                   ChipLogError(Controller, "Could not find OpenCommissioningCallback class"));
+    JniClass openCommissioningCallbackJniCls(openCommissioningCallbackCls);
+
+    jmethodID failureMethod;
+    JniReferences::GetInstance().FindMethod(env, javaCallback, "onOpenCommissioningFailure", "(JLjava/lang/Exception;)V", &failureMethod);
+    VerifyOrReturn(failureMethod != nullptr, ChipLogError(Controller, "Could not find onConnectionFailure method"));
+
+    // Create the exception to return.
+    jclass controllerExceptionCls;
+    CHIP_ERROR err = JniReferences::GetInstance().GetClassRef(env, "chip/devicecontroller/ChipDeviceControllerException",
+                                                              controllerExceptionCls);
+    VerifyOrReturn(err == CHIP_NO_ERROR, ChipLogError(Controller, "Could not find exception type for onConnectionFailure"));
+    JniClass controllerExceptionJniCls(controllerExceptionCls);
+
+    jmethodID exceptionConstructor = env->GetMethodID(controllerExceptionCls, "<init>", "(I)V");
+    jobject exception = env->NewObject(controllerExceptionCls, exceptionConstructor, error);
+
+    env->CallVoidMethod(javaCallback, failureMethod, exception);
+}

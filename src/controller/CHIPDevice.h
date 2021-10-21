@@ -294,7 +294,9 @@ public:
      * @return CHIP_ERROR         CHIP_NO_ERROR on success, or corresponding error
      */
     CHIP_ERROR OpenCommissioningWindow(uint16_t timeout, uint32_t iteration, CommissioningWindowOption option,
-                                       const ByteSpan & salt, SetupPayload & setupPayload);
+                                       const ByteSpan & salt, SetupPayload & setupPayload,
+                                       Callback::Cancelable *successCallback,
+                                       Callback::Cancelable *failureCallback);
 
     /**
      * @brief
@@ -313,7 +315,9 @@ public:
      *
      * @return CHIP_ERROR         CHIP_NO_ERROR on success, or corresponding error
      */
-    CHIP_ERROR OpenPairingWindow(uint16_t timeout, CommissioningWindowOption option, SetupPayload & setupPayload);
+    CHIP_ERROR OpenPairingWindow(uint16_t timeout, CommissioningWindowOption option, SetupPayload & setupPayload,
+                                 Callback::Cancelable *successCallback,
+                                 Callback::Cancelable *failureCallback);
 
     /**
      *  In case there exists an open session to the device, mark it as expired.

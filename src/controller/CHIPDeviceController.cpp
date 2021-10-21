@@ -970,7 +970,7 @@ CHIP_ERROR DeviceCommissioner::OpenCommissioningWindow(NodeId deviceId, uint16_t
         return CHIP_ERROR_INVALID_ARGUMENT;
     }
 
-    ReturnErrorOnFailure(device->OpenCommissioningWindow(timeout, iteration, commissioningWindowOption, salt, payload));
+    ReturnErrorOnFailure(device->OpenCommissioningWindow(timeout, iteration, commissioningWindowOption, salt, payload, nullptr, nullptr));
 
     if (commissioningWindowOption != Device::CommissioningWindowOption::kOriginalSetupCode)
     {

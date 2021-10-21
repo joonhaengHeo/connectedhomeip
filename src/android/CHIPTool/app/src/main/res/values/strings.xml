@@ -94,6 +94,8 @@
     <string name="basic_commissioning_method_btn_text">Basic Commissioning Method</string>
     <string name="enter_discriminator_hint_text">Enter Discriminator</string>
     <string name="enter_setup_pin_code_hint_text">Enter Setup PIN Code</string>
+    <string name="enter_timeout_hint_text">Enter Timeout</string>
+    <string name="enter_iteration_hint_text">Enter Iteration</string>
     <string name="enhanced_commissioning_method_btn_text">Enhanced Commissioning Method</string>
     <string name="revoke_btn_text">Revoke</string>
 

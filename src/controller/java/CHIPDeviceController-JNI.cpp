@@ -45,6 +45,9 @@
 
 #include <platform/android/AndroidChipPlatform-JNI.h>
 
+#include <setup_payload/ManualSetupPayloadGenerator.h>
+#include <setup_payload/QRCodeSetupPayloadGenerator.h>
+
 // Choose an approximation of PTHREAD_NULL if pthread.h doesn't define one.
 #ifndef PTHREAD_NULL
 #define PTHREAD_NULL 0
@@ -419,7 +422,7 @@ JNI_METHOD(jboolean, openPairingWindow)(JNIEnv * env, jobject self, jlong handle
     }
 
     err = chipDevice->OpenPairingWindow(duration, chip::Controller::Device::CommissioningWindowOption::kOriginalSetupCode,
-                                        setupPayload);
+                                        setupPayload, nullptr, nullptr);
 
     if (err != CHIP_NO_ERROR)
     {
@@ -431,13 +434,17 @@ JNI_METHOD(jboolean, openPairingWindow)(JNIEnv * env, jobject self, jlong handle
 }
 
 JNI_METHOD(jboolean, openPairingWindowWithPIN)
-(JNIEnv * env, jobject self, jlong handle, jlong devicePtr, jint duration, jint iteration, jint discriminator, jlong setupPinCode)
+(JNIEnv * env, jobject self, jlong handle, jlong devicePtr, jint duration, jint iteration, jint discriminator, jlong setupPinCode, jlong callbackHandle)
 {
     chip::DeviceLayer::StackLock lock;
     CHIP_ERROR err = CHIP_NO_ERROR;
     chip::SetupPayload setupPayload;
     setupPayload.discriminator = discriminator;
     setupPayload.setUpPINCode  = setupPinCode;
+    chip::Controller::Device::CommissioningWindowOption option = chip::Controller::Device::CommissioningWindowOption::kTokenWithRandomPIN;
+    if (setupPinCode > 0) {
+        option = chip::Controller::Device::CommissioningWindowOption::kTokenWithProvidedPIN;
+    }
 
     Device * chipDevice = reinterpret_cast<Device *>(devicePtr);
     if (chipDevice == nullptr)
@@ -446,8 +453,17 @@ JNI_METHOD(jboolean, openPairingWindowWithPIN)
         return false;
     }
 
-    err = chipDevice->OpenPairingWindow(duration, chip::Controller::Device::CommissioningWindowOption::kTokenWithRandomPIN,
-                                        setupPayload);
+    if (callbackHandle != 0) {
+        OpenCommissioningCallback * openCommissioningCallback = reinterpret_cast<OpenCommissioningCallback *>(callbackHandle);
+        err = chipDevice->OpenPairingWindow(duration, option,
+                                            setupPayload, openCommissioningCallback->mOnSuccess.Cancel(), openCommissioningCallback->mOnFailure.Cancel());
+        
+        err = QRCodeSetupPayloadGenerator(setupPayload).payloadBase38Representation(openCommissioningCallback->QRCode);
+        err = ManualSetupPayloadGenerator(setupPayload).payloadDecimalStringRepresentation(openCommissioningCallback->manualPairingCode);
+    } else {
+        err = chipDevice->OpenPairingWindow(duration, option,
+                                            setupPayload, nullptr, nullptr);
+    }
 
     if (err != CHIP_NO_ERROR)
     {

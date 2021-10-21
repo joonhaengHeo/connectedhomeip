@@ -36,5 +36,22 @@ struct GetConnectedDeviceCallback
     jobject mJavaCallbackRef;
 };
 
+struct OpenCommissioningCallback
+{
+    OpenCommissioningCallback(jobject javaCallback);
+    ~OpenCommissioningCallback();
+
+    static void OnOpenCommissioningFn(void * context);
+    static void OnOpenCommissioningFailureFn(void * context, uint8_t error);
+
+    Callback::Callback<DefaultSuccessCallback> mOnSuccess;
+    Callback::Callback<DefaultFailureCallback> mOnFailure;
+
+    std::string QRCode;
+    std::string manualPairingCode;
+
+    jobject mJavaCallbackRef;
+};
+
 } // namespace Controller
 } // namespace chip

@@ -37,3 +37,16 @@ JNI_METHOD(void, GetConnectedDeviceCallbackJni, deleteCallback)(JNIEnv * env, jo
     VerifyOrReturn(connectedDeviceCallback != nullptr, ChipLogError(Controller, "GetConnectedDeviceCallback handle is nullptr"));
     delete connectedDeviceCallback;
 }
+
+JNI_METHOD(jlong, OpenCommissioningCallbackJni, newCallback)(JNIEnv * env, jobject self, jobject callback)
+{
+    OpenCommissioningCallback * openCommissioningCallback = new OpenCommissioningCallback(callback);
+    return reinterpret_cast<jlong>(openCommissioningCallback);
+}
+
+JNI_METHOD(void, OpenCommissioningCallbackJni, deleteCallback)(JNIEnv * env, jobject self, jlong callbackHandle)
+{
+    OpenCommissioningCallback * openCommissioningCallback = reinterpret_cast<OpenCommissioningCallback *>(callbackHandle);
+    VerifyOrReturn(openCommissioningCallback != nullptr, ChipLogError(Controller, "OpenCommissioningCallback handle is nullptr"));
+    delete openCommissioningCallback;
+}

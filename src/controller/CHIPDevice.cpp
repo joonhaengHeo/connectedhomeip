@@ -310,15 +310,22 @@ void Device::OnOpenPairingWindowFailureResponse(void * context, uint8_t status)
 }
 
 CHIP_ERROR Device::OpenCommissioningWindow(uint16_t timeout, uint32_t iteration, CommissioningWindowOption option,
-                                           const ByteSpan & salt, SetupPayload & setupPayload)
+                                           const ByteSpan & salt, SetupPayload & setupPayload,
+                                           Callback::Cancelable *successCallback,
+                                           Callback::Cancelable *failureCallback)
 {
     constexpr EndpointId kAdministratorCommissioningClusterEndpoint = 0;
 
     chip::Controller::AdministratorCommissioningCluster cluster;
     cluster.Associate(this, kAdministratorCommissioningClusterEndpoint);
 
-    Callback::Cancelable * successCallback = mOpenPairingSuccessCallback.Cancel();
-    Callback::Cancelable * failureCallback = mOpenPairingFailureCallback.Cancel();
+    if (successCallback == nullptr) {
+        successCallback = mOpenPairingSuccessCallback.Cancel();
+    }
+
+    if (failureCallback == nullptr) {
+        failureCallback = mOpenPairingFailureCallback.Cancel();
+    }
 
     if (option != CommissioningWindowOption::kOriginalSetupCode)
     {
@@ -344,16 +351,18 @@ CHIP_ERROR Device::OpenCommissioningWindow(uint16_t timeout, uint32_t iteration,
     }
 
     setupPayload.version               = 0;
-    setupPayload.rendezvousInformation = RendezvousInformationFlags(RendezvousInformationFlag::kBLE);
+    setupPayload.rendezvousInformation = RendezvousInformationFlags(RendezvousInformationFlag::kBLE).Set(RendezvousInformationFlag::kOnNetwork);
 
     return CHIP_NO_ERROR;
 }
 
-CHIP_ERROR Device::OpenPairingWindow(uint16_t timeout, CommissioningWindowOption option, SetupPayload & setupPayload)
+CHIP_ERROR Device::OpenPairingWindow(uint16_t timeout, CommissioningWindowOption option, SetupPayload & setupPayload,
+                                     Callback::Cancelable *successCallback,
+                                     Callback::Cancelable *failureCallback)
 {
     ByteSpan salt(reinterpret_cast<const uint8_t *>(kSpake2pKeyExchangeSalt), strlen(kSpake2pKeyExchangeSalt));
 
-    return OpenCommissioningWindow(timeout, kPBKDFMinimumIterations, option, salt, setupPayload);
+    return OpenCommissioningWindow(timeout, kPBKDFMinimumIterations, option, salt, setupPayload, successCallback, failureCallback);
 }
 
 CHIP_ERROR Device::CloseSession()

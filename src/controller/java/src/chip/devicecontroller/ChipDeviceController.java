@@ -21,6 +21,7 @@ import android.bluetooth.BluetoothGatt;
 import android.util.Log;
 import androidx.annotation.Nullable;
 import chip.devicecontroller.GetConnectedDeviceCallbackJni.GetConnectedDeviceCallback;
+import chip.devicecontroller.OpenCommissioningCallbackJni.OpenCommissioningCallback;
 
 /** Controller to interact with the CHIP device. */
 public class ChipDeviceController {
@@ -30,8 +31,8 @@ public class ChipDeviceController {
   private CompletionListener completionListener;
 
   /**
-   * To load class and jni, we need to new AndroidChipPlatform after jni load but before new
-   * ChipDeviceController
+   * To load class and jni, we need to new AndroidChipPlatform after jni load but
+   * before new ChipDeviceController
    */
   public static void loadJni() {
     return;
@@ -52,20 +53,19 @@ public class ChipDeviceController {
   /**
    * Pair a device connected through BLE.
    *
-   * <p>TODO(#7985): Annotate csrNonce as Nullable.
+   * <p>
+   * TODO(#7985): Annotate csrNonce as Nullable.
    *
-   * @param bleServer the BluetoothGatt representing the BLE connection to the device
-   * @param connId the BluetoothGatt Id representing the BLE connection to the device
-   * @param deviceId the node ID to assign to the device
+   * @param bleServer    the BluetoothGatt representing the BLE connection to the
+   *                     device
+   * @param connId       the BluetoothGatt Id representing the BLE connection to
+   *                     the device
+   * @param deviceId     the node ID to assign to the device
    * @param setupPincode the pincode for the device
-   * @param csrNonce the 32-byte CSR nonce to use, or null if we want to use an internally randomly
-   *     generated CSR nonce.
+   * @param csrNonce     the 32-byte CSR nonce to use, or null if we want to use
+   *                     an internally randomly generated CSR nonce.
    */
-  public void pairDevice(
-      BluetoothGatt bleServer,
-      int connId,
-      long deviceId,
-      long setupPincode,
+  public void pairDevice(BluetoothGatt bleServer, int connId, long deviceId, long setupPincode,
       @Nullable byte[] csrNonce) {
     if (connectionId == 0) {
       connectionId = connId;
@@ -85,15 +85,9 @@ public class ChipDeviceController {
     }
   }
 
-  public void pairDeviceWithAddress(
-      long deviceId,
-      String address,
-      int port,
-      int discriminator,
-      long pinCode,
+  public void pairDeviceWithAddress(long deviceId, String address, int port, int discriminator, long pinCode,
       @Nullable byte[] csrNonce) {
-    pairDeviceWithAddress(
-        deviceControllerPtr, deviceId, address, port, discriminator, pinCode, csrNonce);
+    pairDeviceWithAddress(deviceControllerPtr, deviceId, address, port, discriminator, pinCode, csrNonce);
   }
 
   public void unpairDevice(long deviceId) {
@@ -105,17 +99,21 @@ public class ChipDeviceController {
   }
 
   /**
-   * Returns a pointer to a device with the specified nodeId. The device is not guaranteed to be
-   * connected.
+   * Returns a pointer to a device with the specified nodeId. The device is not
+   * guaranteed to be connected.
    *
-   * <p>TODO(#8443): This method and getConnectedDevicePointer() could benefit from ChipDevice
-   * abstraction to hide the pointer passing.
+   * <p>
+   * TODO(#8443): This method and getConnectedDevicePointer() could benefit from
+   * ChipDevice abstraction to hide the pointer passing.
    */
   public long getDevicePointer(long nodeId) {
     return getDevicePointer(deviceControllerPtr, nodeId);
   }
 
-  /** Through GetConnectedDeviceCallback, returns a pointer to a connected device or an error. */
+  /**
+   * Through GetConnectedDeviceCallback, returns a pointer to a connected device
+   * or an error.
+   */
   public void getConnectedDevicePointer(long nodeId, GetConnectedDeviceCallback callback) {
     GetConnectedDeviceCallbackJni jniCallback = new GetConnectedDeviceCallbackJni(callback);
     getConnectedDevicePointer(deviceControllerPtr, nodeId, jniCallback.getCallbackHandle());
@@ -210,10 +208,15 @@ public class ChipDeviceController {
     return openPairingWindow(deviceControllerPtr, devicePtr, duration);
   }
 
-  public boolean openPairingWindowWithPIN(
-      long devicePtr, int duration, int iteration, int discriminator, long setupPinCode) {
-    return openPairingWindowWithPIN(
-        deviceControllerPtr, devicePtr, duration, iteration, discriminator, setupPinCode);
+  public boolean openPairingWindowWithPIN(long devicePtr, int duration, int iteration, int discriminator,
+      long setupPinCode, OpenCommissioningCallback callback) {
+    long handle = 0;
+    if (callback != null) {
+      OpenCommissioningCallbackJni jniCallback = new OpenCommissioningCallbackJni(callback);
+      handle = jniCallback.getCallbackHandle();
+    }
+    return openPairingWindowWithPIN(deviceControllerPtr, devicePtr, duration, iteration, discriminator, setupPinCode,
+        handle);
   }
 
   public boolean isActive(long deviceId) {
@@ -222,28 +225,17 @@ public class ChipDeviceController {
 
   private native long newDeviceController();
 
-  private native void pairDevice(
-      long deviceControllerPtr,
-      long deviceId,
-      int connectionId,
-      long pinCode,
+  private native void pairDevice(long deviceControllerPtr, long deviceId, int connectionId, long pinCode,
       @Nullable byte[] csrNonce);
 
-  private native void pairDeviceWithAddress(
-      long deviceControllerPtr,
-      long deviceId,
-      String address,
-      int port,
-      int discriminator,
-      long pinCode,
-      @Nullable byte[] csrNonce);
+  private native void pairDeviceWithAddress(long deviceControllerPtr, long deviceId, String address, int port,
+      int discriminator, long pinCode, @Nullable byte[] csrNonce);
 
   private native void unpairDevice(long deviceControllerPtr, long deviceId);
 
   private native long getDevicePointer(long deviceControllerPtr, long deviceId);
 
-  private native void getConnectedDevicePointer(
-      long deviceControllerPtr, long deviceId, long callbackHandle);
+  private native void getConnectedDevicePointer(long deviceControllerPtr, long deviceId, long callbackHandle);
 
   private native void pairTestDeviceWithoutSecurity(long deviceControllerPtr, String ipAddress);
 
@@ -259,13 +251,8 @@ public class ChipDeviceController {
 
   private native boolean openPairingWindow(long deviceControllerPtr, long devicePtr, int duration);
 
-  private native boolean openPairingWindowWithPIN(
-      long deviceControllerPtr,
-      long devicePtr,
-      int duration,
-      int iteration,
-      int discriminator,
-      long setupPinCode);
+  private native boolean openPairingWindowWithPIN(long deviceControllerPtr, long devicePtr, int duration, int iteration,
+      int discriminator, long setupPinCode, long callbackHandle);
 
   private native boolean isActive(long deviceControllerPtr, long deviceId);
 
@@ -310,7 +297,9 @@ public class ChipDeviceController {
     /** Notifies the listener of the error. */
     void onError(Throwable error);
 
-    /** Notifies the Commissioner when the OpCSR for the Comissionee is generated. */
+    /**
+     * Notifies the Commissioner when the OpCSR for the Comissionee is generated.
+     */
     void onOpCSRGenerationComplete(byte[] csr);
   }
 }
