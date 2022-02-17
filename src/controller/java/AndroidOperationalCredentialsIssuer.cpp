@@ -170,7 +170,9 @@ CHIP_ERROR AndroidOperationalCredentialsIssuer::GenerateNOCChain(const ByteSpan 
     ReturnErrorCodeIf(!rcac.Alloc(kMaxCHIPDERCertLength), CHIP_ERROR_NO_MEMORY);
     MutableByteSpan rcacSpan(rcac.Get(), kMaxCHIPDERCertLength);
 
-    MutableByteSpan icacSpan;
+    Platform::ScopedMemoryBuffer<uint8_t> icac;
+    ReturnErrorCodeIf(!icac.Alloc(kMaxCHIPDERCertLength), CHIP_ERROR_NO_MEMORY);
+    MutableByteSpan icacSpan(icac.Get(), kMaxCHIPDERCertLength);
 
     ReturnErrorOnFailure(GenerateNOCChainAfterValidation(assignedId, mNextFabricId, pubkey, rcacSpan, icacSpan, nocSpan));
 
