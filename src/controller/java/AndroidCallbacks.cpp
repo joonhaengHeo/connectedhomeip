@@ -761,5 +761,77 @@ void ReportEventCallback::ReportError(jobject eventPath, const char * message, C
     env->CallVoidMethod(mReportCallbackRef, onErrorMethod, eventPath, exception);
 }
 
+ReportWriteCallback::ReportWriteCallback(jobject wrapperCallback, jobject reportCallback)
+{
+    JNIEnv * env = JniReferences::GetInstance().GetEnvForCurrentThread();
+    VerifyOrReturn(env != nullptr, ChipLogError(Controller, "Could not get JNIEnv for current thread"));
+    mReportCallbackRef = env->NewGlobalRef(reportCallback);
+    if (mReportCallbackRef == nullptr)
+    {
+        ChipLogError(Controller, "Could not create global reference for Java callback");
+    }
+    mWrapperCallbackRef = env->NewGlobalRef(wrapperCallback);
+    if (mWrapperCallbackRef == nullptr)
+    {
+        ChipLogError(Controller, "Could not create global reference for Java callback");
+    }
+}
+
+ReportWriteCallback::~ReportWriteCallback()
+{
+    JNIEnv * env = JniReferences::GetInstance().GetEnvForCurrentThread();
+    VerifyOrReturn(env != nullptr, ChipLogError(Controller, "Could not get JNIEnv for current thread"));
+    env->DeleteGlobalRef(mReportCallbackRef);
+    if (mWriteClient != nullptr)
+    {
+        Platform::Delete(mWriteClient);
+    }
+}
+
+void ReportWriteCallback::OnResponse(const app::WriteClient * apWriteClient, const app::ConcreteDataAttributePath & aPath, app::StatusIB attributeStatus)
+{
+    CHIP_ERROR err = CHIP_NO_ERROR;
+    JNIEnv * env   = JniReferences::GetInstance().GetEnvForCurrentThread();
+
+    jmethodID onResponseMethod;
+    err = JniReferences::GetInstance().FindMethod(env, mReportCallbackRef, "OnResponse", "(I)V",
+                                                  &onResponseMethod);
+    VerifyOrReturn(err == CHIP_NO_ERROR, ChipLogError(Controller, "Could not find OnResponse method"));
+
+    DeviceLayer::StackUnlock unlock;
+    env->CallVoidMethod(mReportCallbackRef, onResponseMethod, attributeStatus.ToChipError().AsInteger());
+}
+
+void ReportWriteCallback::OnError(const app::WriteClient * apWriteClient, CHIP_ERROR aError) {
+    CHIP_ERROR err = CHIP_NO_ERROR;
+    JNIEnv * env   = JniReferences::GetInstance().GetEnvForCurrentThread();
+
+    jthrowable exception;
+    err = AndroidClusterExceptions::GetInstance().CreateIllegalStateException(env, aError.AsString(), aError.AsInteger(), exception);
+    VerifyOrReturn(err == CHIP_NO_ERROR, ChipLogError(Controller, "Unable to create IllegalStateException: %s", ErrorStr(err)));
+
+    jmethodID onErrorMethod;
+    err = JniReferences::GetInstance().FindMethod(
+        env, mReportCallbackRef, "onError", "(Ljava/lang/Exception;)V", &onErrorMethod);
+    VerifyOrReturn(err == CHIP_NO_ERROR, ChipLogError(Controller, "Unable to find onError method: %s", ErrorStr(err)));
+
+    DeviceLayer::StackUnlock unlock;
+    env->CallVoidMethod(mReportCallbackRef, onErrorMethod, exception);
+}
+
+void ReportWriteCallback::OnDone(app::WriteClient * apWriteClient)
+{
+    CHIP_ERROR err = CHIP_NO_ERROR;
+    JNIEnv * env   = JniReferences::GetInstance().GetEnvForCurrentThread();
+
+    jmethodID onDoneMethod;
+    err = JniReferences::GetInstance().FindMethod(env, mReportCallbackRef, "onDone", "()V",
+                                                  &onDoneMethod);
+    VerifyOrReturn(err == CHIP_NO_ERROR, ChipLogError(Controller, "Could not find OnDone method"));
+
+    DeviceLayer::StackUnlock unlock;
+    env->CallVoidMethod(mReportCallbackRef, onDoneMethod);
+}
+
 } // namespace Controller
 } // namespace chip

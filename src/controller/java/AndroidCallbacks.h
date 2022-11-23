@@ -128,5 +128,21 @@ struct ReportEventCallback : public app::ReadClient::Callback
     jclass mNodeStateCls  = nullptr;
 };
 
+struct ReportWriteCallback : public app::WriteClient::Callback
+{
+    ReportWriteCallback(jobject wrapperCallback, jobject reportCallback);
+    ~ReportWriteCallback();
+
+    void OnResponse(const app::WriteClient * apWriteClient, const app::ConcreteDataAttributePath & aPath, app::StatusIB attributeStatus);
+
+    void OnError(const app::WriteClient * apWriteClient, CHIP_ERROR aError);
+
+    void OnDone(app::WriteClient * apWriteClient);
+
+    app::WriteClient * mWriteClient = nullptr;
+    jobject mWrapperCallbackRef     = nullptr;
+    jobject mReportCallbackRef      = nullptr;
+};
+
 } // namespace Controller
 } // namespace chip

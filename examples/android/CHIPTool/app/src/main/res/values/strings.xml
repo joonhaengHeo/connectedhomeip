@@ -151,6 +151,7 @@
     <string name="wildcard_help_label">Leave blank for wildcard</string>
     <string name="wildcard_subscribe_btn_text">Subscribe</string>
     <string name="wildcard_read_btn_text">Read</string>
+    <string name="wildcard_write_btn_text">Write</string>
     <string name="wildcard_subscribe_event_btn_text">Subscribe Event</string>
     <string name="wildcard_read_event_btn_text">Read Event</string>
 

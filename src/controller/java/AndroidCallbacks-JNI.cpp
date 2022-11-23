@@ -70,3 +70,16 @@ JNI_METHOD(void, ReportEventCallbackJni, deleteCallback)(JNIEnv * env, jobject s
     VerifyOrReturn(reportCallback != nullptr, ChipLogError(Controller, "ReportCallback handle is nullptr"));
     delete reportCallback;
 }
+
+JNI_METHOD(jlong, ReportWriteCallbackJni, newCallback)(JNIEnv * env, jobject self, jobject reportCallbackJava)
+{
+    ReportWriteCallback * reportCallback = chip::Platform::New<ReportWriteCallback>(self, reportCallbackJava);
+    return reinterpret_cast<jlong>(reportCallback);
+}
+
+JNI_METHOD(void, ReportWriteCallbackJni, deleteCallback)(JNIEnv * env, jobject self, jlong callbackHandle)
+{
+    ReportWriteCallback * reportCallback = reinterpret_cast<ReportWriteCallback *>(callbackHandle);
+    VerifyOrReturn(reportCallback != nullptr, ChipLogError(Controller, "ReportWriteCallback handle is nullptr"));
+    delete reportCallback;
+}

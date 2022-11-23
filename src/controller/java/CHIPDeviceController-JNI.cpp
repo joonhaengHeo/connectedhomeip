@@ -31,6 +31,7 @@
 #include <app/AttributePathParams.h>
 #include <app/InteractionModelEngine.h>
 #include <app/ReadClient.h>
+#include <app/WriteClient.h>
 #include <app/chip-zcl-zpro-codec.h>
 #include <app/util/error-mapping.h>
 #include <atomic>
@@ -80,6 +81,7 @@ static CHIP_ERROR ParseAttributePath(jobject attributePath, EndpointId & outEndp
 static CHIP_ERROR ParseEventPathList(jobject eventPathList, std::vector<app::EventPathParams> & outEventPathParamsList);
 static CHIP_ERROR ParseEventPath(jobject eventPath, EndpointId & outEndpointId, ClusterId & outClusterId, EventId & outEventId);
 static CHIP_ERROR IsWildcardChipPathId(jobject chipPathId, bool & isWildcard);
+static CHIP_ERROR ParseAttributeData(jobject attributeData, app::ConcreteDataAttributePath & outAttributeData, chip::TLV::ScopedBufferTLVReader & outTLVReader);
 
 namespace {
 
@@ -1178,6 +1180,56 @@ JNI_METHOD(void, read)
     callback->mReadClient = readClient;
 }
 
+JNI_METHOD(void, write)
+(JNIEnv * env, jobject self, jlong handle, jlong callbackHandle, jlong devicePtr, jobject attributeDataList, jint jtimedWriteTimeoutMs, jint jinteractionTimeoutMs)
+{
+    chip::DeviceLayer::StackLock lock;
+    CHIP_ERROR err = CHIP_NO_ERROR;
+
+    DeviceProxy * device = reinterpret_cast<DeviceProxy *>(devicePtr);
+    if (device == nullptr)
+    {
+        ChipLogError(Controller, "No device found");
+        JniReferences::GetInstance().ThrowError(env, sChipDeviceControllerExceptionCls, CHIP_ERROR_INCORRECT_STATE);
+        return;
+    }
+
+    VerifyOrReturn(err == CHIP_NO_ERROR, ChipLogError(Controller, "Error parsing Java attribute paths: %s", ErrorStr(err)));
+
+    auto callback = reinterpret_cast<ReportWriteCallback *>(callbackHandle);
+
+    app::WriteClient * writeClient =
+        Platform::New<app::WriteClient>(device->GetExchangeManager(),
+                                       callback, jtimedWriteTimeoutMs != 0 ? Optional<uint16_t>(jtimedWriteTimeoutMs) : Optional<uint16_t>::Missing());
+
+    jint listSize;
+    SuccessOrExit(JniReferences::GetInstance().GetListSize(attributeDataList, listSize));
+    for (uint8_t i = 0; i < listSize; i++)
+    {
+        jobject attributeData = nullptr;
+        SuccessOrExit(JniReferences::GetInstance().GetListItem(attributeDataList, i, attributeData));
+
+        app::ConcreteDataAttributePath attributePath;
+        TLV::ScopedBufferTLVReader reader;
+
+        SuccessOrExit(ParseAttributeData(attributeData, attributePath, reader));
+
+        SuccessOrExit(writeClient->PutPreencodedAttribute(attributePath, reader));
+    }
+
+    SuccessOrExit(writeClient->SendWriteRequest(device->GetSecureSession().Value(), jinteractionTimeoutMs != 0 ? System::Clock::Milliseconds32(jinteractionTimeoutMs)
+                                                                               : System::Clock::kZero));
+    callback->mWriteClient = writeClient;
+    return;
+
+exit:
+    chip::AndroidClusterExceptions::GetInstance().ReturnIllegalStateException(env, callback->mReportCallbackRef, ErrorStr(err),
+                                                                                err);
+    delete writeClient;
+    delete callback;
+    return;
+}
+
 /**
  * Takes objects in attributePathList, converts them to app:AttributePathParams, and appends them to outAttributePathParamsList.
  */
@@ -1347,6 +1399,53 @@ CHIP_ERROR IsWildcardChipPathId(jobject chipPathId, bool & isWildcard)
     JniUtfString typeNameJniString(env, typeNameString);
 
     isWildcard = strncmp(typeNameJniString.c_str(), "WILDCARD", 8) == 0;
+
+    return CHIP_NO_ERROR;
+}
+
+CHIP_ERROR ParseAttributeData(jobject attributeData, app::ConcreteDataAttributePath & outAttributeData, chip::TLV::ScopedBufferTLVReader & outTLVReader)
+{
+    JNIEnv * env = JniReferences::GetInstance().GetEnvForCurrentThread();
+
+    jmethodID getDataVersionMethod  = nullptr;
+    jmethodID getPathMethod   = nullptr;
+    jmethodID getDataTlvMethod = nullptr;
+    ReturnErrorOnFailure(JniReferences::GetInstance().FindMethod(
+        env, attributeData, "getDataVersion", "()Ljava/lang/Integer;", &getDataVersionMethod));
+    ReturnErrorOnFailure(JniReferences::GetInstance().FindMethod(
+        env, attributeData, "getPath", "()Lchip/devicecontroller/model/ChipAttributePath;", &getPathMethod));
+    ReturnErrorOnFailure(JniReferences::GetInstance().FindMethod(
+        env, attributeData, "getDataTlv", "()[B", &getDataTlvMethod));
+
+    jobject dataVersionObj = env->CallObjectMethod(attributeData, getDataVersionMethod);
+    jobject attributePathObj = env->CallObjectMethod(attributeData, getPathMethod);
+    VerifyOrReturnError(attributePathObj != nullptr, CHIP_ERROR_INCORRECT_STATE);
+    jobject tlvDataObj = env->CallObjectMethod(attributeData, getDataTlvMethod);
+    VerifyOrReturnError(tlvDataObj != nullptr, CHIP_ERROR_INCORRECT_STATE);
+
+    EndpointId endpointId;
+    ClusterId clusterId;
+    AttributeId attributeId;
+    ReturnErrorOnFailure(ParseAttributePath(attributePathObj, endpointId, clusterId, attributeId));
+    outAttributeData.mEndpointId = endpointId;
+    outAttributeData.mClusterId = clusterId;
+    outAttributeData.mAttributeId = attributeId;
+
+    if (dataVersionObj != nullptr) {
+        jint dataVersion = chip::JniReferences::GetInstance().IntegerToPrimitive(dataVersionObj);
+        outAttributeData.mDataVersion.SetValue(dataVersion);
+    }
+
+    JniByteArray tlvBuffer(env, static_cast<jbyteArray>(tlvDataObj));
+    size_t size = static_cast<size_t>(tlvBuffer.size());
+
+    chip::Platform::ScopedMemoryBuffer<uint8_t> outTlvBuf;
+    outTlvBuf.Alloc(size);
+
+    memcpy(outTlvBuf.Get(), tlvBuffer.data(), size);
+
+    outTLVReader.Init(std::move(outTlvBuf), size);
+    outTLVReader.Next();
 
     return CHIP_NO_ERROR;
 }

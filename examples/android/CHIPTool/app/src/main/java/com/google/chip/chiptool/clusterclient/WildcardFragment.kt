@@ -14,11 +14,13 @@ import chip.devicecontroller.ChipDeviceController
 import chip.devicecontroller.ChipIdLookup
 import chip.devicecontroller.ReportCallback
 import chip.devicecontroller.ReportEventCallback
+import chip.devicecontroller.ReportWriteCallback
 import chip.devicecontroller.ResubscriptionAttemptCallback
 import chip.devicecontroller.SubscriptionEstablishedCallback
 import chip.devicecontroller.model.ChipAttributePath
 import chip.devicecontroller.model.ChipEventPath
 import chip.devicecontroller.model.ChipPathId
+import chip.devicecontroller.model.MatterAttributeData
 import chip.devicecontroller.model.NodeState
 import com.google.chip.chiptool.ChipClient
 import com.google.chip.chiptool.R
@@ -29,6 +31,7 @@ import kotlinx.android.synthetic.main.wildcard_fragment.endpointIdEd
 import kotlinx.android.synthetic.main.wildcard_fragment.eventIdEd
 import kotlinx.android.synthetic.main.wildcard_fragment.outputTv
 import kotlinx.android.synthetic.main.wildcard_fragment.view.readBtn
+import kotlinx.android.synthetic.main.wildcard_fragment.view.writeBtn
 import kotlinx.android.synthetic.main.wildcard_fragment.view.readEventBtn
 import kotlinx.android.synthetic.main.wildcard_fragment.view.subscribeBtn
 import kotlinx.android.synthetic.main.wildcard_fragment.view.subscribeEventBtn
@@ -68,6 +71,17 @@ class WildcardFragment : Fragment() {
     }
   }
 
+  private val reportWriteCallback = object : ReportWriteCallback {
+    override fun onError(ex: java.lang.Exception?) {
+      Log.i(TAG, "Received write error ${ex.toString()}")
+    }
+
+    override fun OnResponse(status: Int) {
+      Log.i(TAG, "Received write response $status")
+    }
+
+  }
+
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -79,6 +93,7 @@ class WildcardFragment : Fragment() {
       readBtn.setOnClickListener { scope.launch { showReadDialog(ATTRIBUTE) } }
       subscribeEventBtn.setOnClickListener { scope.launch { showSubscribeDialog(EVENT) } }
       readEventBtn.setOnClickListener { scope.launch { showReadDialog(EVENT) } }
+      writeBtn.setOnClickListener { scope.launch { write() } }
 
       addressUpdateFragment =
         childFragmentManager.findFragmentById(R.id.addressUpdateFragment) as AddressUpdateFragment
@@ -178,6 +193,19 @@ class WildcardFragment : Fragment() {
                           listOf(eventPath),
                           isFabricFiltered)
     }
+  }
+
+  private suspend fun write() {
+    val endpointId = getChipPathIdForText(endpointIdEd.text.toString())
+    val clusterId = getChipPathIdForText(clusterIdEd.text.toString())
+    val attributeId = getChipPathIdForText(attributeIdEd.text.toString())
+
+    val attributePath = ChipAttributePath.newInstance(endpointId, clusterId, attributeId)
+    val attributeData = MatterAttributeData.newInstance(null, attributePath, byteArrayOf(0x24, 0x02, 0x01))
+    deviceController.writePath(reportWriteCallback,
+            ChipClient.getConnectedDevicePointer(requireContext(),
+                    addressUpdateFragment.deviceId),
+            listOf(attributeData))
   }
 
   private fun showReadDialog(type: Int) {

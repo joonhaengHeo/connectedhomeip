@@ -22,6 +22,7 @@ import android.util.Log;
 import chip.devicecontroller.GetConnectedDeviceCallbackJni.GetConnectedDeviceCallback;
 import chip.devicecontroller.model.ChipAttributePath;
 import chip.devicecontroller.model.ChipEventPath;
+import chip.devicecontroller.model.MatterAttributeData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -563,6 +564,18 @@ public class ChipDeviceController {
         isFabricFiltered);
   }
 
+  public void writePath(
+      ReportWriteCallback callback, long devicePtr, List<MatterAttributeData> attributeDatas) {
+    ReportWriteCallbackJni jniCallback = new ReportWriteCallbackJni(callback);
+    write(deviceControllerPtr, jniCallback.getCallbackHandle(), devicePtr, attributeDatas, 0, 0);
+  }
+
+  public void writePath(
+      ReportWriteCallback callback, long devicePtr, List<MatterAttributeData> attributeDatas, int timedWriteTimeoutMs, int interactionTimeoutMs) {
+    ReportWriteCallbackJni jniCallback = new ReportWriteCallbackJni(callback);
+    write(deviceControllerPtr, jniCallback.getCallbackHandle(), devicePtr, attributeDatas, timedWriteTimeoutMs, interactionTimeoutMs);
+  }
+
   /**
    * Converts a given X.509v3 certificate into a Matter certificate.
    *
@@ -609,6 +622,14 @@ public class ChipDeviceController {
       List<ChipAttributePath> attributePaths,
       List<ChipEventPath> eventPaths,
       boolean isFabricFiltered);
+
+  private native void write(
+      long deviceControllerPtr,
+      long callbackHandle,
+      long devicePtr,
+      List<MatterAttributeData> attributeDatas,
+      int timedWriteTimeoutMs,
+      int interactionTimeoutMs);
 
   private native long newDeviceController(ControllerParams params);
 
