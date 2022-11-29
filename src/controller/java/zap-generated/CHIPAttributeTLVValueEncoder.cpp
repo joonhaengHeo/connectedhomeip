@@ -57,11 +57,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -102,11 +98,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -117,11 +109,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -140,11 +128,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -165,11 +149,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -190,11 +170,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -205,11 +181,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -228,11 +200,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -251,11 +219,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -274,11 +238,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -297,11 +257,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -320,11 +276,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -345,11 +297,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -360,11 +308,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -477,11 +421,8 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
             // isArray
-
-            // not struct_contains_nested_array
+            // is_struct
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -651,11 +592,11 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
+            // zcl struct
+            // struct_contains_array
+            // zcl struct
             // isArray
-
-            // not struct_contains_nested_array
+            // is_struct
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -698,11 +639,10 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
+            // zcl struct
+            // fabric isFabricScoped
             // isArray
-
-            // not struct_contains_nested_array
+            // is_struct
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -734,11 +674,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue)));
             cppValue = cleanupStrings.back()->charSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -749,11 +685,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue)));
             cppValue = cleanupStrings.back()->charSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -764,11 +696,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -837,11 +765,8 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
             // isArray
-
-            // not struct_contains_nested_array
+            // is_struct
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -863,11 +788,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue)));
             cppValue = cleanupStrings.back()->charSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -888,11 +809,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -903,11 +820,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -928,11 +841,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -973,11 +882,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -998,11 +903,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1083,11 +984,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue)));
             cppValue = cleanupStrings.back()->charSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1176,11 +1073,9 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
+            // zcl struct
             // isArray
-
-            // not struct_contains_nested_array
+            // is_struct
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -1244,11 +1139,12 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
+            // zcl struct
+            // zcl struct
+            // zcl struct
+            // zcl struct
             // isArray
-
-            // not struct_contains_nested_array
+            // is_struct
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -1288,11 +1184,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1311,11 +1203,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1336,11 +1224,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue)));
             cppValue = cleanupStrings.back()->charSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1351,11 +1235,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1366,11 +1246,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1381,11 +1257,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1396,11 +1268,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1411,11 +1279,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1426,11 +1290,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1441,11 +1301,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1456,11 +1312,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1481,11 +1333,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1524,11 +1372,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1547,11 +1391,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1562,11 +1402,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1577,11 +1413,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1602,11 +1434,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1617,11 +1445,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1632,11 +1456,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1647,11 +1467,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1662,11 +1478,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1677,11 +1489,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1692,11 +1500,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1707,11 +1511,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1722,11 +1522,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1747,11 +1543,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1762,11 +1554,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1785,11 +1573,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1808,11 +1592,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1823,11 +1603,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1838,11 +1614,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1863,11 +1635,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1878,11 +1646,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1893,11 +1657,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1918,11 +1678,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1933,11 +1689,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1948,11 +1700,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1963,11 +1711,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -1978,11 +1722,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2001,11 +1741,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2016,11 +1752,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2031,11 +1763,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2054,11 +1782,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2069,11 +1793,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2084,11 +1804,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2107,11 +1823,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2130,11 +1842,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2155,11 +1863,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2170,11 +1874,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2193,11 +1893,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2216,11 +1912,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2231,11 +1923,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue)));
             cppValue = cleanupStrings.back()->charSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2246,11 +1934,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue)));
             cppValue = cleanupStrings.back()->charSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2269,11 +1953,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2292,11 +1972,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2307,11 +1983,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2330,11 +2002,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2485,11 +2153,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2514,58 +2178,6 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
         using namespace app::Clusters::ApplicationLauncher;
         switch (aPath.mAttributeId)
         {
-        case Attributes::CurrentApp::Id: {
-            using TypeInfo = Attributes::CurrentApp::TypeInfo;
-            TypeInfo::Type cppValue;
-            if (jValue == nullptr)
-            {
-                cppValue.SetNull();
-            }
-            else
-            {
-                auto & nonNullValue_0 = cppValue.SetNonNull();
-                jobject jValue_applicationItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(
-                    jValue, "application", "Lchip/devicecontroller/ChipStructs$ApplicationLauncherClusterApplication;",
-                    jValue_applicationItem_1);
-                jobject jValue_applicationItem_1_catalogVendorIdItem_2;
-                chip::JniReferences::GetInstance().GetObjectField(jValue_applicationItem_1, "catalogVendorId",
-                                                                  "Ljava/lang/Integer;",
-                                                                  jValue_applicationItem_1_catalogVendorIdItem_2);
-                nonNullValue_0.application.catalogVendorId =
-                    static_cast<std::remove_reference_t<decltype(nonNullValue_0.application.catalogVendorId)>>(
-                        chip::JniReferences::GetInstance().IntegerToPrimitive(jValue_applicationItem_1_catalogVendorIdItem_2));
-                jobject jValue_applicationItem_1_applicationIdItem_2;
-                chip::JniReferences::GetInstance().GetObjectField(jValue_applicationItem_1, "applicationId", "Ljava/lang/String;",
-                                                                  jValue_applicationItem_1_applicationIdItem_2);
-                cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(
-                    env, static_cast<jstring>(jValue_applicationItem_1_applicationIdItem_2)));
-                nonNullValue_0.application.applicationId = cleanupStrings.back()->charSpan();
-                jobject jValue_endpointItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(jValue, "endpoint", "Ljava/util/Optional;",
-                                                                  jValue_endpointItem_1);
-                if (jValue_endpointItem_1 != nullptr)
-                {
-                    jobject optionalValue_2;
-                    chip::JniReferences::GetInstance().GetOptionalValue(jValue_endpointItem_1, optionalValue_2);
-                    if (optionalValue_2 != nullptr)
-                    {
-                        auto & definedValue_2 = nonNullValue_0.endpoint.Emplace();
-                        definedValue_2        = static_cast<std::remove_reference_t<decltype(definedValue_2)>>(
-                            chip::JniReferences::GetInstance().IntegerToPrimitive(optionalValue_2));
-                    }
-                }
-            }
-
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
-
-            err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
-            return err;
-        }
         default:
             err = CHIP_ERROR_IM_MALFORMED_ATTRIBUTE_PATH_IB;
             break;
@@ -2612,11 +2224,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2627,11 +2235,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2642,11 +2246,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2657,11 +2257,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2672,11 +2268,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2687,11 +2279,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2702,11 +2290,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2717,11 +2301,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2732,11 +2312,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2747,11 +2323,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2762,11 +2334,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2777,11 +2345,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2792,11 +2356,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2807,11 +2367,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2822,11 +2378,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2837,11 +2389,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2852,11 +2400,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2867,11 +2411,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2882,11 +2422,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2897,11 +2433,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2912,11 +2444,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2927,11 +2455,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2942,11 +2466,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2957,11 +2477,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().FloatToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2972,11 +2488,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().DoubleToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -2987,11 +2499,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupByteArrays.push_back(chip::Platform::MakeUnique<chip::JniByteArray>(env, static_cast<jbyteArray>(jValue)));
             cppValue = cleanupByteArrays.back()->byteSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3024,11 +2532,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
             // isArray
-
-            // not struct_contains_nested_array
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -3063,11 +2567,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
             // isArray
-
-            // not struct_contains_nested_array
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -3110,11 +2610,8 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
             // isArray
-
-            // not struct_contains_nested_array
+            // is_struct
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -3126,11 +2623,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupByteArrays.push_back(chip::Platform::MakeUnique<chip::JniByteArray>(env, static_cast<jbyteArray>(jValue)));
             cppValue = cleanupByteArrays.back()->byteSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3141,11 +2634,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue)));
             cppValue = cleanupStrings.back()->charSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3156,11 +2645,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue)));
             cppValue = cleanupStrings.back()->charSpan();
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3171,11 +2656,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3186,11 +2667,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().LongToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3201,11 +2678,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3631,11 +3104,8 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
             // isArray
-
-            // not struct_contains_nested_array
+            // is_struct
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -3647,57 +3117,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
-
-            err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
-            return err;
-        }
-        case Attributes::StructAttr::Id: {
-            using TypeInfo = Attributes::StructAttr::TypeInfo;
-            TypeInfo::Type cppValue;
-            jobject jValue_aItem_0;
-            chip::JniReferences::GetInstance().GetObjectField(jValue, "a", "Ljava/lang/Integer;", jValue_aItem_0);
-            cppValue.a = static_cast<std::remove_reference_t<decltype(cppValue.a)>>(
-                chip::JniReferences::GetInstance().IntegerToPrimitive(jValue_aItem_0));
-            jobject jValue_bItem_0;
-            chip::JniReferences::GetInstance().GetObjectField(jValue, "b", "Ljava/lang/Boolean;", jValue_bItem_0);
-            cppValue.b = static_cast<std::remove_reference_t<decltype(cppValue.b)>>(
-                chip::JniReferences::GetInstance().BooleanToPrimitive(jValue_bItem_0));
-            jobject jValue_cItem_0;
-            chip::JniReferences::GetInstance().GetObjectField(jValue, "c", "Ljava/lang/Integer;", jValue_cItem_0);
-            cppValue.c = static_cast<std::remove_reference_t<decltype(cppValue.c)>>(
-                chip::JniReferences::GetInstance().IntegerToPrimitive(jValue_cItem_0));
-            jobject jValue_dItem_0;
-            chip::JniReferences::GetInstance().GetObjectField(jValue, "d", "[B", jValue_dItem_0);
-            cleanupByteArrays.push_back(
-                chip::Platform::MakeUnique<chip::JniByteArray>(env, static_cast<jbyteArray>(jValue_dItem_0)));
-            cppValue.d = cleanupByteArrays.back()->byteSpan();
-            jobject jValue_eItem_0;
-            chip::JniReferences::GetInstance().GetObjectField(jValue, "e", "Ljava/lang/String;", jValue_eItem_0);
-            cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue_eItem_0)));
-            cppValue.e = cleanupStrings.back()->charSpan();
-            jobject jValue_fItem_0;
-            chip::JniReferences::GetInstance().GetObjectField(jValue, "f", "Ljava/lang/Integer;", jValue_fItem_0);
-            cppValue.f = static_cast<std::remove_reference_t<decltype(cppValue.f)>>(
-                chip::JniReferences::GetInstance().IntegerToPrimitive(jValue_fItem_0));
-            jobject jValue_gItem_0;
-            chip::JniReferences::GetInstance().GetObjectField(jValue, "g", "Ljava/lang/Float;", jValue_gItem_0);
-            cppValue.g = static_cast<std::remove_reference_t<decltype(cppValue.g)>>(
-                chip::JniReferences::GetInstance().FloatToPrimitive(jValue_gItem_0));
-            jobject jValue_hItem_0;
-            chip::JniReferences::GetInstance().GetObjectField(jValue, "h", "Ljava/lang/Double;", jValue_hItem_0);
-            cppValue.h = static_cast<std::remove_reference_t<decltype(cppValue.h)>>(
-                chip::JniReferences::GetInstance().DoubleToPrimitive(jValue_hItem_0));
-
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3708,11 +3128,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3723,11 +3139,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3738,11 +3150,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3753,11 +3161,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -3791,11 +3195,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
             // isArray
-
-            // not struct_contains_nested_array
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -3999,11 +3399,8 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 }
             }
 
-            // isNotFabricScoped
-
             // isArray
-
-            // not struct_contains_nested_array
+            // is_struct
 
             err =
                 app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
@@ -4015,11 +3412,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4030,11 +3423,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4045,11 +3434,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4060,11 +3445,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             cppValue = static_cast<std::remove_reference_t<decltype(cppValue)>>(
                 chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // else
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4083,11 +3464,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().BooleanToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4106,11 +3483,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4129,11 +3502,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4152,11 +3521,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4175,11 +3540,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4198,11 +3559,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4221,11 +3578,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4244,11 +3597,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4267,11 +3616,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4290,11 +3635,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4313,11 +3654,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4336,11 +3673,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4359,11 +3692,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4382,11 +3711,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4405,11 +3730,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4428,11 +3749,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4451,11 +3768,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4474,11 +3787,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4497,11 +3806,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4520,11 +3825,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4543,11 +3844,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().LongToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4566,11 +3863,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4589,11 +3882,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4612,11 +3901,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().FloatToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4635,11 +3920,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().DoubleToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4658,11 +3939,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 nonNullValue_0 = cleanupByteArrays.back()->byteSpan();
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4681,11 +3958,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                 nonNullValue_0 = cleanupStrings.back()->charSpan();
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4704,65 +3977,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
-
-            err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
-            return err;
-        }
-        case Attributes::NullableStruct::Id: {
-            using TypeInfo = Attributes::NullableStruct::TypeInfo;
-            TypeInfo::Type cppValue;
-            if (jValue == nullptr)
-            {
-                cppValue.SetNull();
-            }
-            else
-            {
-                auto & nonNullValue_0 = cppValue.SetNonNull();
-                jobject jValue_aItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(jValue, "a", "Ljava/lang/Integer;", jValue_aItem_1);
-                nonNullValue_0.a = static_cast<std::remove_reference_t<decltype(nonNullValue_0.a)>>(
-                    chip::JniReferences::GetInstance().IntegerToPrimitive(jValue_aItem_1));
-                jobject jValue_bItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(jValue, "b", "Ljava/lang/Boolean;", jValue_bItem_1);
-                nonNullValue_0.b = static_cast<std::remove_reference_t<decltype(nonNullValue_0.b)>>(
-                    chip::JniReferences::GetInstance().BooleanToPrimitive(jValue_bItem_1));
-                jobject jValue_cItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(jValue, "c", "Ljava/lang/Integer;", jValue_cItem_1);
-                nonNullValue_0.c = static_cast<std::remove_reference_t<decltype(nonNullValue_0.c)>>(
-                    chip::JniReferences::GetInstance().IntegerToPrimitive(jValue_cItem_1));
-                jobject jValue_dItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(jValue, "d", "[B", jValue_dItem_1);
-                cleanupByteArrays.push_back(
-                    chip::Platform::MakeUnique<chip::JniByteArray>(env, static_cast<jbyteArray>(jValue_dItem_1)));
-                nonNullValue_0.d = cleanupByteArrays.back()->byteSpan();
-                jobject jValue_eItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(jValue, "e", "Ljava/lang/String;", jValue_eItem_1);
-                cleanupStrings.push_back(chip::Platform::MakeUnique<chip::JniUtfString>(env, static_cast<jstring>(jValue_eItem_1)));
-                nonNullValue_0.e = cleanupStrings.back()->charSpan();
-                jobject jValue_fItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(jValue, "f", "Ljava/lang/Integer;", jValue_fItem_1);
-                nonNullValue_0.f = static_cast<std::remove_reference_t<decltype(nonNullValue_0.f)>>(
-                    chip::JniReferences::GetInstance().IntegerToPrimitive(jValue_fItem_1));
-                jobject jValue_gItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(jValue, "g", "Ljava/lang/Float;", jValue_gItem_1);
-                nonNullValue_0.g = static_cast<std::remove_reference_t<decltype(nonNullValue_0.g)>>(
-                    chip::JniReferences::GetInstance().FloatToPrimitive(jValue_gItem_1));
-                jobject jValue_hItem_1;
-                chip::JniReferences::GetInstance().GetObjectField(jValue, "h", "Ljava/lang/Double;", jValue_hItem_1);
-                nonNullValue_0.h = static_cast<std::remove_reference_t<decltype(nonNullValue_0.h)>>(
-                    chip::JniReferences::GetInstance().DoubleToPrimitive(jValue_hItem_1));
-            }
-
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4781,11 +3996,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4804,11 +4015,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4827,11 +4034,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;
@@ -4850,11 +4053,7 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
                     chip::JniReferences::GetInstance().IntegerToPrimitive(jValue));
             }
 
-            // isNotFabricScoped
-
-            // isNotArray
-
-            // not struct_contains_nested_array
+            // nullable
 
             err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
             return err;

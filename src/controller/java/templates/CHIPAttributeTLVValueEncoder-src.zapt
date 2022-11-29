@@ -53,43 +53,56 @@ CHIP_ERROR EncodeAttributeValue(const app::ConcreteAttributePath & aPath, jobjec
             switch (aPath.mAttributeId)
             {
                 {{#chip_server_cluster_attributes}}
+                {{#unless (isStrEqual chipCallback.name "Unsupported")}}
                 {{#if isWritableAttribute}}
                 case Attributes::{{asUpperCamelCase name}}::Id: {
                     using TypeInfo = Attributes::{{asUpperCamelCase name}}::TypeInfo;
                     TypeInfo::Type cppValue;
                     {{>encode_value target="cppValue" source="jValue" cluster=(asUpperCamelCase parent.name) depth=0 earlyReturn="nullptr"}}
 
-                    {{#if isFabricScoped}}
-                    // isFabricScoped
+                    {{#if isOptional}}
+                      // isOptional
+                    {{else if isNullable}}
+                      // nullable
+                    {{else if isArray}}
+                        {{#zcl_structs checkForDoubleNestedArray="true"}}
+                            {{#if struct_contains_array}}
+                            // struct_contains_array
+                            {{/if}}
+                            // zcl struct
+                            {{#if isFabricScoped}}
+                            // fabric isFabricScoped
+                            {{/if}}
+                            {{#if has_more_than_one_cluster}}
+                              // one_cluster
+                            {{/if}}
+                        {{/zcl_structs}}
+                        // isArray
+                        {{#if_is_struct type}}
+                            // is_struct
+                        {{/if_is_struct}}
+                    {{else if isStruct}}
+                        // isStruct
                     {{else}}
-                    // isNotFabricScoped
+                       // else
                     {{/if}}
 
-                    {{#if isArray}}
-                    // isArray
-                    {{else}}
-                    // isNotArray
-                    {{/if}}
-
-                    {{#if struct_contains_nested_array}}
-                    // struct_contains_nested_array
-                    {{else}}
-                    // not struct_contains_nested_array
-                    {{/if}}
-
-
-                    {{#if isFabricScoped}}
+                    {{#if isOptional}}
+                    err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
+                    {{else if isNullable}}
+                    err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
+                    {{else if isArray}}
+                        
                     err = app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
-                    {{else}}
-                    {{#if isArray}}
-                    err = app::DataModel::EncodeForWrite(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
+                    {{else if isStruct}}
+                    err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
                     {{else}}
                     err = app::DataModel::Encode(aWriter, TLV::ContextTag(to_underlying(app::AttributeDataIB::Tag::kData)), cppValue);
-                    {{/if}}
                     {{/if}}
                     return err;
                 }
                 {{/if}}
+                {{/unless}}
                 {{/chip_server_cluster_attributes}}
                 default:
                     err = CHIP_ERROR_IM_MALFORMED_ATTRIBUTE_PATH_IB;
