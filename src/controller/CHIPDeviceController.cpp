@@ -120,6 +120,7 @@ CHIP_ERROR DeviceController::Init(ControllerInitParams params)
 
     ReturnErrorOnFailure(mDNSResolver.Init(params.systemState->UDPEndPointManager()));
     mDNSResolver.SetCommissioningDelegate(this);
+    mDNSResolver.SetOperationalDelegate(this);
     RegisterDeviceDiscoveryDelegate(params.deviceDiscoveryDelegate);
 
     VerifyOrReturnError(params.operationalCredentialsDelegate != nullptr, CHIP_ERROR_INVALID_ARGUMENT);
@@ -1529,6 +1530,12 @@ CHIP_ERROR DeviceCommissioner::DiscoverCommissionableNodes(Dnssd::DiscoveryFilte
     return mDNSResolver.DiscoverCommissionableNodes(filter);
 }
 
+CHIP_ERROR DeviceCommissioner::DiscoverOperationalNodes(Dnssd::DiscoveryFilter filter)
+{
+    ReturnErrorOnFailure(SetUpOperationalDiscovery(GetCompressedFabricId()));
+    return mDNSResolver.DiscoverOperationals(filter);
+}
+
 CHIP_ERROR DeviceCommissioner::StopCommissionableDiscovery()
 {
     return mDNSResolver.StopDiscovery();
@@ -1537,6 +1544,11 @@ CHIP_ERROR DeviceCommissioner::StopCommissionableDiscovery()
 const Dnssd::DiscoveredNodeData * DeviceCommissioner::GetDiscoveredDevice(int idx)
 {
     return GetDiscoveredNode(idx);
+}
+
+const Dnssd::ResolvedNodeData * DeviceCommissioner::GetOperationalNodeDevice(int idx)
+{
+    return GetOperationalNode(idx);
 }
 
 #if CHIP_DEVICE_CONFIG_ENABLE_COMMISSIONER_DISCOVERY // make this commissioner discoverable

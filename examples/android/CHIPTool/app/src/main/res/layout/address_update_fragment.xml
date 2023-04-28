@@ -42,4 +42,27 @@
       android:layout_height="wrap_content"
       app:barrierDirection="bottom"
       app:constraint_referenced_ids="fabricIdEd,deviceIdEd,epIdEd" />
+
+  <LinearLayout
+      android:id="@+id/discoverLinearLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_margin="8dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/barrier">
+
+    <Button
+        android:id="@+id/discoverBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dns_discover_btn_text"/>
+
+    <Spinner
+        android:id="@+id/discoverListSpinner"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+  </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

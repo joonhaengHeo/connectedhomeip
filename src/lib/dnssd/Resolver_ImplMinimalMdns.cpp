@@ -283,6 +283,7 @@ public:
     void NodeIdResolutionNoLongerNeeded(const PeerId & peerId) override;
     CHIP_ERROR DiscoverCommissionableNodes(DiscoveryFilter filter = DiscoveryFilter()) override;
     CHIP_ERROR DiscoverCommissioners(DiscoveryFilter filter = DiscoveryFilter()) override;
+    CHIP_ERROR DiscoverOperationals(DiscoveryFilter filter = DiscoveryFilter()) override;
     CHIP_ERROR StopDiscovery() override;
     CHIP_ERROR ReconfirmRecord(const char * hostname, Inet::IPAddress address, Inet::InterfaceId interfaceId) override;
 
@@ -642,6 +643,11 @@ CHIP_ERROR MinMdnsResolver::DiscoverCommissioners(DiscoveryFilter filter)
     return BrowseNodes(DiscoveryType::kCommissionerNode, filter);
 }
 
+CHIP_ERROR MinMdnsResolver::DiscoverOperationals(DiscoveryFilter filter)
+{
+    return BrowseNodes(DiscoveryType::kOperational, filter);
+}
+
 CHIP_ERROR MinMdnsResolver::StopDiscovery()
 {
     return mActiveResolves.CompleteAllBrowses();
@@ -739,6 +745,13 @@ CHIP_ERROR ResolverProxy::DiscoverCommissioners(DiscoveryFilter filter)
     VerifyOrReturnError(mDelegate != nullptr, CHIP_ERROR_INCORRECT_STATE);
     chip::Dnssd::Resolver::Instance().SetCommissioningDelegate(mDelegate);
     return chip::Dnssd::Resolver::Instance().DiscoverCommissioners(filter);
+}
+
+CHIP_ERROR ResolverProxy::DiscoverOperationals(DiscoveryFilter filter)
+{
+    VerifyOrReturnError(mDelegate != nullptr, CHIP_ERROR_INCORRECT_STATE);
+    chip::Dnssd::Resolver::Instance().SetOperationalDelegate(mDelegate);
+    return chip::Dnssd::Resolver::Instance().DiscoverOperationals(filter);
 }
 
 CHIP_ERROR ResolverProxy::StopDiscovery()

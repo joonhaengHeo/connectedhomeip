@@ -22,6 +22,7 @@
 #include "commands/discover/DiscoverCommand.h"
 #include "commands/discover/DiscoverCommissionablesCommand.h"
 #include "commands/discover/DiscoverCommissionersCommand.h"
+#include "commands/discover/DiscoverOperationalsCommand.h"
 #include <lib/address_resolve/AddressResolve.h>
 
 class Resolve : public DiscoverCommand, public chip::AddressResolve::NodeListener

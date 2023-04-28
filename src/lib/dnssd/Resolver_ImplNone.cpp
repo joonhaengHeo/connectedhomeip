@@ -47,6 +47,7 @@ public:
         return CHIP_ERROR_NOT_IMPLEMENTED;
     }
     CHIP_ERROR DiscoverCommissioners(DiscoveryFilter filter = DiscoveryFilter()) override { return CHIP_ERROR_NOT_IMPLEMENTED; }
+    CHIP_ERROR DiscoverOperationals(DiscoveryFilter filter = DiscoveryFilter()) override { return CHIP_ERROR_NOT_IMPLEMENTED; }
     CHIP_ERROR StopDiscovery() override { return CHIP_ERROR_NOT_IMPLEMENTED; }
     CHIP_ERROR ReconfirmRecord(const char * hostname, Inet::IPAddress address, Inet::InterfaceId interfaceId) override
     {
@@ -81,6 +82,11 @@ CHIP_ERROR ResolverProxy::DiscoverCommissionableNodes(DiscoveryFilter filter)
 }
 
 CHIP_ERROR ResolverProxy::DiscoverCommissioners(DiscoveryFilter filter)
+{
+    return CHIP_ERROR_NOT_IMPLEMENTED;
+}
+
+CHIP_ERROR ResolverProxy::FindOperationals(DiscoveryFilter filter)
 {
     return CHIP_ERROR_NOT_IMPLEMENTED;
 }

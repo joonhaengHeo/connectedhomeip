@@ -215,6 +215,13 @@ struct ResolvedNodeData
     CommonResolutionData resolutionData;
     OperationalNodeData operationalData;
 
+    void Reset()
+    {
+        resolutionData.Reset();
+        operationalData.Reset();
+    }
+    ResolvedNodeData() { Reset(); }
+
     void LogNodeIdResolved() const
     {
 #if CHIP_PROGRESS_LOGGING
@@ -421,6 +428,14 @@ public:
      * the node information is passed to the delegate's `OnNodeDiscoveryComplete` method.
      */
     virtual CHIP_ERROR DiscoverCommissioners(DiscoveryFilter filter = DiscoveryFilter()) = 0;
+
+    /**
+     * Finds all operational nodes matching the given filter.
+     *
+     * Whenever a new matching node is found and a resolver delegate has been registered,
+     * the node information is passed to the delegate's `OnNodeDiscoveryComplete` method.
+     */
+    virtual CHIP_ERROR DiscoverOperationals(DiscoveryFilter filter = DiscoveryFilter()) = 0;
 
     /**
      * Stop discovery (of commissionable or commissioner nodes).

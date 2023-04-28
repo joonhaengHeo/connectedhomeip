@@ -44,6 +44,7 @@ public:
     {
         return CHIP_ERROR_NOT_IMPLEMENTED;
     }
+    CHIP_ERROR DiscoverOperationals(DiscoveryFilter filter = DiscoveryFilter()) override { return CHIP_ERROR_NOT_IMPLEMENTED; }
     CHIP_ERROR StopDiscovery() override { return CHIP_ERROR_NOT_IMPLEMENTED; }
     CHIP_ERROR ReconfirmRecord(const char * hostname, Inet::IPAddress address, Inet::InterfaceId interfaceId) override
     {

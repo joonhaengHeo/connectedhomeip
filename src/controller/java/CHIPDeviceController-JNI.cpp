@@ -1139,6 +1139,51 @@ JNI_METHOD(jobject, getDiscoveredDevice)(JNIEnv * env, jobject self, jlong handl
     return discoveredObj;
 }
 
+JNI_METHOD(void, discoverOperationalNodes)(JNIEnv * env, jobject self, jlong handle)
+{
+    chip::DeviceLayer::StackLock lock;
+
+    AndroidDeviceControllerWrapper * wrapper = AndroidDeviceControllerWrapper::FromJNIHandle(handle);
+    chip::Dnssd::DiscoveryFilter filter(Dnssd::DiscoveryFilterType::kNone, (uint64_t) 0);
+
+    CHIP_ERROR err = wrapper->Controller()->DiscoverOperationalNodes(filter);
+    if (err != CHIP_NO_ERROR)
+    {
+        ChipLogError(Controller, "Failed to DiscoverOperationalNodes");
+        JniReferences::GetInstance().ThrowError(env, sChipDeviceControllerExceptionCls, err);
+    }
+}
+
+JNI_METHOD(jobject, GetOperationalNodeDevice)(JNIEnv * env, jobject self, jlong handle, jint idx)
+{
+    chip::DeviceLayer::StackLock lock;
+
+    AndroidDeviceControllerWrapper * wrapper = AndroidDeviceControllerWrapper::FromJNIHandle(handle);
+    const Dnssd::ResolvedNodeData * data   = wrapper->Controller()->GetOperationalNodeDevice(idx);
+
+    if (data == nullptr)
+    {
+        ChipLogError(Controller, "GetOperationalNodeDevice - not found");
+        return nullptr;
+    }
+
+    jclass operationalDeviceCls = env->FindClass("chip/devicecontroller/OperationalDevice");
+    jmethodID constructor      = env->GetMethodID(operationalDeviceCls, "<init>", "()V");
+
+    jfieldID compressedFabricIdID = env->GetFieldID(operationalDeviceCls, "compressedFabricId", "J");
+    jfieldID nodeIdID = env->GetFieldID(operationalDeviceCls, "nodeId", "J");
+    jfieldID instanceNameID = env->GetFieldID(operationalDeviceCls, "instanceName", "Ljava/lang/String;");
+
+    jobject operationalObj = env->NewObject(operationalDeviceCls, constructor);
+
+    env->SetLongField(operationalObj, compressedFabricIdID, data->operationalData.peerId.GetCompressedFabricId());
+    env->SetLongField(operationalObj, nodeIdID, data->operationalData.peerId.GetNodeId());
+    UtfString jHostName(env, data->resolutionData.hostName);
+    env->SetObjectField(operationalObj, instanceNameID, jHostName.jniValue());
+
+    return operationalObj;
+}
+
 JNI_METHOD(jboolean, openPairingWindow)(JNIEnv * env, jobject self, jlong handle, jlong devicePtr, jint duration)
 {
     chip::DeviceLayer::StackLock lock;

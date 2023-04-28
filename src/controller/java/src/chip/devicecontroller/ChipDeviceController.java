@@ -462,6 +462,14 @@ public class ChipDeviceController {
     return getDiscoveredDevice(deviceControllerPtr, idx);
   }
 
+  public void discoverOperationalNodes() {
+    discoverOperationalNodes(deviceControllerPtr);
+  }
+
+  public OperationalDevice GetOperationalNodeDevice(int idx) {
+    return GetOperationalNodeDevice(deviceControllerPtr, idx);
+  }
+
   public boolean openPairingWindow(long devicePtr, int duration) {
     return openPairingWindow(deviceControllerPtr, devicePtr, duration);
   }
@@ -1034,6 +1042,10 @@ public class ChipDeviceController {
   private native void discoverCommissionableNodes(long deviceControllerPtr);
 
   private native DiscoveredDevice getDiscoveredDevice(long deviceControllerPtr, int idx);
+
+  private native void discoverOperationalNodes(long deviceControllerPtr);
+
+  private native OperationalDevice GetOperationalNodeDevice(long deviceControllerPtr, int idx);
 
   private native boolean openPairingWindow(long deviceControllerPtr, long devicePtr, int duration);
 

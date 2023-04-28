@@ -32,10 +32,45 @@
 #include <platform/CHIPDeviceConfig.h>
 #include <platform/CHIPDeviceLayer.h>
 
+#include <lib/support/SafeInt.h>
+#include <string>
+
 namespace chip {
 namespace Dnssd {
 
 namespace {
+
+static void FillNodeDataFromInstanceName(const char* name, OperationalNodeData &operationalData)
+{
+    std::string instanceName = name;
+
+    std::string::size_type splitIndex = instanceName.find("-");
+    if (splitIndex == std::string::npos) {
+        ChipLogProgress(Discovery, "FillNodeDataFromInstanceName - invalid : %s", instanceName.c_str());
+        return;
+    }
+
+    std::string compressedFabricIdStr = instanceName.substr(0, splitIndex);
+    std::string nodeIdStr = instanceName.substr(splitIndex + 1);
+
+    CompressedFabricId compressedFabricId = 0;
+    NodeId nodeId = 0;
+
+    char *endPtr = nullptr;
+    unsigned long long num;
+
+    num = strtoull(compressedFabricIdStr.c_str(), &endPtr, 16);
+    if (endPtr > compressedFabricIdStr.c_str() && *endPtr == '\0' && num != LLONG_MAX && chip::CanCastTo<uint64_t>(num))
+        compressedFabricId = static_cast<CompressedFabricId>(num);
+
+    num = strtoull(nodeIdStr.c_str(), &endPtr, 16);
+    if (endPtr > nodeIdStr.c_str() && *endPtr == '\0' && num != LLONG_MAX && chip::CanCastTo<uint64_t>(num))
+        nodeId = static_cast<NodeId>(num);
+
+    operationalData.peerId
+                   .SetCompressedFabricId(compressedFabricId)
+                   .SetNodeId(nodeId);
+}
 
 static void HandleNodeResolve(void * context, DnssdService * result, const Span<Inet::IPAddress> & addresses, CHIP_ERROR error)
 {
@@ -49,40 +84,56 @@ static void HandleNodeResolve(void * context, DnssdService * result, const Span<
 
     DiscoveredNodeData nodeData;
 
-    Platform::CopyString(nodeData.resolutionData.hostName, result->mHostName);
-    Platform::CopyString(nodeData.commissionData.instanceName, result->mName);
+    ResolvedNodeData resolveNodeData;
 
-    nodeData.resolutionData.interfaceId = result->mInterface;
+    CommonResolutionData *resolutionData;
+
+    if (result->mProtocol == DnssdServiceProtocol::kDnssdProtocolTcp) {
+        resolutionData = &(resolveNodeData.resolutionData);
+    } else {
+        resolutionData = &(nodeData.resolutionData);
+        Platform::CopyString(nodeData.commissionData.instanceName, result->mName);
+    }
+
+    Platform::CopyString(resolutionData->hostName, result->mHostName);
+
+    resolutionData->interfaceId = result->mInterface;
 
     IPAddressSorter::Sort(addresses, result->mInterface);
 
     size_t addressesFound = 0;
     for (auto & ip : addresses)
     {
-        if (addressesFound == ArraySize(nodeData.resolutionData.ipAddress))
+        if (addressesFound == ArraySize(resolutionData->ipAddress))
         {
             // Out of space.
             ChipLogProgress(Discovery, "Can't add more IPs to DiscoveredNodeData");
             break;
         }
-        nodeData.resolutionData.ipAddress[addressesFound] = ip;
+        resolutionData->ipAddress[addressesFound] = ip;
         ++addressesFound;
     }
 
-    nodeData.resolutionData.numIPs = addressesFound;
+    resolutionData->numIPs = addressesFound;
 
-    nodeData.resolutionData.port = result->mPort;
+    resolutionData->port = result->mPort;
 
     for (size_t i = 0; i < result->mTextEntrySize; ++i)
     {
         ByteSpan key(reinterpret_cast<const uint8_t *>(result->mTextEntries[i].mKey), strlen(result->mTextEntries[i].mKey));
         ByteSpan val(result->mTextEntries[i].mData, result->mTextEntries[i].mDataSize);
-        FillNodeDataFromTxt(key, val, nodeData.resolutionData);
+        FillNodeDataFromTxt(key, val, *resolutionData);
         FillNodeDataFromTxt(key, val, nodeData.commissionData);
     }
 
-    nodeData.LogDetail();
-    proxy->OnNodeDiscovered(nodeData);
+    if (result->mProtocol == DnssdServiceProtocol::kDnssdProtocolTcp) {
+        FillNodeDataFromInstanceName(result->mName, resolveNodeData.operationalData);
+        proxy->OnOperationalNodeResolved(resolveNodeData);
+    } else {
+        nodeData.LogDetail();
+        proxy->OnNodeDiscovered(nodeData);
+    }
+
     proxy->Release();
 }
 
@@ -637,6 +688,12 @@ CHIP_ERROR DiscoveryImplPlatform::DiscoverCommissioners(DiscoveryFilter filter)
     return mResolverProxy.DiscoverCommissioners(filter);
 }
 
+CHIP_ERROR DiscoveryImplPlatform::DiscoverOperationals(DiscoveryFilter filter)
+{
+    ReturnErrorOnFailure(InitImpl());
+    return mResolverProxy.DiscoverOperationals(filter);
+}
+
 CHIP_ERROR DiscoveryImplPlatform::StopDiscovery()
 {
     ReturnErrorOnFailure(InitImpl());
@@ -777,5 +834,31 @@ CHIP_ERROR ResolverProxy::ReconfirmRecord(const char * hostname, Inet::IPAddress
     return ChipDnssdReconfirmRecord(hostname, address, interfaceId);
 }
 
+CHIP_ERROR ResolverProxy::DiscoverOperationals(DiscoveryFilter filter)
+{
+    VerifyOrReturnError(mDelegate != nullptr, CHIP_ERROR_INCORRECT_STATE);
+    mDelegate->Retain();
+    if (filter.type == DiscoveryFilterType::kInstanceName)
+    {
+        // when we have the instance name, no need to browse, only need to resolve
+        DnssdService service;
+
+        ReturnErrorOnFailure(MakeServiceSubtype(service.mName, sizeof(service.mName), filter));
+        strncpy(service.mType, kOperationalServiceName, sizeof(service.mType));
+        service.mProtocol    = DnssdServiceProtocol::kDnssdProtocolTcp; 
+        service.mAddressType = Inet::IPAddressType::kAny;
+        return ChipDnssdResolve(&service, Inet::InterfaceId::Null(), HandleNodeResolve, mDelegate);
+    }
+
+    char serviceName[kMaxOperationalServiceNameSize];
+    ReturnErrorOnFailure(MakeServiceTypeName(serviceName, sizeof(serviceName), filter, DiscoveryType::kOperational));
+
+    intptr_t browseIdentifier;
+    ReturnErrorOnFailure(ChipDnssdBrowse(serviceName, DnssdServiceProtocol::kDnssdProtocolTcp, Inet::IPAddressType::kAny,
+                           Inet::InterfaceId::Null(), HandleNodeBrowse, mDelegate, &browseIdentifier));
+    
+    mDiscoveryContext.Emplace(browseIdentifier);
+    return CHIP_NO_ERROR;
+}
 } // namespace Dnssd
 } // namespace chip

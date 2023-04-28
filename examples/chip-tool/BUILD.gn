@@ -70,6 +70,7 @@ static_library("chip-tool-utils") {
     "commands/discover/DiscoverCommand.cpp",
     "commands/discover/DiscoverCommissionablesCommand.cpp",
     "commands/discover/DiscoverCommissionersCommand.cpp",
+    "commands/discover/DiscoverOperationalsCommand.cpp",
     "commands/pairing/CloseSessionCommand.cpp",
     "commands/pairing/CloseSessionCommand.h",
     "commands/pairing/OpenCommissioningWindowCommand.cpp",

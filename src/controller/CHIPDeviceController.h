@@ -34,6 +34,7 @@
 #include <app/OperationalSessionSetup.h>
 #include <app/OperationalSessionSetupPool.h>
 #include <controller/AbstractDnssdDiscoveryController.h>
+#include <controller/AbstractDnssdOperationalController.h>
 #include <controller/AutoCommissioner.h>
 #include <controller/CHIPCluster.h>
 #include <controller/CHIPDeviceControllerSystemState.h>
@@ -160,7 +161,8 @@ struct CommissionerInitParams : public ControllerInitParams
  *   and device pairing information for individual devices). Alternatively, this class can retrieve the
  *   relevant information when the application tries to communicate with the device
  */
-class DLL_EXPORT DeviceController : public AbstractDnssdDiscoveryController
+class DLL_EXPORT DeviceController : public AbstractDnssdDiscoveryController,
+                                    public AbstractDnssdOperationalController
 {
 public:
     DeviceController();
@@ -244,6 +246,8 @@ public:
                                    Spake2pVerifier & outVerifier);
 
     void RegisterDeviceDiscoveryDelegate(DeviceDiscoveryDelegate * delegate) { mDeviceDiscoveryDelegate = delegate; }
+
+    void RegisterOperationalDiscoveryDelegate(OperationalDiscoveryDelegate * delegate) { mOperationalDiscoveryDelegate = delegate; }
 
     /**
      * @brief Get the Compressed Fabric ID assigned to the device.
@@ -346,6 +350,8 @@ protected:
     // TODO(cecille): Make this configuarable.
     static constexpr int kMaxCommissionableNodes = 10;
     Dnssd::DiscoveredNodeData mCommissionableNodes[kMaxCommissionableNodes];
+    static constexpr int kMaxOperationalNodes = 10;
+    Dnssd::ResolvedNodeData mOperationalNodes[kMaxOperationalNodes];
     DeviceControllerSystemState * mSystemState = nullptr;
 
     ControllerDeviceInitParams GetControllerDeviceInitParams();
@@ -355,6 +361,9 @@ protected:
     chip::VendorId mVendorId;
 
     DiscoveredNodeList GetDiscoveredNodes() override { return DiscoveredNodeList(mCommissionableNodes); }
+    ResolvedNodeList GetOperationalNodes() override { return ResolvedNodeList(mOperationalNodes); }
+private:
+    void ReleaseOperationalDevice(OperationalDeviceProxy * device);
 };
 
 #if CHIP_DEVICE_CONFIG_ENABLE_COMMISSIONER_DISCOVERY
@@ -631,11 +640,28 @@ public:
 
     /**
      * @brief
+     *   Discover all devices advertising as operational.
+     *   Should be called on main loop thread.
+     * * @param[in] filter  Browse filter - controller will look for only the specified subtype.
+     * @return CHIP_ERROR   The return status
+     */
+    CHIP_ERROR DiscoverOperationalNodes(Dnssd::DiscoveryFilter filter);
+
+    /**
+     * @brief
      *   Returns information about discovered devices.
      *   Should be called on main loop thread.
      * @return const DiscoveredNodeData* info about the selected device. May be nullptr if no information has been returned yet.
      */
     const Dnssd::DiscoveredNodeData * GetDiscoveredDevice(int idx);
+
+    /**
+     * @brief
+     *   Returns information about discovered devices.
+     *   Should be called on main loop thread.
+     * @return const DiscoveredNodeData* info about the selected device. May be nullptr if no information has been returned yet.
+     */
+    const Dnssd::ResolvedNodeData * GetOperationalNodeDevice(int idx);
 
     /**
      * @brief
