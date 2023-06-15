@@ -66,6 +66,9 @@ shared_library("jni") {
     "zap-generated/CHIPReadCallbacks.cpp",
   ]
 
+  # Support TLV Value Decoder API
+  sources += [ "CHIPTLVValueDecoder-JNI.cpp" ]
+
   deps = [
     "${chip_root}/src/controller/data_model",
     "${chip_root}/src/controller/data_model:java-jni-sources",
@@ -349,6 +352,9 @@ android_library("java") {
     "zap-generated/chip/devicecontroller/ChipStructs.java",
     "zap-generated/chip/devicecontroller/ClusterInfoMapping.java",
   ]
+
+  # Support TLV Value Decoder API
+  sources += [ "src/chip/devicecontroller/ChipTLVValueDecoder.java" ]
 
   if (matter_enable_java_compilation) {
     deps += [
