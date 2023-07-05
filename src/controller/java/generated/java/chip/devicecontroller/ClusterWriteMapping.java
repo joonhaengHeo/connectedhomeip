@@ -16,14 +16,40 @@
  */
 package chip.devicecontroller;
 
+import chip.clusterinfo.ClusterCommandCallback;
 import chip.clusterinfo.CommandParameterInfo;
+import chip.clusterinfo.CommandResponseInfo;
+import chip.clusterinfo.DelegatedClusterCallback;
 import chip.clusterinfo.InteractionInfo;
 import chip.devicecontroller.ChipClusters.DefaultClusterCallback;
+import chip.devicecontroller.model.AttributeWriteRequest;
+import chip.devicecontroller.model.ChipAttributePath;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClusterWriteMapping {
+  public static class DelegatedWriteCallback implements WriteAttributesCallback, DelegatedClusterCallback {
+    private ClusterCommandCallback callback;
+
+    @Override
+    public void setCallbackDelegate(ClusterCommandCallback callback) {
+      this.callback = callback;
+    }
+
+    @Override
+    public void onResponse(ChipAttributePath attributePath) {
+      Map<CommandResponseInfo, Object> responseValues = new LinkedHashMap<>();
+      callback.onSuccess(responseValues);
+    }
+
+    @Override
+    public void onError(ChipAttributePath attributePath, Exception e) {
+      callback.onFailure(e);
+    }
+  }
+
   public Map<String, Map<String, InteractionInfo>> getWriteAttributeMap() {
     Map<String, Map<String, InteractionInfo>> writeAttributeMap = new HashMap<>();
     Map<String, InteractionInfo> writeIdentifyInteractionInfo = new LinkedHashMap<>();
@@ -39,13 +65,19 @@ public class ClusterWriteMapping {
         identifyidentifyTimeCommandParameterInfo
     );
     InteractionInfo writeIdentifyIdentifyTimeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.IdentifyCluster) cluster).writeIdentifyTimeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Identify.ID, ClusterIDMapping.Identify.Attribute.IdentifyTime.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.IdentifyCluster) cluster).writeIdentifyTimeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeIdentifyIdentifyTimeCommandParams
     );
     writeIdentifyInteractionInfo.put("writeIdentifyTimeAttribute", writeIdentifyIdentifyTimeAttributeInteractionInfo);
@@ -67,13 +99,19 @@ public class ClusterWriteMapping {
         onOffonTimeCommandParameterInfo
     );
     InteractionInfo writeOnOffOnTimeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OnOffCluster) cluster).writeOnTimeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OnOff.ID, ClusterIDMapping.OnOff.Attribute.OnTime.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OnOffCluster) cluster).writeOnTimeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOnOffOnTimeCommandParams
     );
     writeOnOffInteractionInfo.put("writeOnTimeAttribute", writeOnOffOnTimeAttributeInteractionInfo);
@@ -89,13 +127,19 @@ public class ClusterWriteMapping {
         onOffoffWaitTimeCommandParameterInfo
     );
     InteractionInfo writeOnOffOffWaitTimeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OnOffCluster) cluster).writeOffWaitTimeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OnOff.ID, ClusterIDMapping.OnOff.Attribute.OffWaitTime.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OnOffCluster) cluster).writeOffWaitTimeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOnOffOffWaitTimeCommandParams
     );
     writeOnOffInteractionInfo.put("writeOffWaitTimeAttribute", writeOnOffOffWaitTimeAttributeInteractionInfo);
@@ -111,13 +155,19 @@ public class ClusterWriteMapping {
         onOffstartUpOnOffCommandParameterInfo
     );
     InteractionInfo writeOnOffStartUpOnOffAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OnOffCluster) cluster).writeStartUpOnOffAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OnOff.ID, ClusterIDMapping.OnOff.Attribute.StartUpOnOff.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OnOffCluster) cluster).writeStartUpOnOffAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOnOffStartUpOnOffCommandParams
     );
     writeOnOffInteractionInfo.put("writeStartUpOnOffAttribute", writeOnOffStartUpOnOffAttributeInteractionInfo);
@@ -135,13 +185,19 @@ public class ClusterWriteMapping {
         onOffSwitchConfigurationswitchActionsCommandParameterInfo
     );
     InteractionInfo writeOnOffSwitchConfigurationSwitchActionsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OnOffSwitchConfigurationCluster) cluster).writeSwitchActionsAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OnOffSwitchConfiguration.ID, ClusterIDMapping.OnOffSwitchConfiguration.Attribute.SwitchActions.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OnOffSwitchConfigurationCluster) cluster).writeSwitchActionsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOnOffSwitchConfigurationSwitchActionsCommandParams
     );
     writeOnOffSwitchConfigurationInteractionInfo.put("writeSwitchActionsAttribute", writeOnOffSwitchConfigurationSwitchActionsAttributeInteractionInfo);
@@ -159,13 +215,19 @@ public class ClusterWriteMapping {
         levelControloptionsCommandParameterInfo
     );
     InteractionInfo writeLevelControlOptionsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LevelControlCluster) cluster).writeOptionsAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LevelControl.ID, ClusterIDMapping.LevelControl.Attribute.Options.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LevelControlCluster) cluster).writeOptionsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLevelControlOptionsCommandParams
     );
     writeLevelControlInteractionInfo.put("writeOptionsAttribute", writeLevelControlOptionsAttributeInteractionInfo);
@@ -181,13 +243,19 @@ public class ClusterWriteMapping {
         levelControlonOffTransitionTimeCommandParameterInfo
     );
     InteractionInfo writeLevelControlOnOffTransitionTimeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LevelControlCluster) cluster).writeOnOffTransitionTimeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LevelControl.ID, ClusterIDMapping.LevelControl.Attribute.OnOffTransitionTime.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LevelControlCluster) cluster).writeOnOffTransitionTimeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLevelControlOnOffTransitionTimeCommandParams
     );
     writeLevelControlInteractionInfo.put("writeOnOffTransitionTimeAttribute", writeLevelControlOnOffTransitionTimeAttributeInteractionInfo);
@@ -203,13 +271,19 @@ public class ClusterWriteMapping {
         levelControlonLevelCommandParameterInfo
     );
     InteractionInfo writeLevelControlOnLevelAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LevelControlCluster) cluster).writeOnLevelAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LevelControl.ID, ClusterIDMapping.LevelControl.Attribute.OnLevel.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LevelControlCluster) cluster).writeOnLevelAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLevelControlOnLevelCommandParams
     );
     writeLevelControlInteractionInfo.put("writeOnLevelAttribute", writeLevelControlOnLevelAttributeInteractionInfo);
@@ -225,13 +299,19 @@ public class ClusterWriteMapping {
         levelControlonTransitionTimeCommandParameterInfo
     );
     InteractionInfo writeLevelControlOnTransitionTimeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LevelControlCluster) cluster).writeOnTransitionTimeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LevelControl.ID, ClusterIDMapping.LevelControl.Attribute.OnTransitionTime.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LevelControlCluster) cluster).writeOnTransitionTimeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLevelControlOnTransitionTimeCommandParams
     );
     writeLevelControlInteractionInfo.put("writeOnTransitionTimeAttribute", writeLevelControlOnTransitionTimeAttributeInteractionInfo);
@@ -247,13 +327,19 @@ public class ClusterWriteMapping {
         levelControloffTransitionTimeCommandParameterInfo
     );
     InteractionInfo writeLevelControlOffTransitionTimeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LevelControlCluster) cluster).writeOffTransitionTimeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LevelControl.ID, ClusterIDMapping.LevelControl.Attribute.OffTransitionTime.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LevelControlCluster) cluster).writeOffTransitionTimeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLevelControlOffTransitionTimeCommandParams
     );
     writeLevelControlInteractionInfo.put("writeOffTransitionTimeAttribute", writeLevelControlOffTransitionTimeAttributeInteractionInfo);
@@ -269,13 +355,19 @@ public class ClusterWriteMapping {
         levelControldefaultMoveRateCommandParameterInfo
     );
     InteractionInfo writeLevelControlDefaultMoveRateAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LevelControlCluster) cluster).writeDefaultMoveRateAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LevelControl.ID, ClusterIDMapping.LevelControl.Attribute.DefaultMoveRate.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LevelControlCluster) cluster).writeDefaultMoveRateAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLevelControlDefaultMoveRateCommandParams
     );
     writeLevelControlInteractionInfo.put("writeDefaultMoveRateAttribute", writeLevelControlDefaultMoveRateAttributeInteractionInfo);
@@ -291,13 +383,19 @@ public class ClusterWriteMapping {
         levelControlstartUpCurrentLevelCommandParameterInfo
     );
     InteractionInfo writeLevelControlStartUpCurrentLevelAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LevelControlCluster) cluster).writeStartUpCurrentLevelAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LevelControl.ID, ClusterIDMapping.LevelControl.Attribute.StartUpCurrentLevel.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LevelControlCluster) cluster).writeStartUpCurrentLevelAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLevelControlStartUpCurrentLevelCommandParams
     );
     writeLevelControlInteractionInfo.put("writeStartUpCurrentLevelAttribute", writeLevelControlStartUpCurrentLevelAttributeInteractionInfo);
@@ -315,13 +413,19 @@ public class ClusterWriteMapping {
         binaryInputBasicactiveTextCommandParameterInfo
     );
     InteractionInfo writeBinaryInputBasicActiveTextAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BinaryInputBasicCluster) cluster).writeActiveTextAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BinaryInputBasic.ID, ClusterIDMapping.BinaryInputBasic.Attribute.ActiveText.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BinaryInputBasicCluster) cluster).writeActiveTextAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBinaryInputBasicActiveTextCommandParams
     );
     writeBinaryInputBasicInteractionInfo.put("writeActiveTextAttribute", writeBinaryInputBasicActiveTextAttributeInteractionInfo);
@@ -337,13 +441,19 @@ public class ClusterWriteMapping {
         binaryInputBasicdescriptionCommandParameterInfo
     );
     InteractionInfo writeBinaryInputBasicDescriptionAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BinaryInputBasicCluster) cluster).writeDescriptionAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BinaryInputBasic.ID, ClusterIDMapping.BinaryInputBasic.Attribute.Description.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BinaryInputBasicCluster) cluster).writeDescriptionAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBinaryInputBasicDescriptionCommandParams
     );
     writeBinaryInputBasicInteractionInfo.put("writeDescriptionAttribute", writeBinaryInputBasicDescriptionAttributeInteractionInfo);
@@ -359,13 +469,19 @@ public class ClusterWriteMapping {
         binaryInputBasicinactiveTextCommandParameterInfo
     );
     InteractionInfo writeBinaryInputBasicInactiveTextAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BinaryInputBasicCluster) cluster).writeInactiveTextAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BinaryInputBasic.ID, ClusterIDMapping.BinaryInputBasic.Attribute.InactiveText.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BinaryInputBasicCluster) cluster).writeInactiveTextAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBinaryInputBasicInactiveTextCommandParams
     );
     writeBinaryInputBasicInteractionInfo.put("writeInactiveTextAttribute", writeBinaryInputBasicInactiveTextAttributeInteractionInfo);
@@ -381,13 +497,19 @@ public class ClusterWriteMapping {
         binaryInputBasicoutOfServiceCommandParameterInfo
     );
     InteractionInfo writeBinaryInputBasicOutOfServiceAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BinaryInputBasicCluster) cluster).writeOutOfServiceAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BinaryInputBasic.ID, ClusterIDMapping.BinaryInputBasic.Attribute.OutOfService.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BinaryInputBasicCluster) cluster).writeOutOfServiceAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBinaryInputBasicOutOfServiceCommandParams
     );
     writeBinaryInputBasicInteractionInfo.put("writeOutOfServiceAttribute", writeBinaryInputBasicOutOfServiceAttributeInteractionInfo);
@@ -403,13 +525,19 @@ public class ClusterWriteMapping {
         binaryInputBasicpresentValueCommandParameterInfo
     );
     InteractionInfo writeBinaryInputBasicPresentValueAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BinaryInputBasicCluster) cluster).writePresentValueAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BinaryInputBasic.ID, ClusterIDMapping.BinaryInputBasic.Attribute.PresentValue.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BinaryInputBasicCluster) cluster).writePresentValueAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBinaryInputBasicPresentValueCommandParams
     );
     writeBinaryInputBasicInteractionInfo.put("writePresentValueAttribute", writeBinaryInputBasicPresentValueAttributeInteractionInfo);
@@ -425,13 +553,19 @@ public class ClusterWriteMapping {
         binaryInputBasicreliabilityCommandParameterInfo
     );
     InteractionInfo writeBinaryInputBasicReliabilityAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BinaryInputBasicCluster) cluster).writeReliabilityAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BinaryInputBasic.ID, ClusterIDMapping.BinaryInputBasic.Attribute.Reliability.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BinaryInputBasicCluster) cluster).writeReliabilityAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBinaryInputBasicReliabilityCommandParams
     );
     writeBinaryInputBasicInteractionInfo.put("writeReliabilityAttribute", writeBinaryInputBasicReliabilityAttributeInteractionInfo);
@@ -459,13 +593,19 @@ public class ClusterWriteMapping {
         basicInformationnodeLabelCommandParameterInfo
     );
     InteractionInfo writeBasicInformationNodeLabelAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BasicInformationCluster) cluster).writeNodeLabelAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BasicInformation.ID, ClusterIDMapping.BasicInformation.Attribute.NodeLabel.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BasicInformationCluster) cluster).writeNodeLabelAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBasicInformationNodeLabelCommandParams
     );
     writeBasicInformationInteractionInfo.put("writeNodeLabelAttribute", writeBasicInformationNodeLabelAttributeInteractionInfo);
@@ -481,13 +621,19 @@ public class ClusterWriteMapping {
         basicInformationlocationCommandParameterInfo
     );
     InteractionInfo writeBasicInformationLocationAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BasicInformationCluster) cluster).writeLocationAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BasicInformation.ID, ClusterIDMapping.BasicInformation.Attribute.Location.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BasicInformationCluster) cluster).writeLocationAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBasicInformationLocationCommandParams
     );
     writeBasicInformationInteractionInfo.put("writeLocationAttribute", writeBasicInformationLocationAttributeInteractionInfo);
@@ -503,13 +649,19 @@ public class ClusterWriteMapping {
         basicInformationlocalConfigDisabledCommandParameterInfo
     );
     InteractionInfo writeBasicInformationLocalConfigDisabledAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BasicInformationCluster) cluster).writeLocalConfigDisabledAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BasicInformation.ID, ClusterIDMapping.BasicInformation.Attribute.LocalConfigDisabled.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BasicInformationCluster) cluster).writeLocalConfigDisabledAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBasicInformationLocalConfigDisabledCommandParams
     );
     writeBasicInformationInteractionInfo.put("writeLocalConfigDisabledAttribute", writeBasicInformationLocalConfigDisabledAttributeInteractionInfo);
@@ -531,13 +683,19 @@ public class ClusterWriteMapping {
         localizationConfigurationactiveLocaleCommandParameterInfo
     );
     InteractionInfo writeLocalizationConfigurationActiveLocaleAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LocalizationConfigurationCluster) cluster).writeActiveLocaleAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LocalizationConfiguration.ID, ClusterIDMapping.LocalizationConfiguration.Attribute.ActiveLocale.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LocalizationConfigurationCluster) cluster).writeActiveLocaleAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLocalizationConfigurationActiveLocaleCommandParams
     );
     writeLocalizationConfigurationInteractionInfo.put("writeActiveLocaleAttribute", writeLocalizationConfigurationActiveLocaleAttributeInteractionInfo);
@@ -555,13 +713,19 @@ public class ClusterWriteMapping {
         timeFormatLocalizationhourFormatCommandParameterInfo
     );
     InteractionInfo writeTimeFormatLocalizationHourFormatAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.TimeFormatLocalizationCluster) cluster).writeHourFormatAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.TimeFormatLocalization.ID, ClusterIDMapping.TimeFormatLocalization.Attribute.HourFormat.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.TimeFormatLocalizationCluster) cluster).writeHourFormatAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeTimeFormatLocalizationHourFormatCommandParams
     );
     writeTimeFormatLocalizationInteractionInfo.put("writeHourFormatAttribute", writeTimeFormatLocalizationHourFormatAttributeInteractionInfo);
@@ -577,13 +741,19 @@ public class ClusterWriteMapping {
         timeFormatLocalizationactiveCalendarTypeCommandParameterInfo
     );
     InteractionInfo writeTimeFormatLocalizationActiveCalendarTypeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.TimeFormatLocalizationCluster) cluster).writeActiveCalendarTypeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.TimeFormatLocalization.ID, ClusterIDMapping.TimeFormatLocalization.Attribute.ActiveCalendarType.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.TimeFormatLocalizationCluster) cluster).writeActiveCalendarTypeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeTimeFormatLocalizationActiveCalendarTypeCommandParams
     );
     writeTimeFormatLocalizationInteractionInfo.put("writeActiveCalendarTypeAttribute", writeTimeFormatLocalizationActiveCalendarTypeAttributeInteractionInfo);
@@ -601,13 +771,19 @@ public class ClusterWriteMapping {
         unitLocalizationtemperatureUnitCommandParameterInfo
     );
     InteractionInfo writeUnitLocalizationTemperatureUnitAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitLocalizationCluster) cluster).writeTemperatureUnitAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitLocalization.ID, ClusterIDMapping.UnitLocalization.Attribute.TemperatureUnit.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitLocalizationCluster) cluster).writeTemperatureUnitAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitLocalizationTemperatureUnitCommandParams
     );
     writeUnitLocalizationInteractionInfo.put("writeTemperatureUnitAttribute", writeUnitLocalizationTemperatureUnitAttributeInteractionInfo);
@@ -629,13 +805,19 @@ public class ClusterWriteMapping {
         generalCommissioningbreadcrumbCommandParameterInfo
     );
     InteractionInfo writeGeneralCommissioningBreadcrumbAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.GeneralCommissioningCluster) cluster).writeBreadcrumbAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.GeneralCommissioning.ID, ClusterIDMapping.GeneralCommissioning.Attribute.Breadcrumb.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.GeneralCommissioningCluster) cluster).writeBreadcrumbAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeGeneralCommissioningBreadcrumbCommandParams
     );
     writeGeneralCommissioningInteractionInfo.put("writeBreadcrumbAttribute", writeGeneralCommissioningBreadcrumbAttributeInteractionInfo);
@@ -653,13 +835,19 @@ public class ClusterWriteMapping {
         networkCommissioninginterfaceEnabledCommandParameterInfo
     );
     InteractionInfo writeNetworkCommissioningInterfaceEnabledAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.NetworkCommissioningCluster) cluster).writeInterfaceEnabledAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.NetworkCommissioning.ID, ClusterIDMapping.NetworkCommissioning.Attribute.InterfaceEnabled.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.NetworkCommissioningCluster) cluster).writeInterfaceEnabledAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeNetworkCommissioningInterfaceEnabledCommandParams
     );
     writeNetworkCommissioningInteractionInfo.put("writeInterfaceEnabledAttribute", writeNetworkCommissioningInterfaceEnabledAttributeInteractionInfo);
@@ -691,13 +879,19 @@ public class ClusterWriteMapping {
         bridgedDeviceBasicInformationnodeLabelCommandParameterInfo
     );
     InteractionInfo writeBridgedDeviceBasicInformationNodeLabelAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BridgedDeviceBasicInformationCluster) cluster).writeNodeLabelAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BridgedDeviceBasicInformation.ID, ClusterIDMapping.BridgedDeviceBasicInformation.Attribute.NodeLabel.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BridgedDeviceBasicInformationCluster) cluster).writeNodeLabelAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBridgedDeviceBasicInformationNodeLabelCommandParams
     );
     writeBridgedDeviceBasicInformationInteractionInfo.put("writeNodeLabelAttribute", writeBridgedDeviceBasicInformationNodeLabelAttributeInteractionInfo);
@@ -737,13 +931,19 @@ public class ClusterWriteMapping {
         modeSelectstartUpModeCommandParameterInfo
     );
     InteractionInfo writeModeSelectStartUpModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ModeSelectCluster) cluster).writeStartUpModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ModeSelect.ID, ClusterIDMapping.ModeSelect.Attribute.StartUpMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ModeSelectCluster) cluster).writeStartUpModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeModeSelectStartUpModeCommandParams
     );
     writeModeSelectInteractionInfo.put("writeStartUpModeAttribute", writeModeSelectStartUpModeAttributeInteractionInfo);
@@ -759,13 +959,19 @@ public class ClusterWriteMapping {
         modeSelectonModeCommandParameterInfo
     );
     InteractionInfo writeModeSelectOnModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ModeSelectCluster) cluster).writeOnModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ModeSelect.ID, ClusterIDMapping.ModeSelect.Attribute.OnMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ModeSelectCluster) cluster).writeOnModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeModeSelectOnModeCommandParams
     );
     writeModeSelectInteractionInfo.put("writeOnModeAttribute", writeModeSelectOnModeAttributeInteractionInfo);
@@ -783,13 +989,19 @@ public class ClusterWriteMapping {
         laundryWasherModestartUpModeCommandParameterInfo
     );
     InteractionInfo writeLaundryWasherModeStartUpModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LaundryWasherModeCluster) cluster).writeStartUpModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LaundryWasherMode.ID, ClusterIDMapping.LaundryWasherMode.Attribute.StartUpMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LaundryWasherModeCluster) cluster).writeStartUpModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLaundryWasherModeStartUpModeCommandParams
     );
     writeLaundryWasherModeInteractionInfo.put("writeStartUpModeAttribute", writeLaundryWasherModeStartUpModeAttributeInteractionInfo);
@@ -805,13 +1017,19 @@ public class ClusterWriteMapping {
         laundryWasherModeonModeCommandParameterInfo
     );
     InteractionInfo writeLaundryWasherModeOnModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LaundryWasherModeCluster) cluster).writeOnModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LaundryWasherMode.ID, ClusterIDMapping.LaundryWasherMode.Attribute.OnMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LaundryWasherModeCluster) cluster).writeOnModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLaundryWasherModeOnModeCommandParams
     );
     writeLaundryWasherModeInteractionInfo.put("writeOnModeAttribute", writeLaundryWasherModeOnModeAttributeInteractionInfo);
@@ -829,13 +1047,19 @@ public class ClusterWriteMapping {
         refrigeratorAndTemperatureControlledCabinetModestartUpModeCommandParameterInfo
     );
     InteractionInfo writeRefrigeratorAndTemperatureControlledCabinetModeStartUpModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.RefrigeratorAndTemperatureControlledCabinetModeCluster) cluster).writeStartUpModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.RefrigeratorAndTemperatureControlledCabinetMode.ID, ClusterIDMapping.RefrigeratorAndTemperatureControlledCabinetMode.Attribute.StartUpMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.RefrigeratorAndTemperatureControlledCabinetModeCluster) cluster).writeStartUpModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeRefrigeratorAndTemperatureControlledCabinetModeStartUpModeCommandParams
     );
     writeRefrigeratorAndTemperatureControlledCabinetModeInteractionInfo.put("writeStartUpModeAttribute", writeRefrigeratorAndTemperatureControlledCabinetModeStartUpModeAttributeInteractionInfo);
@@ -851,13 +1075,19 @@ public class ClusterWriteMapping {
         refrigeratorAndTemperatureControlledCabinetModeonModeCommandParameterInfo
     );
     InteractionInfo writeRefrigeratorAndTemperatureControlledCabinetModeOnModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.RefrigeratorAndTemperatureControlledCabinetModeCluster) cluster).writeOnModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.RefrigeratorAndTemperatureControlledCabinetMode.ID, ClusterIDMapping.RefrigeratorAndTemperatureControlledCabinetMode.Attribute.OnMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.RefrigeratorAndTemperatureControlledCabinetModeCluster) cluster).writeOnModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeRefrigeratorAndTemperatureControlledCabinetModeOnModeCommandParams
     );
     writeRefrigeratorAndTemperatureControlledCabinetModeInteractionInfo.put("writeOnModeAttribute", writeRefrigeratorAndTemperatureControlledCabinetModeOnModeAttributeInteractionInfo);
@@ -875,13 +1105,19 @@ public class ClusterWriteMapping {
         laundryWasherControlsspinSpeedCurrentCommandParameterInfo
     );
     InteractionInfo writeLaundryWasherControlsSpinSpeedCurrentAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LaundryWasherControlsCluster) cluster).writeSpinSpeedCurrentAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LaundryWasherControls.ID, ClusterIDMapping.LaundryWasherControls.Attribute.SpinSpeedCurrent.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LaundryWasherControlsCluster) cluster).writeSpinSpeedCurrentAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLaundryWasherControlsSpinSpeedCurrentCommandParams
     );
     writeLaundryWasherControlsInteractionInfo.put("writeSpinSpeedCurrentAttribute", writeLaundryWasherControlsSpinSpeedCurrentAttributeInteractionInfo);
@@ -897,13 +1133,19 @@ public class ClusterWriteMapping {
         laundryWasherControlsnumberOfRinsesCommandParameterInfo
     );
     InteractionInfo writeLaundryWasherControlsNumberOfRinsesAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.LaundryWasherControlsCluster) cluster).writeNumberOfRinsesAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.LaundryWasherControls.ID, ClusterIDMapping.LaundryWasherControls.Attribute.NumberOfRinses.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.LaundryWasherControlsCluster) cluster).writeNumberOfRinsesAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeLaundryWasherControlsNumberOfRinsesCommandParams
     );
     writeLaundryWasherControlsInteractionInfo.put("writeNumberOfRinsesAttribute", writeLaundryWasherControlsNumberOfRinsesAttributeInteractionInfo);
@@ -921,13 +1163,19 @@ public class ClusterWriteMapping {
         rvcRunModestartUpModeCommandParameterInfo
     );
     InteractionInfo writeRvcRunModeStartUpModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.RvcRunModeCluster) cluster).writeStartUpModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.RvcRunMode.ID, ClusterIDMapping.RvcRunMode.Attribute.StartUpMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.RvcRunModeCluster) cluster).writeStartUpModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeRvcRunModeStartUpModeCommandParams
     );
     writeRvcRunModeInteractionInfo.put("writeStartUpModeAttribute", writeRvcRunModeStartUpModeAttributeInteractionInfo);
@@ -943,13 +1191,19 @@ public class ClusterWriteMapping {
         rvcRunModeonModeCommandParameterInfo
     );
     InteractionInfo writeRvcRunModeOnModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.RvcRunModeCluster) cluster).writeOnModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.RvcRunMode.ID, ClusterIDMapping.RvcRunMode.Attribute.OnMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.RvcRunModeCluster) cluster).writeOnModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeRvcRunModeOnModeCommandParams
     );
     writeRvcRunModeInteractionInfo.put("writeOnModeAttribute", writeRvcRunModeOnModeAttributeInteractionInfo);
@@ -967,13 +1221,19 @@ public class ClusterWriteMapping {
         rvcCleanModestartUpModeCommandParameterInfo
     );
     InteractionInfo writeRvcCleanModeStartUpModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.RvcCleanModeCluster) cluster).writeStartUpModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.RvcCleanMode.ID, ClusterIDMapping.RvcCleanMode.Attribute.StartUpMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.RvcCleanModeCluster) cluster).writeStartUpModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeRvcCleanModeStartUpModeCommandParams
     );
     writeRvcCleanModeInteractionInfo.put("writeStartUpModeAttribute", writeRvcCleanModeStartUpModeAttributeInteractionInfo);
@@ -989,13 +1249,19 @@ public class ClusterWriteMapping {
         rvcCleanModeonModeCommandParameterInfo
     );
     InteractionInfo writeRvcCleanModeOnModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.RvcCleanModeCluster) cluster).writeOnModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.RvcCleanMode.ID, ClusterIDMapping.RvcCleanMode.Attribute.OnMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.RvcCleanModeCluster) cluster).writeOnModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeRvcCleanModeOnModeCommandParams
     );
     writeRvcCleanModeInteractionInfo.put("writeOnModeAttribute", writeRvcCleanModeOnModeAttributeInteractionInfo);
@@ -1017,13 +1283,19 @@ public class ClusterWriteMapping {
         dishwasherModestartUpModeCommandParameterInfo
     );
     InteractionInfo writeDishwasherModeStartUpModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DishwasherModeCluster) cluster).writeStartUpModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DishwasherMode.ID, ClusterIDMapping.DishwasherMode.Attribute.StartUpMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DishwasherModeCluster) cluster).writeStartUpModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDishwasherModeStartUpModeCommandParams
     );
     writeDishwasherModeInteractionInfo.put("writeStartUpModeAttribute", writeDishwasherModeStartUpModeAttributeInteractionInfo);
@@ -1039,13 +1311,19 @@ public class ClusterWriteMapping {
         dishwasherModeonModeCommandParameterInfo
     );
     InteractionInfo writeDishwasherModeOnModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DishwasherModeCluster) cluster).writeOnModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DishwasherMode.ID, ClusterIDMapping.DishwasherMode.Attribute.OnMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DishwasherModeCluster) cluster).writeOnModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDishwasherModeOnModeCommandParams
     );
     writeDishwasherModeInteractionInfo.put("writeOnModeAttribute", writeDishwasherModeOnModeAttributeInteractionInfo);
@@ -1065,13 +1343,19 @@ public class ClusterWriteMapping {
         smokeCoAlarmsensitivityLevelCommandParameterInfo
     );
     InteractionInfo writeSmokeCoAlarmSensitivityLevelAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.SmokeCoAlarmCluster) cluster).writeSensitivityLevelAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.SmokeCoAlarm.ID, ClusterIDMapping.SmokeCoAlarm.Attribute.SensitivityLevel.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.SmokeCoAlarmCluster) cluster).writeSensitivityLevelAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeSmokeCoAlarmSensitivityLevelCommandParams
     );
     writeSmokeCoAlarmInteractionInfo.put("writeSensitivityLevelAttribute", writeSmokeCoAlarmSensitivityLevelAttributeInteractionInfo);
@@ -1119,13 +1403,19 @@ public class ClusterWriteMapping {
         doorLockdoorOpenEventsCommandParameterInfo
     );
     InteractionInfo writeDoorLockDoorOpenEventsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeDoorOpenEventsAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.DoorOpenEvents.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeDoorOpenEventsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockDoorOpenEventsCommandParams
     );
     writeDoorLockInteractionInfo.put("writeDoorOpenEventsAttribute", writeDoorLockDoorOpenEventsAttributeInteractionInfo);
@@ -1141,13 +1431,19 @@ public class ClusterWriteMapping {
         doorLockdoorClosedEventsCommandParameterInfo
     );
     InteractionInfo writeDoorLockDoorClosedEventsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeDoorClosedEventsAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.DoorClosedEvents.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeDoorClosedEventsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockDoorClosedEventsCommandParams
     );
     writeDoorLockInteractionInfo.put("writeDoorClosedEventsAttribute", writeDoorLockDoorClosedEventsAttributeInteractionInfo);
@@ -1163,13 +1459,19 @@ public class ClusterWriteMapping {
         doorLockopenPeriodCommandParameterInfo
     );
     InteractionInfo writeDoorLockOpenPeriodAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeOpenPeriodAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.OpenPeriod.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeOpenPeriodAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockOpenPeriodCommandParams
     );
     writeDoorLockInteractionInfo.put("writeOpenPeriodAttribute", writeDoorLockOpenPeriodAttributeInteractionInfo);
@@ -1185,13 +1487,19 @@ public class ClusterWriteMapping {
         doorLocklanguageCommandParameterInfo
     );
     InteractionInfo writeDoorLockLanguageAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeLanguageAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.Language.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeLanguageAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockLanguageCommandParams
     );
     writeDoorLockInteractionInfo.put("writeLanguageAttribute", writeDoorLockLanguageAttributeInteractionInfo);
@@ -1207,13 +1515,19 @@ public class ClusterWriteMapping {
         doorLockLEDSettingsCommandParameterInfo
     );
     InteractionInfo writeDoorLockLEDSettingsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeLEDSettingsAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.LEDSettings.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeLEDSettingsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockLEDSettingsCommandParams
     );
     writeDoorLockInteractionInfo.put("writeLEDSettingsAttribute", writeDoorLockLEDSettingsAttributeInteractionInfo);
@@ -1229,13 +1543,19 @@ public class ClusterWriteMapping {
         doorLockautoRelockTimeCommandParameterInfo
     );
     InteractionInfo writeDoorLockAutoRelockTimeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeAutoRelockTimeAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.AutoRelockTime.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeAutoRelockTimeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockAutoRelockTimeCommandParams
     );
     writeDoorLockInteractionInfo.put("writeAutoRelockTimeAttribute", writeDoorLockAutoRelockTimeAttributeInteractionInfo);
@@ -1251,13 +1571,19 @@ public class ClusterWriteMapping {
         doorLocksoundVolumeCommandParameterInfo
     );
     InteractionInfo writeDoorLockSoundVolumeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeSoundVolumeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.SoundVolume.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeSoundVolumeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockSoundVolumeCommandParams
     );
     writeDoorLockInteractionInfo.put("writeSoundVolumeAttribute", writeDoorLockSoundVolumeAttributeInteractionInfo);
@@ -1273,13 +1599,19 @@ public class ClusterWriteMapping {
         doorLockoperatingModeCommandParameterInfo
     );
     InteractionInfo writeDoorLockOperatingModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeOperatingModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.OperatingMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeOperatingModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockOperatingModeCommandParams
     );
     writeDoorLockInteractionInfo.put("writeOperatingModeAttribute", writeDoorLockOperatingModeAttributeInteractionInfo);
@@ -1295,13 +1627,19 @@ public class ClusterWriteMapping {
         doorLockenableLocalProgrammingCommandParameterInfo
     );
     InteractionInfo writeDoorLockEnableLocalProgrammingAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeEnableLocalProgrammingAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.EnableLocalProgramming.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeEnableLocalProgrammingAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockEnableLocalProgrammingCommandParams
     );
     writeDoorLockInteractionInfo.put("writeEnableLocalProgrammingAttribute", writeDoorLockEnableLocalProgrammingAttributeInteractionInfo);
@@ -1317,13 +1655,19 @@ public class ClusterWriteMapping {
         doorLockenableOneTouchLockingCommandParameterInfo
     );
     InteractionInfo writeDoorLockEnableOneTouchLockingAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeEnableOneTouchLockingAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.EnableOneTouchLocking.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeEnableOneTouchLockingAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockEnableOneTouchLockingCommandParams
     );
     writeDoorLockInteractionInfo.put("writeEnableOneTouchLockingAttribute", writeDoorLockEnableOneTouchLockingAttributeInteractionInfo);
@@ -1339,13 +1683,19 @@ public class ClusterWriteMapping {
         doorLockenableInsideStatusLEDCommandParameterInfo
     );
     InteractionInfo writeDoorLockEnableInsideStatusLEDAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeEnableInsideStatusLEDAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.EnableInsideStatusLED.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeEnableInsideStatusLEDAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockEnableInsideStatusLEDCommandParams
     );
     writeDoorLockInteractionInfo.put("writeEnableInsideStatusLEDAttribute", writeDoorLockEnableInsideStatusLEDAttributeInteractionInfo);
@@ -1361,13 +1711,19 @@ public class ClusterWriteMapping {
         doorLockenablePrivacyModeButtonCommandParameterInfo
     );
     InteractionInfo writeDoorLockEnablePrivacyModeButtonAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeEnablePrivacyModeButtonAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.EnablePrivacyModeButton.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeEnablePrivacyModeButtonAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockEnablePrivacyModeButtonCommandParams
     );
     writeDoorLockInteractionInfo.put("writeEnablePrivacyModeButtonAttribute", writeDoorLockEnablePrivacyModeButtonAttributeInteractionInfo);
@@ -1383,13 +1739,19 @@ public class ClusterWriteMapping {
         doorLocklocalProgrammingFeaturesCommandParameterInfo
     );
     InteractionInfo writeDoorLockLocalProgrammingFeaturesAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeLocalProgrammingFeaturesAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.LocalProgrammingFeatures.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeLocalProgrammingFeaturesAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockLocalProgrammingFeaturesCommandParams
     );
     writeDoorLockInteractionInfo.put("writeLocalProgrammingFeaturesAttribute", writeDoorLockLocalProgrammingFeaturesAttributeInteractionInfo);
@@ -1405,13 +1767,19 @@ public class ClusterWriteMapping {
         doorLockwrongCodeEntryLimitCommandParameterInfo
     );
     InteractionInfo writeDoorLockWrongCodeEntryLimitAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeWrongCodeEntryLimitAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.WrongCodeEntryLimit.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeWrongCodeEntryLimitAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockWrongCodeEntryLimitCommandParams
     );
     writeDoorLockInteractionInfo.put("writeWrongCodeEntryLimitAttribute", writeDoorLockWrongCodeEntryLimitAttributeInteractionInfo);
@@ -1427,13 +1795,19 @@ public class ClusterWriteMapping {
         doorLockuserCodeTemporaryDisableTimeCommandParameterInfo
     );
     InteractionInfo writeDoorLockUserCodeTemporaryDisableTimeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeUserCodeTemporaryDisableTimeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.UserCodeTemporaryDisableTime.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeUserCodeTemporaryDisableTimeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockUserCodeTemporaryDisableTimeCommandParams
     );
     writeDoorLockInteractionInfo.put("writeUserCodeTemporaryDisableTimeAttribute", writeDoorLockUserCodeTemporaryDisableTimeAttributeInteractionInfo);
@@ -1449,13 +1823,19 @@ public class ClusterWriteMapping {
         doorLocksendPINOverTheAirCommandParameterInfo
     );
     InteractionInfo writeDoorLockSendPINOverTheAirAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeSendPINOverTheAirAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.SendPINOverTheAir.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeSendPINOverTheAirAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockSendPINOverTheAirCommandParams
     );
     writeDoorLockInteractionInfo.put("writeSendPINOverTheAirAttribute", writeDoorLockSendPINOverTheAirAttributeInteractionInfo);
@@ -1471,13 +1851,19 @@ public class ClusterWriteMapping {
         doorLockrequirePINforRemoteOperationCommandParameterInfo
     );
     InteractionInfo writeDoorLockRequirePINforRemoteOperationAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeRequirePINforRemoteOperationAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.RequirePINforRemoteOperation.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeRequirePINforRemoteOperationAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockRequirePINforRemoteOperationCommandParams
     );
     writeDoorLockInteractionInfo.put("writeRequirePINforRemoteOperationAttribute", writeDoorLockRequirePINforRemoteOperationAttributeInteractionInfo);
@@ -1493,13 +1879,19 @@ public class ClusterWriteMapping {
         doorLockexpiringUserTimeoutCommandParameterInfo
     );
     InteractionInfo writeDoorLockExpiringUserTimeoutAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.DoorLockCluster) cluster).writeExpiringUserTimeoutAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.DoorLock.ID, ClusterIDMapping.DoorLock.Attribute.ExpiringUserTimeout.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.DoorLockCluster) cluster).writeExpiringUserTimeoutAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeDoorLockExpiringUserTimeoutCommandParams
     );
     writeDoorLockInteractionInfo.put("writeExpiringUserTimeoutAttribute", writeDoorLockExpiringUserTimeoutAttributeInteractionInfo);
@@ -1517,13 +1909,19 @@ public class ClusterWriteMapping {
         windowCoveringmodeCommandParameterInfo
     );
     InteractionInfo writeWindowCoveringModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.WindowCoveringCluster) cluster).writeModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.WindowCovering.ID, ClusterIDMapping.WindowCovering.Attribute.Mode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.WindowCoveringCluster) cluster).writeModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeWindowCoveringModeCommandParams
     );
     writeWindowCoveringInteractionInfo.put("writeModeAttribute", writeWindowCoveringModeAttributeInteractionInfo);
@@ -1541,13 +1939,19 @@ public class ClusterWriteMapping {
         barrierControlbarrierOpenEventsCommandParameterInfo
     );
     InteractionInfo writeBarrierControlBarrierOpenEventsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierOpenEventsAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BarrierControl.ID, ClusterIDMapping.BarrierControl.Attribute.BarrierOpenEvents.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierOpenEventsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBarrierControlBarrierOpenEventsCommandParams
     );
     writeBarrierControlInteractionInfo.put("writeBarrierOpenEventsAttribute", writeBarrierControlBarrierOpenEventsAttributeInteractionInfo);
@@ -1563,13 +1967,19 @@ public class ClusterWriteMapping {
         barrierControlbarrierCloseEventsCommandParameterInfo
     );
     InteractionInfo writeBarrierControlBarrierCloseEventsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierCloseEventsAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BarrierControl.ID, ClusterIDMapping.BarrierControl.Attribute.BarrierCloseEvents.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierCloseEventsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBarrierControlBarrierCloseEventsCommandParams
     );
     writeBarrierControlInteractionInfo.put("writeBarrierCloseEventsAttribute", writeBarrierControlBarrierCloseEventsAttributeInteractionInfo);
@@ -1585,13 +1995,19 @@ public class ClusterWriteMapping {
         barrierControlbarrierCommandOpenEventsCommandParameterInfo
     );
     InteractionInfo writeBarrierControlBarrierCommandOpenEventsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierCommandOpenEventsAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BarrierControl.ID, ClusterIDMapping.BarrierControl.Attribute.BarrierCommandOpenEvents.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierCommandOpenEventsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBarrierControlBarrierCommandOpenEventsCommandParams
     );
     writeBarrierControlInteractionInfo.put("writeBarrierCommandOpenEventsAttribute", writeBarrierControlBarrierCommandOpenEventsAttributeInteractionInfo);
@@ -1607,13 +2023,19 @@ public class ClusterWriteMapping {
         barrierControlbarrierCommandCloseEventsCommandParameterInfo
     );
     InteractionInfo writeBarrierControlBarrierCommandCloseEventsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierCommandCloseEventsAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BarrierControl.ID, ClusterIDMapping.BarrierControl.Attribute.BarrierCommandCloseEvents.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierCommandCloseEventsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBarrierControlBarrierCommandCloseEventsCommandParams
     );
     writeBarrierControlInteractionInfo.put("writeBarrierCommandCloseEventsAttribute", writeBarrierControlBarrierCommandCloseEventsAttributeInteractionInfo);
@@ -1629,13 +2051,19 @@ public class ClusterWriteMapping {
         barrierControlbarrierOpenPeriodCommandParameterInfo
     );
     InteractionInfo writeBarrierControlBarrierOpenPeriodAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierOpenPeriodAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BarrierControl.ID, ClusterIDMapping.BarrierControl.Attribute.BarrierOpenPeriod.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierOpenPeriodAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBarrierControlBarrierOpenPeriodCommandParams
     );
     writeBarrierControlInteractionInfo.put("writeBarrierOpenPeriodAttribute", writeBarrierControlBarrierOpenPeriodAttributeInteractionInfo);
@@ -1651,13 +2079,19 @@ public class ClusterWriteMapping {
         barrierControlbarrierClosePeriodCommandParameterInfo
     );
     InteractionInfo writeBarrierControlBarrierClosePeriodAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierClosePeriodAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BarrierControl.ID, ClusterIDMapping.BarrierControl.Attribute.BarrierClosePeriod.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BarrierControlCluster) cluster).writeBarrierClosePeriodAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBarrierControlBarrierClosePeriodCommandParams
     );
     writeBarrierControlInteractionInfo.put("writeBarrierClosePeriodAttribute", writeBarrierControlBarrierClosePeriodAttributeInteractionInfo);
@@ -1675,13 +2109,19 @@ public class ClusterWriteMapping {
         pumpConfigurationAndControllifetimeRunningHoursCommandParameterInfo
     );
     InteractionInfo writePumpConfigurationAndControlLifetimeRunningHoursAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.PumpConfigurationAndControlCluster) cluster).writeLifetimeRunningHoursAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.PumpConfigurationAndControl.ID, ClusterIDMapping.PumpConfigurationAndControl.Attribute.LifetimeRunningHours.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.PumpConfigurationAndControlCluster) cluster).writeLifetimeRunningHoursAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writePumpConfigurationAndControlLifetimeRunningHoursCommandParams
     );
     writePumpConfigurationAndControlInteractionInfo.put("writeLifetimeRunningHoursAttribute", writePumpConfigurationAndControlLifetimeRunningHoursAttributeInteractionInfo);
@@ -1697,13 +2137,19 @@ public class ClusterWriteMapping {
         pumpConfigurationAndControllifetimeEnergyConsumedCommandParameterInfo
     );
     InteractionInfo writePumpConfigurationAndControlLifetimeEnergyConsumedAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.PumpConfigurationAndControlCluster) cluster).writeLifetimeEnergyConsumedAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.PumpConfigurationAndControl.ID, ClusterIDMapping.PumpConfigurationAndControl.Attribute.LifetimeEnergyConsumed.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.PumpConfigurationAndControlCluster) cluster).writeLifetimeEnergyConsumedAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writePumpConfigurationAndControlLifetimeEnergyConsumedCommandParams
     );
     writePumpConfigurationAndControlInteractionInfo.put("writeLifetimeEnergyConsumedAttribute", writePumpConfigurationAndControlLifetimeEnergyConsumedAttributeInteractionInfo);
@@ -1719,13 +2165,19 @@ public class ClusterWriteMapping {
         pumpConfigurationAndControloperationModeCommandParameterInfo
     );
     InteractionInfo writePumpConfigurationAndControlOperationModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.PumpConfigurationAndControlCluster) cluster).writeOperationModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.PumpConfigurationAndControl.ID, ClusterIDMapping.PumpConfigurationAndControl.Attribute.OperationMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.PumpConfigurationAndControlCluster) cluster).writeOperationModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writePumpConfigurationAndControlOperationModeCommandParams
     );
     writePumpConfigurationAndControlInteractionInfo.put("writeOperationModeAttribute", writePumpConfigurationAndControlOperationModeAttributeInteractionInfo);
@@ -1741,13 +2193,19 @@ public class ClusterWriteMapping {
         pumpConfigurationAndControlcontrolModeCommandParameterInfo
     );
     InteractionInfo writePumpConfigurationAndControlControlModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.PumpConfigurationAndControlCluster) cluster).writeControlModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.PumpConfigurationAndControl.ID, ClusterIDMapping.PumpConfigurationAndControl.Attribute.ControlMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.PumpConfigurationAndControlCluster) cluster).writeControlModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writePumpConfigurationAndControlControlModeCommandParams
     );
     writePumpConfigurationAndControlInteractionInfo.put("writeControlModeAttribute", writePumpConfigurationAndControlControlModeAttributeInteractionInfo);
@@ -1765,13 +2223,19 @@ public class ClusterWriteMapping {
         thermostatHVACSystemTypeConfigurationCommandParameterInfo
     );
     InteractionInfo writeThermostatHVACSystemTypeConfigurationAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeHVACSystemTypeConfigurationAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.HVACSystemTypeConfiguration.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeHVACSystemTypeConfigurationAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatHVACSystemTypeConfigurationCommandParams
     );
     writeThermostatInteractionInfo.put("writeHVACSystemTypeConfigurationAttribute", writeThermostatHVACSystemTypeConfigurationAttributeInteractionInfo);
@@ -1787,13 +2251,19 @@ public class ClusterWriteMapping {
         thermostatlocalTemperatureCalibrationCommandParameterInfo
     );
     InteractionInfo writeThermostatLocalTemperatureCalibrationAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeLocalTemperatureCalibrationAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.LocalTemperatureCalibration.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeLocalTemperatureCalibrationAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatLocalTemperatureCalibrationCommandParams
     );
     writeThermostatInteractionInfo.put("writeLocalTemperatureCalibrationAttribute", writeThermostatLocalTemperatureCalibrationAttributeInteractionInfo);
@@ -1809,13 +2279,19 @@ public class ClusterWriteMapping {
         thermostatoccupiedCoolingSetpointCommandParameterInfo
     );
     InteractionInfo writeThermostatOccupiedCoolingSetpointAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeOccupiedCoolingSetpointAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.OccupiedCoolingSetpoint.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeOccupiedCoolingSetpointAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatOccupiedCoolingSetpointCommandParams
     );
     writeThermostatInteractionInfo.put("writeOccupiedCoolingSetpointAttribute", writeThermostatOccupiedCoolingSetpointAttributeInteractionInfo);
@@ -1831,13 +2307,19 @@ public class ClusterWriteMapping {
         thermostatoccupiedHeatingSetpointCommandParameterInfo
     );
     InteractionInfo writeThermostatOccupiedHeatingSetpointAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeOccupiedHeatingSetpointAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.OccupiedHeatingSetpoint.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeOccupiedHeatingSetpointAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatOccupiedHeatingSetpointCommandParams
     );
     writeThermostatInteractionInfo.put("writeOccupiedHeatingSetpointAttribute", writeThermostatOccupiedHeatingSetpointAttributeInteractionInfo);
@@ -1853,13 +2335,19 @@ public class ClusterWriteMapping {
         thermostatunoccupiedCoolingSetpointCommandParameterInfo
     );
     InteractionInfo writeThermostatUnoccupiedCoolingSetpointAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeUnoccupiedCoolingSetpointAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.UnoccupiedCoolingSetpoint.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeUnoccupiedCoolingSetpointAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatUnoccupiedCoolingSetpointCommandParams
     );
     writeThermostatInteractionInfo.put("writeUnoccupiedCoolingSetpointAttribute", writeThermostatUnoccupiedCoolingSetpointAttributeInteractionInfo);
@@ -1875,13 +2363,19 @@ public class ClusterWriteMapping {
         thermostatunoccupiedHeatingSetpointCommandParameterInfo
     );
     InteractionInfo writeThermostatUnoccupiedHeatingSetpointAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeUnoccupiedHeatingSetpointAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.UnoccupiedHeatingSetpoint.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeUnoccupiedHeatingSetpointAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatUnoccupiedHeatingSetpointCommandParams
     );
     writeThermostatInteractionInfo.put("writeUnoccupiedHeatingSetpointAttribute", writeThermostatUnoccupiedHeatingSetpointAttributeInteractionInfo);
@@ -1897,13 +2391,19 @@ public class ClusterWriteMapping {
         thermostatminHeatSetpointLimitCommandParameterInfo
     );
     InteractionInfo writeThermostatMinHeatSetpointLimitAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeMinHeatSetpointLimitAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.MinHeatSetpointLimit.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeMinHeatSetpointLimitAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatMinHeatSetpointLimitCommandParams
     );
     writeThermostatInteractionInfo.put("writeMinHeatSetpointLimitAttribute", writeThermostatMinHeatSetpointLimitAttributeInteractionInfo);
@@ -1919,13 +2419,19 @@ public class ClusterWriteMapping {
         thermostatmaxHeatSetpointLimitCommandParameterInfo
     );
     InteractionInfo writeThermostatMaxHeatSetpointLimitAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeMaxHeatSetpointLimitAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.MaxHeatSetpointLimit.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeMaxHeatSetpointLimitAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatMaxHeatSetpointLimitCommandParams
     );
     writeThermostatInteractionInfo.put("writeMaxHeatSetpointLimitAttribute", writeThermostatMaxHeatSetpointLimitAttributeInteractionInfo);
@@ -1941,13 +2447,19 @@ public class ClusterWriteMapping {
         thermostatminCoolSetpointLimitCommandParameterInfo
     );
     InteractionInfo writeThermostatMinCoolSetpointLimitAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeMinCoolSetpointLimitAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.MinCoolSetpointLimit.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeMinCoolSetpointLimitAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatMinCoolSetpointLimitCommandParams
     );
     writeThermostatInteractionInfo.put("writeMinCoolSetpointLimitAttribute", writeThermostatMinCoolSetpointLimitAttributeInteractionInfo);
@@ -1963,13 +2475,19 @@ public class ClusterWriteMapping {
         thermostatmaxCoolSetpointLimitCommandParameterInfo
     );
     InteractionInfo writeThermostatMaxCoolSetpointLimitAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeMaxCoolSetpointLimitAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.MaxCoolSetpointLimit.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeMaxCoolSetpointLimitAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatMaxCoolSetpointLimitCommandParams
     );
     writeThermostatInteractionInfo.put("writeMaxCoolSetpointLimitAttribute", writeThermostatMaxCoolSetpointLimitAttributeInteractionInfo);
@@ -1985,13 +2503,19 @@ public class ClusterWriteMapping {
         thermostatminSetpointDeadBandCommandParameterInfo
     );
     InteractionInfo writeThermostatMinSetpointDeadBandAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeMinSetpointDeadBandAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.MinSetpointDeadBand.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeMinSetpointDeadBandAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatMinSetpointDeadBandCommandParams
     );
     writeThermostatInteractionInfo.put("writeMinSetpointDeadBandAttribute", writeThermostatMinSetpointDeadBandAttributeInteractionInfo);
@@ -2007,13 +2531,19 @@ public class ClusterWriteMapping {
         thermostatremoteSensingCommandParameterInfo
     );
     InteractionInfo writeThermostatRemoteSensingAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeRemoteSensingAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.RemoteSensing.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeRemoteSensingAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatRemoteSensingCommandParams
     );
     writeThermostatInteractionInfo.put("writeRemoteSensingAttribute", writeThermostatRemoteSensingAttributeInteractionInfo);
@@ -2029,13 +2559,19 @@ public class ClusterWriteMapping {
         thermostatcontrolSequenceOfOperationCommandParameterInfo
     );
     InteractionInfo writeThermostatControlSequenceOfOperationAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeControlSequenceOfOperationAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.ControlSequenceOfOperation.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeControlSequenceOfOperationAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatControlSequenceOfOperationCommandParams
     );
     writeThermostatInteractionInfo.put("writeControlSequenceOfOperationAttribute", writeThermostatControlSequenceOfOperationAttributeInteractionInfo);
@@ -2051,13 +2587,19 @@ public class ClusterWriteMapping {
         thermostatsystemModeCommandParameterInfo
     );
     InteractionInfo writeThermostatSystemModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeSystemModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.SystemMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeSystemModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatSystemModeCommandParams
     );
     writeThermostatInteractionInfo.put("writeSystemModeAttribute", writeThermostatSystemModeAttributeInteractionInfo);
@@ -2073,13 +2615,19 @@ public class ClusterWriteMapping {
         thermostattemperatureSetpointHoldCommandParameterInfo
     );
     InteractionInfo writeThermostatTemperatureSetpointHoldAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeTemperatureSetpointHoldAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.TemperatureSetpointHold.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeTemperatureSetpointHoldAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatTemperatureSetpointHoldCommandParams
     );
     writeThermostatInteractionInfo.put("writeTemperatureSetpointHoldAttribute", writeThermostatTemperatureSetpointHoldAttributeInteractionInfo);
@@ -2095,13 +2643,19 @@ public class ClusterWriteMapping {
         thermostattemperatureSetpointHoldDurationCommandParameterInfo
     );
     InteractionInfo writeThermostatTemperatureSetpointHoldDurationAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeTemperatureSetpointHoldDurationAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.TemperatureSetpointHoldDuration.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeTemperatureSetpointHoldDurationAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatTemperatureSetpointHoldDurationCommandParams
     );
     writeThermostatInteractionInfo.put("writeTemperatureSetpointHoldDurationAttribute", writeThermostatTemperatureSetpointHoldDurationAttributeInteractionInfo);
@@ -2117,13 +2671,19 @@ public class ClusterWriteMapping {
         thermostatthermostatProgrammingOperationModeCommandParameterInfo
     );
     InteractionInfo writeThermostatThermostatProgrammingOperationModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeThermostatProgrammingOperationModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.ThermostatProgrammingOperationMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeThermostatProgrammingOperationModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatThermostatProgrammingOperationModeCommandParams
     );
     writeThermostatInteractionInfo.put("writeThermostatProgrammingOperationModeAttribute", writeThermostatThermostatProgrammingOperationModeAttributeInteractionInfo);
@@ -2139,13 +2699,19 @@ public class ClusterWriteMapping {
         thermostatoccupiedSetbackCommandParameterInfo
     );
     InteractionInfo writeThermostatOccupiedSetbackAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeOccupiedSetbackAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.OccupiedSetback.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeOccupiedSetbackAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatOccupiedSetbackCommandParams
     );
     writeThermostatInteractionInfo.put("writeOccupiedSetbackAttribute", writeThermostatOccupiedSetbackAttributeInteractionInfo);
@@ -2161,13 +2727,19 @@ public class ClusterWriteMapping {
         thermostatunoccupiedSetbackCommandParameterInfo
     );
     InteractionInfo writeThermostatUnoccupiedSetbackAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeUnoccupiedSetbackAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.UnoccupiedSetback.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeUnoccupiedSetbackAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatUnoccupiedSetbackCommandParams
     );
     writeThermostatInteractionInfo.put("writeUnoccupiedSetbackAttribute", writeThermostatUnoccupiedSetbackAttributeInteractionInfo);
@@ -2183,13 +2755,19 @@ public class ClusterWriteMapping {
         thermostatemergencyHeatDeltaCommandParameterInfo
     );
     InteractionInfo writeThermostatEmergencyHeatDeltaAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeEmergencyHeatDeltaAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.EmergencyHeatDelta.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeEmergencyHeatDeltaAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatEmergencyHeatDeltaCommandParams
     );
     writeThermostatInteractionInfo.put("writeEmergencyHeatDeltaAttribute", writeThermostatEmergencyHeatDeltaAttributeInteractionInfo);
@@ -2205,13 +2783,19 @@ public class ClusterWriteMapping {
         thermostatACTypeCommandParameterInfo
     );
     InteractionInfo writeThermostatACTypeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeACTypeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.ACType.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeACTypeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatACTypeCommandParams
     );
     writeThermostatInteractionInfo.put("writeACTypeAttribute", writeThermostatACTypeAttributeInteractionInfo);
@@ -2227,13 +2811,19 @@ public class ClusterWriteMapping {
         thermostatACCapacityCommandParameterInfo
     );
     InteractionInfo writeThermostatACCapacityAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeACCapacityAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.ACCapacity.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeACCapacityAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatACCapacityCommandParams
     );
     writeThermostatInteractionInfo.put("writeACCapacityAttribute", writeThermostatACCapacityAttributeInteractionInfo);
@@ -2249,13 +2839,19 @@ public class ClusterWriteMapping {
         thermostatACRefrigerantTypeCommandParameterInfo
     );
     InteractionInfo writeThermostatACRefrigerantTypeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeACRefrigerantTypeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.ACRefrigerantType.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeACRefrigerantTypeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatACRefrigerantTypeCommandParams
     );
     writeThermostatInteractionInfo.put("writeACRefrigerantTypeAttribute", writeThermostatACRefrigerantTypeAttributeInteractionInfo);
@@ -2271,13 +2867,19 @@ public class ClusterWriteMapping {
         thermostatACCompressorTypeCommandParameterInfo
     );
     InteractionInfo writeThermostatACCompressorTypeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeACCompressorTypeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.ACCompressorType.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeACCompressorTypeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatACCompressorTypeCommandParams
     );
     writeThermostatInteractionInfo.put("writeACCompressorTypeAttribute", writeThermostatACCompressorTypeAttributeInteractionInfo);
@@ -2293,13 +2895,19 @@ public class ClusterWriteMapping {
         thermostatACErrorCodeCommandParameterInfo
     );
     InteractionInfo writeThermostatACErrorCodeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeACErrorCodeAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.ACErrorCode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeACErrorCodeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatACErrorCodeCommandParams
     );
     writeThermostatInteractionInfo.put("writeACErrorCodeAttribute", writeThermostatACErrorCodeAttributeInteractionInfo);
@@ -2315,13 +2923,19 @@ public class ClusterWriteMapping {
         thermostatACLouverPositionCommandParameterInfo
     );
     InteractionInfo writeThermostatACLouverPositionAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeACLouverPositionAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.ACLouverPosition.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeACLouverPositionAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatACLouverPositionCommandParams
     );
     writeThermostatInteractionInfo.put("writeACLouverPositionAttribute", writeThermostatACLouverPositionAttributeInteractionInfo);
@@ -2337,13 +2951,19 @@ public class ClusterWriteMapping {
         thermostatACCapacityformatCommandParameterInfo
     );
     InteractionInfo writeThermostatACCapacityformatAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatCluster) cluster).writeACCapacityformatAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.Thermostat.ID, ClusterIDMapping.Thermostat.Attribute.ACCapacityformat.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatCluster) cluster).writeACCapacityformatAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatACCapacityformatCommandParams
     );
     writeThermostatInteractionInfo.put("writeACCapacityformatAttribute", writeThermostatACCapacityformatAttributeInteractionInfo);
@@ -2361,13 +2981,19 @@ public class ClusterWriteMapping {
         fanControlfanModeCommandParameterInfo
     );
     InteractionInfo writeFanControlFanModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.FanControlCluster) cluster).writeFanModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.FanControl.ID, ClusterIDMapping.FanControl.Attribute.FanMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.FanControlCluster) cluster).writeFanModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeFanControlFanModeCommandParams
     );
     writeFanControlInteractionInfo.put("writeFanModeAttribute", writeFanControlFanModeAttributeInteractionInfo);
@@ -2383,13 +3009,19 @@ public class ClusterWriteMapping {
         fanControlfanModeSequenceCommandParameterInfo
     );
     InteractionInfo writeFanControlFanModeSequenceAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.FanControlCluster) cluster).writeFanModeSequenceAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.FanControl.ID, ClusterIDMapping.FanControl.Attribute.FanModeSequence.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.FanControlCluster) cluster).writeFanModeSequenceAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeFanControlFanModeSequenceCommandParams
     );
     writeFanControlInteractionInfo.put("writeFanModeSequenceAttribute", writeFanControlFanModeSequenceAttributeInteractionInfo);
@@ -2405,13 +3037,19 @@ public class ClusterWriteMapping {
         fanControlpercentSettingCommandParameterInfo
     );
     InteractionInfo writeFanControlPercentSettingAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.FanControlCluster) cluster).writePercentSettingAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.FanControl.ID, ClusterIDMapping.FanControl.Attribute.PercentSetting.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.FanControlCluster) cluster).writePercentSettingAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeFanControlPercentSettingCommandParams
     );
     writeFanControlInteractionInfo.put("writePercentSettingAttribute", writeFanControlPercentSettingAttributeInteractionInfo);
@@ -2427,13 +3065,19 @@ public class ClusterWriteMapping {
         fanControlspeedSettingCommandParameterInfo
     );
     InteractionInfo writeFanControlSpeedSettingAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.FanControlCluster) cluster).writeSpeedSettingAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.FanControl.ID, ClusterIDMapping.FanControl.Attribute.SpeedSetting.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.FanControlCluster) cluster).writeSpeedSettingAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeFanControlSpeedSettingCommandParams
     );
     writeFanControlInteractionInfo.put("writeSpeedSettingAttribute", writeFanControlSpeedSettingAttributeInteractionInfo);
@@ -2449,13 +3093,19 @@ public class ClusterWriteMapping {
         fanControlrockSettingCommandParameterInfo
     );
     InteractionInfo writeFanControlRockSettingAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.FanControlCluster) cluster).writeRockSettingAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.FanControl.ID, ClusterIDMapping.FanControl.Attribute.RockSetting.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.FanControlCluster) cluster).writeRockSettingAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeFanControlRockSettingCommandParams
     );
     writeFanControlInteractionInfo.put("writeRockSettingAttribute", writeFanControlRockSettingAttributeInteractionInfo);
@@ -2471,13 +3121,19 @@ public class ClusterWriteMapping {
         fanControlwindSettingCommandParameterInfo
     );
     InteractionInfo writeFanControlWindSettingAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.FanControlCluster) cluster).writeWindSettingAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.FanControl.ID, ClusterIDMapping.FanControl.Attribute.WindSetting.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.FanControlCluster) cluster).writeWindSettingAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeFanControlWindSettingCommandParams
     );
     writeFanControlInteractionInfo.put("writeWindSettingAttribute", writeFanControlWindSettingAttributeInteractionInfo);
@@ -2493,13 +3149,19 @@ public class ClusterWriteMapping {
         fanControlairflowDirectionCommandParameterInfo
     );
     InteractionInfo writeFanControlAirflowDirectionAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.FanControlCluster) cluster).writeAirflowDirectionAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.FanControl.ID, ClusterIDMapping.FanControl.Attribute.AirflowDirection.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.FanControlCluster) cluster).writeAirflowDirectionAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeFanControlAirflowDirectionCommandParams
     );
     writeFanControlInteractionInfo.put("writeAirflowDirectionAttribute", writeFanControlAirflowDirectionAttributeInteractionInfo);
@@ -2517,13 +3179,19 @@ public class ClusterWriteMapping {
         thermostatUserInterfaceConfigurationtemperatureDisplayModeCommandParameterInfo
     );
     InteractionInfo writeThermostatUserInterfaceConfigurationTemperatureDisplayModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatUserInterfaceConfigurationCluster) cluster).writeTemperatureDisplayModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ThermostatUserInterfaceConfiguration.ID, ClusterIDMapping.ThermostatUserInterfaceConfiguration.Attribute.TemperatureDisplayMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatUserInterfaceConfigurationCluster) cluster).writeTemperatureDisplayModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatUserInterfaceConfigurationTemperatureDisplayModeCommandParams
     );
     writeThermostatUserInterfaceConfigurationInteractionInfo.put("writeTemperatureDisplayModeAttribute", writeThermostatUserInterfaceConfigurationTemperatureDisplayModeAttributeInteractionInfo);
@@ -2539,13 +3207,19 @@ public class ClusterWriteMapping {
         thermostatUserInterfaceConfigurationkeypadLockoutCommandParameterInfo
     );
     InteractionInfo writeThermostatUserInterfaceConfigurationKeypadLockoutAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatUserInterfaceConfigurationCluster) cluster).writeKeypadLockoutAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ThermostatUserInterfaceConfiguration.ID, ClusterIDMapping.ThermostatUserInterfaceConfiguration.Attribute.KeypadLockout.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatUserInterfaceConfigurationCluster) cluster).writeKeypadLockoutAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatUserInterfaceConfigurationKeypadLockoutCommandParams
     );
     writeThermostatUserInterfaceConfigurationInteractionInfo.put("writeKeypadLockoutAttribute", writeThermostatUserInterfaceConfigurationKeypadLockoutAttributeInteractionInfo);
@@ -2561,13 +3235,19 @@ public class ClusterWriteMapping {
         thermostatUserInterfaceConfigurationscheduleProgrammingVisibilityCommandParameterInfo
     );
     InteractionInfo writeThermostatUserInterfaceConfigurationScheduleProgrammingVisibilityAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ThermostatUserInterfaceConfigurationCluster) cluster).writeScheduleProgrammingVisibilityAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ThermostatUserInterfaceConfiguration.ID, ClusterIDMapping.ThermostatUserInterfaceConfiguration.Attribute.ScheduleProgrammingVisibility.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ThermostatUserInterfaceConfigurationCluster) cluster).writeScheduleProgrammingVisibilityAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeThermostatUserInterfaceConfigurationScheduleProgrammingVisibilityCommandParams
     );
     writeThermostatUserInterfaceConfigurationInteractionInfo.put("writeScheduleProgrammingVisibilityAttribute", writeThermostatUserInterfaceConfigurationScheduleProgrammingVisibilityAttributeInteractionInfo);
@@ -2585,13 +3265,19 @@ public class ClusterWriteMapping {
         colorControloptionsCommandParameterInfo
     );
     InteractionInfo writeColorControlOptionsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeOptionsAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.Options.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeOptionsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlOptionsCommandParams
     );
     writeColorControlInteractionInfo.put("writeOptionsAttribute", writeColorControlOptionsAttributeInteractionInfo);
@@ -2607,13 +3293,19 @@ public class ClusterWriteMapping {
         colorControlwhitePointXCommandParameterInfo
     );
     InteractionInfo writeColorControlWhitePointXAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeWhitePointXAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.WhitePointX.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeWhitePointXAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlWhitePointXCommandParams
     );
     writeColorControlInteractionInfo.put("writeWhitePointXAttribute", writeColorControlWhitePointXAttributeInteractionInfo);
@@ -2629,13 +3321,19 @@ public class ClusterWriteMapping {
         colorControlwhitePointYCommandParameterInfo
     );
     InteractionInfo writeColorControlWhitePointYAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeWhitePointYAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.WhitePointY.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeWhitePointYAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlWhitePointYCommandParams
     );
     writeColorControlInteractionInfo.put("writeWhitePointYAttribute", writeColorControlWhitePointYAttributeInteractionInfo);
@@ -2651,13 +3349,19 @@ public class ClusterWriteMapping {
         colorControlcolorPointRXCommandParameterInfo
     );
     InteractionInfo writeColorControlColorPointRXAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeColorPointRXAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.ColorPointRX.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeColorPointRXAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlColorPointRXCommandParams
     );
     writeColorControlInteractionInfo.put("writeColorPointRXAttribute", writeColorControlColorPointRXAttributeInteractionInfo);
@@ -2673,13 +3377,19 @@ public class ClusterWriteMapping {
         colorControlcolorPointRYCommandParameterInfo
     );
     InteractionInfo writeColorControlColorPointRYAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeColorPointRYAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.ColorPointRY.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeColorPointRYAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlColorPointRYCommandParams
     );
     writeColorControlInteractionInfo.put("writeColorPointRYAttribute", writeColorControlColorPointRYAttributeInteractionInfo);
@@ -2695,13 +3405,19 @@ public class ClusterWriteMapping {
         colorControlcolorPointRIntensityCommandParameterInfo
     );
     InteractionInfo writeColorControlColorPointRIntensityAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeColorPointRIntensityAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.ColorPointRIntensity.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeColorPointRIntensityAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlColorPointRIntensityCommandParams
     );
     writeColorControlInteractionInfo.put("writeColorPointRIntensityAttribute", writeColorControlColorPointRIntensityAttributeInteractionInfo);
@@ -2717,13 +3433,19 @@ public class ClusterWriteMapping {
         colorControlcolorPointGXCommandParameterInfo
     );
     InteractionInfo writeColorControlColorPointGXAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeColorPointGXAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.ColorPointGX.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeColorPointGXAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlColorPointGXCommandParams
     );
     writeColorControlInteractionInfo.put("writeColorPointGXAttribute", writeColorControlColorPointGXAttributeInteractionInfo);
@@ -2739,13 +3461,19 @@ public class ClusterWriteMapping {
         colorControlcolorPointGYCommandParameterInfo
     );
     InteractionInfo writeColorControlColorPointGYAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeColorPointGYAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.ColorPointGY.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeColorPointGYAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlColorPointGYCommandParams
     );
     writeColorControlInteractionInfo.put("writeColorPointGYAttribute", writeColorControlColorPointGYAttributeInteractionInfo);
@@ -2761,13 +3489,19 @@ public class ClusterWriteMapping {
         colorControlcolorPointGIntensityCommandParameterInfo
     );
     InteractionInfo writeColorControlColorPointGIntensityAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeColorPointGIntensityAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.ColorPointGIntensity.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeColorPointGIntensityAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlColorPointGIntensityCommandParams
     );
     writeColorControlInteractionInfo.put("writeColorPointGIntensityAttribute", writeColorControlColorPointGIntensityAttributeInteractionInfo);
@@ -2783,13 +3517,19 @@ public class ClusterWriteMapping {
         colorControlcolorPointBXCommandParameterInfo
     );
     InteractionInfo writeColorControlColorPointBXAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeColorPointBXAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.ColorPointBX.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeColorPointBXAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlColorPointBXCommandParams
     );
     writeColorControlInteractionInfo.put("writeColorPointBXAttribute", writeColorControlColorPointBXAttributeInteractionInfo);
@@ -2805,13 +3545,19 @@ public class ClusterWriteMapping {
         colorControlcolorPointBYCommandParameterInfo
     );
     InteractionInfo writeColorControlColorPointBYAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeColorPointBYAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.ColorPointBY.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeColorPointBYAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlColorPointBYCommandParams
     );
     writeColorControlInteractionInfo.put("writeColorPointBYAttribute", writeColorControlColorPointBYAttributeInteractionInfo);
@@ -2827,13 +3573,19 @@ public class ClusterWriteMapping {
         colorControlcolorPointBIntensityCommandParameterInfo
     );
     InteractionInfo writeColorControlColorPointBIntensityAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeColorPointBIntensityAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.ColorPointBIntensity.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeColorPointBIntensityAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlColorPointBIntensityCommandParams
     );
     writeColorControlInteractionInfo.put("writeColorPointBIntensityAttribute", writeColorControlColorPointBIntensityAttributeInteractionInfo);
@@ -2849,13 +3601,19 @@ public class ClusterWriteMapping {
         colorControlstartUpColorTemperatureMiredsCommandParameterInfo
     );
     InteractionInfo writeColorControlStartUpColorTemperatureMiredsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ColorControlCluster) cluster).writeStartUpColorTemperatureMiredsAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ColorControl.ID, ClusterIDMapping.ColorControl.Attribute.StartUpColorTemperatureMireds.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ColorControlCluster) cluster).writeStartUpColorTemperatureMiredsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeColorControlStartUpColorTemperatureMiredsCommandParams
     );
     writeColorControlInteractionInfo.put("writeStartUpColorTemperatureMiredsAttribute", writeColorControlStartUpColorTemperatureMiredsAttributeInteractionInfo);
@@ -2873,13 +3631,19 @@ public class ClusterWriteMapping {
         ballastConfigurationminLevelCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationMinLevelAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeMinLevelAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.MinLevel.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeMinLevelAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationMinLevelCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeMinLevelAttribute", writeBallastConfigurationMinLevelAttributeInteractionInfo);
@@ -2895,13 +3659,19 @@ public class ClusterWriteMapping {
         ballastConfigurationmaxLevelCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationMaxLevelAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeMaxLevelAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.MaxLevel.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeMaxLevelAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationMaxLevelCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeMaxLevelAttribute", writeBallastConfigurationMaxLevelAttributeInteractionInfo);
@@ -2917,13 +3687,19 @@ public class ClusterWriteMapping {
         ballastConfigurationintrinsicBallastFactorCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationIntrinsicBallastFactorAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeIntrinsicBallastFactorAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.IntrinsicBallastFactor.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeIntrinsicBallastFactorAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationIntrinsicBallastFactorCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeIntrinsicBallastFactorAttribute", writeBallastConfigurationIntrinsicBallastFactorAttributeInteractionInfo);
@@ -2939,13 +3715,19 @@ public class ClusterWriteMapping {
         ballastConfigurationballastFactorAdjustmentCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationBallastFactorAdjustmentAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeBallastFactorAdjustmentAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.BallastFactorAdjustment.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeBallastFactorAdjustmentAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationBallastFactorAdjustmentCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeBallastFactorAdjustmentAttribute", writeBallastConfigurationBallastFactorAdjustmentAttributeInteractionInfo);
@@ -2961,13 +3743,19 @@ public class ClusterWriteMapping {
         ballastConfigurationlampTypeCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationLampTypeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampTypeAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.LampType.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampTypeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationLampTypeCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeLampTypeAttribute", writeBallastConfigurationLampTypeAttributeInteractionInfo);
@@ -2983,13 +3771,19 @@ public class ClusterWriteMapping {
         ballastConfigurationlampManufacturerCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationLampManufacturerAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampManufacturerAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.LampManufacturer.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampManufacturerAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationLampManufacturerCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeLampManufacturerAttribute", writeBallastConfigurationLampManufacturerAttributeInteractionInfo);
@@ -3005,13 +3799,19 @@ public class ClusterWriteMapping {
         ballastConfigurationlampRatedHoursCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationLampRatedHoursAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampRatedHoursAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.LampRatedHours.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampRatedHoursAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationLampRatedHoursCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeLampRatedHoursAttribute", writeBallastConfigurationLampRatedHoursAttributeInteractionInfo);
@@ -3027,13 +3827,19 @@ public class ClusterWriteMapping {
         ballastConfigurationlampBurnHoursCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationLampBurnHoursAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampBurnHoursAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.LampBurnHours.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampBurnHoursAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationLampBurnHoursCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeLampBurnHoursAttribute", writeBallastConfigurationLampBurnHoursAttributeInteractionInfo);
@@ -3049,13 +3855,19 @@ public class ClusterWriteMapping {
         ballastConfigurationlampAlarmModeCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationLampAlarmModeAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampAlarmModeAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.LampAlarmMode.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampAlarmModeAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationLampAlarmModeCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeLampAlarmModeAttribute", writeBallastConfigurationLampAlarmModeAttributeInteractionInfo);
@@ -3071,13 +3883,19 @@ public class ClusterWriteMapping {
         ballastConfigurationlampBurnHoursTripPointCommandParameterInfo
     );
     InteractionInfo writeBallastConfigurationLampBurnHoursTripPointAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampBurnHoursTripPointAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.BallastConfiguration.ID, ClusterIDMapping.BallastConfiguration.Attribute.LampBurnHoursTripPoint.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.BallastConfigurationCluster) cluster).writeLampBurnHoursTripPointAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeBallastConfigurationLampBurnHoursTripPointCommandParams
     );
     writeBallastConfigurationInteractionInfo.put("writeLampBurnHoursTripPointAttribute", writeBallastConfigurationLampBurnHoursTripPointAttributeInteractionInfo);
@@ -3105,13 +3923,19 @@ public class ClusterWriteMapping {
         occupancySensingPIROccupiedToUnoccupiedDelayCommandParameterInfo
     );
     InteractionInfo writeOccupancySensingPIROccupiedToUnoccupiedDelayAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OccupancySensingCluster) cluster).writePIROccupiedToUnoccupiedDelayAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OccupancySensing.ID, ClusterIDMapping.OccupancySensing.Attribute.PIROccupiedToUnoccupiedDelay.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OccupancySensingCluster) cluster).writePIROccupiedToUnoccupiedDelayAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOccupancySensingPIROccupiedToUnoccupiedDelayCommandParams
     );
     writeOccupancySensingInteractionInfo.put("writePIROccupiedToUnoccupiedDelayAttribute", writeOccupancySensingPIROccupiedToUnoccupiedDelayAttributeInteractionInfo);
@@ -3127,13 +3951,19 @@ public class ClusterWriteMapping {
         occupancySensingPIRUnoccupiedToOccupiedDelayCommandParameterInfo
     );
     InteractionInfo writeOccupancySensingPIRUnoccupiedToOccupiedDelayAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OccupancySensingCluster) cluster).writePIRUnoccupiedToOccupiedDelayAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OccupancySensing.ID, ClusterIDMapping.OccupancySensing.Attribute.PIRUnoccupiedToOccupiedDelay.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OccupancySensingCluster) cluster).writePIRUnoccupiedToOccupiedDelayAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOccupancySensingPIRUnoccupiedToOccupiedDelayCommandParams
     );
     writeOccupancySensingInteractionInfo.put("writePIRUnoccupiedToOccupiedDelayAttribute", writeOccupancySensingPIRUnoccupiedToOccupiedDelayAttributeInteractionInfo);
@@ -3149,13 +3979,19 @@ public class ClusterWriteMapping {
         occupancySensingPIRUnoccupiedToOccupiedThresholdCommandParameterInfo
     );
     InteractionInfo writeOccupancySensingPIRUnoccupiedToOccupiedThresholdAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OccupancySensingCluster) cluster).writePIRUnoccupiedToOccupiedThresholdAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OccupancySensing.ID, ClusterIDMapping.OccupancySensing.Attribute.PIRUnoccupiedToOccupiedThreshold.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OccupancySensingCluster) cluster).writePIRUnoccupiedToOccupiedThresholdAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOccupancySensingPIRUnoccupiedToOccupiedThresholdCommandParams
     );
     writeOccupancySensingInteractionInfo.put("writePIRUnoccupiedToOccupiedThresholdAttribute", writeOccupancySensingPIRUnoccupiedToOccupiedThresholdAttributeInteractionInfo);
@@ -3171,13 +4007,19 @@ public class ClusterWriteMapping {
         occupancySensingultrasonicOccupiedToUnoccupiedDelayCommandParameterInfo
     );
     InteractionInfo writeOccupancySensingUltrasonicOccupiedToUnoccupiedDelayAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OccupancySensingCluster) cluster).writeUltrasonicOccupiedToUnoccupiedDelayAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OccupancySensing.ID, ClusterIDMapping.OccupancySensing.Attribute.UltrasonicOccupiedToUnoccupiedDelay.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OccupancySensingCluster) cluster).writeUltrasonicOccupiedToUnoccupiedDelayAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOccupancySensingUltrasonicOccupiedToUnoccupiedDelayCommandParams
     );
     writeOccupancySensingInteractionInfo.put("writeUltrasonicOccupiedToUnoccupiedDelayAttribute", writeOccupancySensingUltrasonicOccupiedToUnoccupiedDelayAttributeInteractionInfo);
@@ -3193,13 +4035,19 @@ public class ClusterWriteMapping {
         occupancySensingultrasonicUnoccupiedToOccupiedDelayCommandParameterInfo
     );
     InteractionInfo writeOccupancySensingUltrasonicUnoccupiedToOccupiedDelayAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OccupancySensingCluster) cluster).writeUltrasonicUnoccupiedToOccupiedDelayAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OccupancySensing.ID, ClusterIDMapping.OccupancySensing.Attribute.UltrasonicUnoccupiedToOccupiedDelay.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OccupancySensingCluster) cluster).writeUltrasonicUnoccupiedToOccupiedDelayAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOccupancySensingUltrasonicUnoccupiedToOccupiedDelayCommandParams
     );
     writeOccupancySensingInteractionInfo.put("writeUltrasonicUnoccupiedToOccupiedDelayAttribute", writeOccupancySensingUltrasonicUnoccupiedToOccupiedDelayAttributeInteractionInfo);
@@ -3215,13 +4063,19 @@ public class ClusterWriteMapping {
         occupancySensingultrasonicUnoccupiedToOccupiedThresholdCommandParameterInfo
     );
     InteractionInfo writeOccupancySensingUltrasonicUnoccupiedToOccupiedThresholdAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OccupancySensingCluster) cluster).writeUltrasonicUnoccupiedToOccupiedThresholdAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OccupancySensing.ID, ClusterIDMapping.OccupancySensing.Attribute.UltrasonicUnoccupiedToOccupiedThreshold.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OccupancySensingCluster) cluster).writeUltrasonicUnoccupiedToOccupiedThresholdAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOccupancySensingUltrasonicUnoccupiedToOccupiedThresholdCommandParams
     );
     writeOccupancySensingInteractionInfo.put("writeUltrasonicUnoccupiedToOccupiedThresholdAttribute", writeOccupancySensingUltrasonicUnoccupiedToOccupiedThresholdAttributeInteractionInfo);
@@ -3237,13 +4091,19 @@ public class ClusterWriteMapping {
         occupancySensingphysicalContactOccupiedToUnoccupiedDelayCommandParameterInfo
     );
     InteractionInfo writeOccupancySensingPhysicalContactOccupiedToUnoccupiedDelayAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OccupancySensingCluster) cluster).writePhysicalContactOccupiedToUnoccupiedDelayAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OccupancySensing.ID, ClusterIDMapping.OccupancySensing.Attribute.PhysicalContactOccupiedToUnoccupiedDelay.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OccupancySensingCluster) cluster).writePhysicalContactOccupiedToUnoccupiedDelayAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOccupancySensingPhysicalContactOccupiedToUnoccupiedDelayCommandParams
     );
     writeOccupancySensingInteractionInfo.put("writePhysicalContactOccupiedToUnoccupiedDelayAttribute", writeOccupancySensingPhysicalContactOccupiedToUnoccupiedDelayAttributeInteractionInfo);
@@ -3259,13 +4119,19 @@ public class ClusterWriteMapping {
         occupancySensingphysicalContactUnoccupiedToOccupiedDelayCommandParameterInfo
     );
     InteractionInfo writeOccupancySensingPhysicalContactUnoccupiedToOccupiedDelayAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OccupancySensingCluster) cluster).writePhysicalContactUnoccupiedToOccupiedDelayAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OccupancySensing.ID, ClusterIDMapping.OccupancySensing.Attribute.PhysicalContactUnoccupiedToOccupiedDelay.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OccupancySensingCluster) cluster).writePhysicalContactUnoccupiedToOccupiedDelayAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOccupancySensingPhysicalContactUnoccupiedToOccupiedDelayCommandParams
     );
     writeOccupancySensingInteractionInfo.put("writePhysicalContactUnoccupiedToOccupiedDelayAttribute", writeOccupancySensingPhysicalContactUnoccupiedToOccupiedDelayAttributeInteractionInfo);
@@ -3281,13 +4147,19 @@ public class ClusterWriteMapping {
         occupancySensingphysicalContactUnoccupiedToOccupiedThresholdCommandParameterInfo
     );
     InteractionInfo writeOccupancySensingPhysicalContactUnoccupiedToOccupiedThresholdAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.OccupancySensingCluster) cluster).writePhysicalContactUnoccupiedToOccupiedThresholdAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.OccupancySensing.ID, ClusterIDMapping.OccupancySensing.Attribute.PhysicalContactUnoccupiedToOccupiedThreshold.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.OccupancySensingCluster) cluster).writePhysicalContactUnoccupiedToOccupiedThresholdAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeOccupancySensingPhysicalContactUnoccupiedToOccupiedThresholdCommandParams
     );
     writeOccupancySensingInteractionInfo.put("writePhysicalContactUnoccupiedToOccupiedThresholdAttribute", writeOccupancySensingPhysicalContactUnoccupiedToOccupiedThresholdAttributeInteractionInfo);
@@ -3391,13 +4263,19 @@ public class ClusterWriteMapping {
         contentLaunchersupportedStreamingProtocolsCommandParameterInfo
     );
     InteractionInfo writeContentLauncherSupportedStreamingProtocolsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ContentLauncherCluster) cluster).writeSupportedStreamingProtocolsAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ContentLauncher.ID, ClusterIDMapping.ContentLauncher.Attribute.SupportedStreamingProtocols.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ContentLauncherCluster) cluster).writeSupportedStreamingProtocolsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeContentLauncherSupportedStreamingProtocolsCommandParams
     );
     writeContentLauncherInteractionInfo.put("writeSupportedStreamingProtocolsAttribute", writeContentLauncherSupportedStreamingProtocolsAttributeInteractionInfo);
@@ -3423,13 +4301,19 @@ public class ClusterWriteMapping {
         electricalMeasurementaverageRmsVoltageMeasurementPeriodCommandParameterInfo
     );
     InteractionInfo writeElectricalMeasurementAverageRmsVoltageMeasurementPeriodAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeAverageRmsVoltageMeasurementPeriodAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ElectricalMeasurement.ID, ClusterIDMapping.ElectricalMeasurement.Attribute.AverageRmsVoltageMeasurementPeriod.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeAverageRmsVoltageMeasurementPeriodAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeElectricalMeasurementAverageRmsVoltageMeasurementPeriodCommandParams
     );
     writeElectricalMeasurementInteractionInfo.put("writeAverageRmsVoltageMeasurementPeriodAttribute", writeElectricalMeasurementAverageRmsVoltageMeasurementPeriodAttributeInteractionInfo);
@@ -3445,13 +4329,19 @@ public class ClusterWriteMapping {
         electricalMeasurementaverageRmsUnderVoltageCounterCommandParameterInfo
     );
     InteractionInfo writeElectricalMeasurementAverageRmsUnderVoltageCounterAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeAverageRmsUnderVoltageCounterAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ElectricalMeasurement.ID, ClusterIDMapping.ElectricalMeasurement.Attribute.AverageRmsUnderVoltageCounter.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeAverageRmsUnderVoltageCounterAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeElectricalMeasurementAverageRmsUnderVoltageCounterCommandParams
     );
     writeElectricalMeasurementInteractionInfo.put("writeAverageRmsUnderVoltageCounterAttribute", writeElectricalMeasurementAverageRmsUnderVoltageCounterAttributeInteractionInfo);
@@ -3467,13 +4357,19 @@ public class ClusterWriteMapping {
         electricalMeasurementrmsExtremeOverVoltagePeriodCommandParameterInfo
     );
     InteractionInfo writeElectricalMeasurementRmsExtremeOverVoltagePeriodAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeRmsExtremeOverVoltagePeriodAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ElectricalMeasurement.ID, ClusterIDMapping.ElectricalMeasurement.Attribute.RmsExtremeOverVoltagePeriod.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeRmsExtremeOverVoltagePeriodAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeElectricalMeasurementRmsExtremeOverVoltagePeriodCommandParams
     );
     writeElectricalMeasurementInteractionInfo.put("writeRmsExtremeOverVoltagePeriodAttribute", writeElectricalMeasurementRmsExtremeOverVoltagePeriodAttributeInteractionInfo);
@@ -3489,13 +4385,19 @@ public class ClusterWriteMapping {
         electricalMeasurementrmsExtremeUnderVoltagePeriodCommandParameterInfo
     );
     InteractionInfo writeElectricalMeasurementRmsExtremeUnderVoltagePeriodAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeRmsExtremeUnderVoltagePeriodAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ElectricalMeasurement.ID, ClusterIDMapping.ElectricalMeasurement.Attribute.RmsExtremeUnderVoltagePeriod.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeRmsExtremeUnderVoltagePeriodAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeElectricalMeasurementRmsExtremeUnderVoltagePeriodCommandParams
     );
     writeElectricalMeasurementInteractionInfo.put("writeRmsExtremeUnderVoltagePeriodAttribute", writeElectricalMeasurementRmsExtremeUnderVoltagePeriodAttributeInteractionInfo);
@@ -3511,13 +4413,19 @@ public class ClusterWriteMapping {
         electricalMeasurementrmsVoltageSagPeriodCommandParameterInfo
     );
     InteractionInfo writeElectricalMeasurementRmsVoltageSagPeriodAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeRmsVoltageSagPeriodAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ElectricalMeasurement.ID, ClusterIDMapping.ElectricalMeasurement.Attribute.RmsVoltageSagPeriod.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeRmsVoltageSagPeriodAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeElectricalMeasurementRmsVoltageSagPeriodCommandParams
     );
     writeElectricalMeasurementInteractionInfo.put("writeRmsVoltageSagPeriodAttribute", writeElectricalMeasurementRmsVoltageSagPeriodAttributeInteractionInfo);
@@ -3533,13 +4441,19 @@ public class ClusterWriteMapping {
         electricalMeasurementrmsVoltageSwellPeriodCommandParameterInfo
     );
     InteractionInfo writeElectricalMeasurementRmsVoltageSwellPeriodAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeRmsVoltageSwellPeriodAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ElectricalMeasurement.ID, ClusterIDMapping.ElectricalMeasurement.Attribute.RmsVoltageSwellPeriod.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeRmsVoltageSwellPeriodAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeElectricalMeasurementRmsVoltageSwellPeriodCommandParams
     );
     writeElectricalMeasurementInteractionInfo.put("writeRmsVoltageSwellPeriodAttribute", writeElectricalMeasurementRmsVoltageSwellPeriodAttributeInteractionInfo);
@@ -3555,13 +4469,19 @@ public class ClusterWriteMapping {
         electricalMeasurementoverloadAlarmsMaskCommandParameterInfo
     );
     InteractionInfo writeElectricalMeasurementOverloadAlarmsMaskAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeOverloadAlarmsMaskAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ElectricalMeasurement.ID, ClusterIDMapping.ElectricalMeasurement.Attribute.OverloadAlarmsMask.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeOverloadAlarmsMaskAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeElectricalMeasurementOverloadAlarmsMaskCommandParams
     );
     writeElectricalMeasurementInteractionInfo.put("writeOverloadAlarmsMaskAttribute", writeElectricalMeasurementOverloadAlarmsMaskAttributeInteractionInfo);
@@ -3577,13 +4497,19 @@ public class ClusterWriteMapping {
         electricalMeasurementacOverloadAlarmsMaskCommandParameterInfo
     );
     InteractionInfo writeElectricalMeasurementAcOverloadAlarmsMaskAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeAcOverloadAlarmsMaskAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.ElectricalMeasurement.ID, ClusterIDMapping.ElectricalMeasurement.Attribute.AcOverloadAlarmsMask.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.ElectricalMeasurementCluster) cluster).writeAcOverloadAlarmsMaskAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeElectricalMeasurementAcOverloadAlarmsMaskCommandParams
     );
     writeElectricalMeasurementInteractionInfo.put("writeAcOverloadAlarmsMaskAttribute", writeElectricalMeasurementAcOverloadAlarmsMaskAttributeInteractionInfo);
@@ -3601,13 +4527,19 @@ public class ClusterWriteMapping {
         unitTestingbooleanCommandParameterInfo
     );
     InteractionInfo writeUnitTestingBooleanAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeBooleanAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Boolean.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeBooleanAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingBooleanCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeBooleanAttribute", writeUnitTestingBooleanAttributeInteractionInfo);
@@ -3623,13 +4555,19 @@ public class ClusterWriteMapping {
         unitTestingbitmap8CommandParameterInfo
     );
     InteractionInfo writeUnitTestingBitmap8AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeBitmap8Attribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Bitmap8.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeBitmap8Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingBitmap8CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeBitmap8Attribute", writeUnitTestingBitmap8AttributeInteractionInfo);
@@ -3645,13 +4583,19 @@ public class ClusterWriteMapping {
         unitTestingbitmap16CommandParameterInfo
     );
     InteractionInfo writeUnitTestingBitmap16AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeBitmap16Attribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Bitmap16.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeBitmap16Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingBitmap16CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeBitmap16Attribute", writeUnitTestingBitmap16AttributeInteractionInfo);
@@ -3667,13 +4611,19 @@ public class ClusterWriteMapping {
         unitTestingbitmap32CommandParameterInfo
     );
     InteractionInfo writeUnitTestingBitmap32AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeBitmap32Attribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Bitmap32.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeBitmap32Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingBitmap32CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeBitmap32Attribute", writeUnitTestingBitmap32AttributeInteractionInfo);
@@ -3689,13 +4639,19 @@ public class ClusterWriteMapping {
         unitTestingbitmap64CommandParameterInfo
     );
     InteractionInfo writeUnitTestingBitmap64AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeBitmap64Attribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Bitmap64.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeBitmap64Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingBitmap64CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeBitmap64Attribute", writeUnitTestingBitmap64AttributeInteractionInfo);
@@ -3711,13 +4667,19 @@ public class ClusterWriteMapping {
         unitTestingint8uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt8uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt8uAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int8u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt8uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt8uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt8uAttribute", writeUnitTestingInt8uAttributeInteractionInfo);
@@ -3733,13 +4695,19 @@ public class ClusterWriteMapping {
         unitTestingint16uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt16uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt16uAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int16u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt16uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt16uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt16uAttribute", writeUnitTestingInt16uAttributeInteractionInfo);
@@ -3755,13 +4723,19 @@ public class ClusterWriteMapping {
         unitTestingint24uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt24uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt24uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int24u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt24uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt24uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt24uAttribute", writeUnitTestingInt24uAttributeInteractionInfo);
@@ -3777,13 +4751,19 @@ public class ClusterWriteMapping {
         unitTestingint32uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt32uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt32uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int32u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt32uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt32uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt32uAttribute", writeUnitTestingInt32uAttributeInteractionInfo);
@@ -3799,13 +4779,19 @@ public class ClusterWriteMapping {
         unitTestingint40uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt40uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt40uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int40u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt40uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt40uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt40uAttribute", writeUnitTestingInt40uAttributeInteractionInfo);
@@ -3821,13 +4807,19 @@ public class ClusterWriteMapping {
         unitTestingint48uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt48uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt48uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int48u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt48uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt48uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt48uAttribute", writeUnitTestingInt48uAttributeInteractionInfo);
@@ -3843,13 +4835,19 @@ public class ClusterWriteMapping {
         unitTestingint56uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt56uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt56uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int56u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt56uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt56uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt56uAttribute", writeUnitTestingInt56uAttributeInteractionInfo);
@@ -3865,13 +4863,19 @@ public class ClusterWriteMapping {
         unitTestingint64uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt64uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt64uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int64u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt64uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt64uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt64uAttribute", writeUnitTestingInt64uAttributeInteractionInfo);
@@ -3887,13 +4891,19 @@ public class ClusterWriteMapping {
         unitTestingint8sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt8sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt8sAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int8s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt8sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt8sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt8sAttribute", writeUnitTestingInt8sAttributeInteractionInfo);
@@ -3909,13 +4919,19 @@ public class ClusterWriteMapping {
         unitTestingint16sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt16sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt16sAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int16s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt16sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt16sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt16sAttribute", writeUnitTestingInt16sAttributeInteractionInfo);
@@ -3931,13 +4947,19 @@ public class ClusterWriteMapping {
         unitTestingint24sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt24sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt24sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int24s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt24sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt24sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt24sAttribute", writeUnitTestingInt24sAttributeInteractionInfo);
@@ -3953,13 +4975,19 @@ public class ClusterWriteMapping {
         unitTestingint32sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt32sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt32sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int32s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt32sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt32sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt32sAttribute", writeUnitTestingInt32sAttributeInteractionInfo);
@@ -3975,13 +5003,19 @@ public class ClusterWriteMapping {
         unitTestingint40sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt40sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt40sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int40s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt40sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt40sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt40sAttribute", writeUnitTestingInt40sAttributeInteractionInfo);
@@ -3997,13 +5031,19 @@ public class ClusterWriteMapping {
         unitTestingint48sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt48sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt48sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int48s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt48sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt48sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt48sAttribute", writeUnitTestingInt48sAttributeInteractionInfo);
@@ -4019,13 +5059,19 @@ public class ClusterWriteMapping {
         unitTestingint56sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt56sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt56sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int56s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt56sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt56sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt56sAttribute", writeUnitTestingInt56sAttributeInteractionInfo);
@@ -4041,13 +5087,19 @@ public class ClusterWriteMapping {
         unitTestingint64sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingInt64sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeInt64sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Int64s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeInt64sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingInt64sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeInt64sAttribute", writeUnitTestingInt64sAttributeInteractionInfo);
@@ -4063,13 +5115,19 @@ public class ClusterWriteMapping {
         unitTestingenum8CommandParameterInfo
     );
     InteractionInfo writeUnitTestingEnum8AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeEnum8Attribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Enum8.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeEnum8Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingEnum8CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeEnum8Attribute", writeUnitTestingEnum8AttributeInteractionInfo);
@@ -4085,13 +5143,19 @@ public class ClusterWriteMapping {
         unitTestingenum16CommandParameterInfo
     );
     InteractionInfo writeUnitTestingEnum16AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeEnum16Attribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Enum16.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeEnum16Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingEnum16CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeEnum16Attribute", writeUnitTestingEnum16AttributeInteractionInfo);
@@ -4107,13 +5171,19 @@ public class ClusterWriteMapping {
         unitTestingfloatSingleCommandParameterInfo
     );
     InteractionInfo writeUnitTestingFloatSingleAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeFloatSingleAttribute(
-          (DefaultClusterCallback) callback,
-          (Float) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.FloatSingle.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeFloatSingleAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Float) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingFloatSingleCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeFloatSingleAttribute", writeUnitTestingFloatSingleAttributeInteractionInfo);
@@ -4129,13 +5199,19 @@ public class ClusterWriteMapping {
         unitTestingfloatDoubleCommandParameterInfo
     );
     InteractionInfo writeUnitTestingFloatDoubleAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeFloatDoubleAttribute(
-          (DefaultClusterCallback) callback,
-          (Double) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.FloatDouble.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeFloatDoubleAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Double) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingFloatDoubleCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeFloatDoubleAttribute", writeUnitTestingFloatDoubleAttributeInteractionInfo);
@@ -4151,13 +5227,19 @@ public class ClusterWriteMapping {
         unitTestingoctetStringCommandParameterInfo
     );
     InteractionInfo writeUnitTestingOctetStringAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeOctetStringAttribute(
-          (DefaultClusterCallback) callback,
-          (byte[]) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.OctetString.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeOctetStringAttribute(
+//          (DefaultClusterCallback) callback,
+//          (byte[]) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingOctetStringCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeOctetStringAttribute", writeUnitTestingOctetStringAttributeInteractionInfo);
@@ -4173,13 +5255,19 @@ public class ClusterWriteMapping {
         unitTestinglongOctetStringCommandParameterInfo
     );
     InteractionInfo writeUnitTestingLongOctetStringAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeLongOctetStringAttribute(
-          (DefaultClusterCallback) callback,
-          (byte[]) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.LongOctetString.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeLongOctetStringAttribute(
+//          (DefaultClusterCallback) callback,
+//          (byte[]) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingLongOctetStringCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeLongOctetStringAttribute", writeUnitTestingLongOctetStringAttributeInteractionInfo);
@@ -4195,13 +5283,19 @@ public class ClusterWriteMapping {
         unitTestingcharStringCommandParameterInfo
     );
     InteractionInfo writeUnitTestingCharStringAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeCharStringAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.CharString.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeCharStringAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingCharStringCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeCharStringAttribute", writeUnitTestingCharStringAttributeInteractionInfo);
@@ -4217,13 +5311,19 @@ public class ClusterWriteMapping {
         unitTestinglongCharStringCommandParameterInfo
     );
     InteractionInfo writeUnitTestingLongCharStringAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeLongCharStringAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.LongCharString.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeLongCharStringAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingLongCharStringCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeLongCharStringAttribute", writeUnitTestingLongCharStringAttributeInteractionInfo);
@@ -4239,13 +5339,19 @@ public class ClusterWriteMapping {
         unitTestingepochUsCommandParameterInfo
     );
     InteractionInfo writeUnitTestingEpochUsAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeEpochUsAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.EpochUs.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeEpochUsAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingEpochUsCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeEpochUsAttribute", writeUnitTestingEpochUsAttributeInteractionInfo);
@@ -4261,13 +5367,19 @@ public class ClusterWriteMapping {
         unitTestingepochSCommandParameterInfo
     );
     InteractionInfo writeUnitTestingEpochSAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeEpochSAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.EpochS.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeEpochSAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingEpochSCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeEpochSAttribute", writeUnitTestingEpochSAttributeInteractionInfo);
@@ -4283,13 +5395,19 @@ public class ClusterWriteMapping {
         unitTestingvendorIdCommandParameterInfo
     );
     InteractionInfo writeUnitTestingVendorIdAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeVendorIdAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.VendorId.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeVendorIdAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingVendorIdCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeVendorIdAttribute", writeUnitTestingVendorIdAttributeInteractionInfo);
@@ -4305,13 +5423,19 @@ public class ClusterWriteMapping {
         unitTestingenumAttrCommandParameterInfo
     );
     InteractionInfo writeUnitTestingEnumAttrAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeEnumAttrAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.EnumAttr.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeEnumAttrAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingEnumAttrCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeEnumAttrAttribute", writeUnitTestingEnumAttrAttributeInteractionInfo);
@@ -4327,13 +5451,19 @@ public class ClusterWriteMapping {
         unitTestingrangeRestrictedInt8uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingRangeRestrictedInt8uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeRangeRestrictedInt8uAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.RangeRestrictedInt8u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeRangeRestrictedInt8uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingRangeRestrictedInt8uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeRangeRestrictedInt8uAttribute", writeUnitTestingRangeRestrictedInt8uAttributeInteractionInfo);
@@ -4349,13 +5479,19 @@ public class ClusterWriteMapping {
         unitTestingrangeRestrictedInt8sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingRangeRestrictedInt8sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeRangeRestrictedInt8sAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.RangeRestrictedInt8s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeRangeRestrictedInt8sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingRangeRestrictedInt8sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeRangeRestrictedInt8sAttribute", writeUnitTestingRangeRestrictedInt8sAttributeInteractionInfo);
@@ -4371,13 +5507,19 @@ public class ClusterWriteMapping {
         unitTestingrangeRestrictedInt16uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingRangeRestrictedInt16uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeRangeRestrictedInt16uAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.RangeRestrictedInt16u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeRangeRestrictedInt16uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingRangeRestrictedInt16uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeRangeRestrictedInt16uAttribute", writeUnitTestingRangeRestrictedInt16uAttributeInteractionInfo);
@@ -4393,13 +5535,19 @@ public class ClusterWriteMapping {
         unitTestingrangeRestrictedInt16sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingRangeRestrictedInt16sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeRangeRestrictedInt16sAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.RangeRestrictedInt16s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeRangeRestrictedInt16sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingRangeRestrictedInt16sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeRangeRestrictedInt16sAttribute", writeUnitTestingRangeRestrictedInt16sAttributeInteractionInfo);
@@ -4415,13 +5563,19 @@ public class ClusterWriteMapping {
         unitTestingtimedWriteBooleanCommandParameterInfo
     );
     InteractionInfo writeUnitTestingTimedWriteBooleanAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeTimedWriteBooleanAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value"), 10000 
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.TimedWriteBoolean.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeTimedWriteBooleanAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//, 10000 
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingTimedWriteBooleanCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeTimedWriteBooleanAttribute", writeUnitTestingTimedWriteBooleanAttributeInteractionInfo);
@@ -4437,13 +5591,19 @@ public class ClusterWriteMapping {
         unitTestinggeneralErrorBooleanCommandParameterInfo
     );
     InteractionInfo writeUnitTestingGeneralErrorBooleanAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeGeneralErrorBooleanAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.GeneralErrorBoolean.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeGeneralErrorBooleanAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingGeneralErrorBooleanCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeGeneralErrorBooleanAttribute", writeUnitTestingGeneralErrorBooleanAttributeInteractionInfo);
@@ -4459,13 +5619,19 @@ public class ClusterWriteMapping {
         unitTestingclusterErrorBooleanCommandParameterInfo
     );
     InteractionInfo writeUnitTestingClusterErrorBooleanAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeClusterErrorBooleanAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.ClusterErrorBoolean.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeClusterErrorBooleanAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingClusterErrorBooleanCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeClusterErrorBooleanAttribute", writeUnitTestingClusterErrorBooleanAttributeInteractionInfo);
@@ -4481,13 +5647,19 @@ public class ClusterWriteMapping {
         unitTestingunsupportedCommandParameterInfo
     );
     InteractionInfo writeUnitTestingUnsupportedAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeUnsupportedAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.Unsupported.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeUnsupportedAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingUnsupportedCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeUnsupportedAttribute", writeUnitTestingUnsupportedAttributeInteractionInfo);
@@ -4503,13 +5675,19 @@ public class ClusterWriteMapping {
         unitTestingnullableBooleanCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableBooleanAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBooleanAttribute(
-          (DefaultClusterCallback) callback,
-          (Boolean) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableBoolean.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBooleanAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Boolean) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableBooleanCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableBooleanAttribute", writeUnitTestingNullableBooleanAttributeInteractionInfo);
@@ -4525,13 +5703,19 @@ public class ClusterWriteMapping {
         unitTestingnullableBitmap8CommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableBitmap8AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBitmap8Attribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableBitmap8.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBitmap8Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableBitmap8CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableBitmap8Attribute", writeUnitTestingNullableBitmap8AttributeInteractionInfo);
@@ -4547,13 +5731,19 @@ public class ClusterWriteMapping {
         unitTestingnullableBitmap16CommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableBitmap16AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBitmap16Attribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableBitmap16.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBitmap16Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableBitmap16CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableBitmap16Attribute", writeUnitTestingNullableBitmap16AttributeInteractionInfo);
@@ -4569,13 +5759,19 @@ public class ClusterWriteMapping {
         unitTestingnullableBitmap32CommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableBitmap32AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBitmap32Attribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableBitmap32.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBitmap32Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableBitmap32CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableBitmap32Attribute", writeUnitTestingNullableBitmap32AttributeInteractionInfo);
@@ -4591,13 +5787,19 @@ public class ClusterWriteMapping {
         unitTestingnullableBitmap64CommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableBitmap64AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBitmap64Attribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableBitmap64.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableBitmap64Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableBitmap64CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableBitmap64Attribute", writeUnitTestingNullableBitmap64AttributeInteractionInfo);
@@ -4613,13 +5815,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt8uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt8uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt8uAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt8u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt8uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt8uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt8uAttribute", writeUnitTestingNullableInt8uAttributeInteractionInfo);
@@ -4635,13 +5843,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt16uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt16uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt16uAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt16u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt16uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt16uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt16uAttribute", writeUnitTestingNullableInt16uAttributeInteractionInfo);
@@ -4657,13 +5871,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt24uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt24uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt24uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt24u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt24uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt24uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt24uAttribute", writeUnitTestingNullableInt24uAttributeInteractionInfo);
@@ -4679,13 +5899,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt32uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt32uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt32uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt32u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt32uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt32uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt32uAttribute", writeUnitTestingNullableInt32uAttributeInteractionInfo);
@@ -4701,13 +5927,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt40uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt40uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt40uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt40u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt40uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt40uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt40uAttribute", writeUnitTestingNullableInt40uAttributeInteractionInfo);
@@ -4723,13 +5955,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt48uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt48uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt48uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt48u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt48uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt48uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt48uAttribute", writeUnitTestingNullableInt48uAttributeInteractionInfo);
@@ -4745,13 +5983,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt56uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt56uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt56uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt56u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt56uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt56uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt56uAttribute", writeUnitTestingNullableInt56uAttributeInteractionInfo);
@@ -4767,13 +6011,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt64uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt64uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt64uAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt64u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt64uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt64uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt64uAttribute", writeUnitTestingNullableInt64uAttributeInteractionInfo);
@@ -4789,13 +6039,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt8sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt8sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt8sAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt8s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt8sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt8sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt8sAttribute", writeUnitTestingNullableInt8sAttributeInteractionInfo);
@@ -4811,13 +6067,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt16sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt16sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt16sAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt16s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt16sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt16sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt16sAttribute", writeUnitTestingNullableInt16sAttributeInteractionInfo);
@@ -4833,13 +6095,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt24sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt24sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt24sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt24s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt24sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt24sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt24sAttribute", writeUnitTestingNullableInt24sAttributeInteractionInfo);
@@ -4855,13 +6123,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt32sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt32sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt32sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt32s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt32sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt32sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt32sAttribute", writeUnitTestingNullableInt32sAttributeInteractionInfo);
@@ -4877,13 +6151,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt40sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt40sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt40sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt40s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt40sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt40sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt40sAttribute", writeUnitTestingNullableInt40sAttributeInteractionInfo);
@@ -4899,13 +6179,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt48sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt48sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt48sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt48s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt48sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt48sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt48sAttribute", writeUnitTestingNullableInt48sAttributeInteractionInfo);
@@ -4921,13 +6207,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt56sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt56sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt56sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt56s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt56sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt56sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt56sAttribute", writeUnitTestingNullableInt56sAttributeInteractionInfo);
@@ -4943,13 +6235,19 @@ public class ClusterWriteMapping {
         unitTestingnullableInt64sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableInt64sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt64sAttribute(
-          (DefaultClusterCallback) callback,
-          (Long) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableInt64s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableInt64sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Long) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableInt64sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableInt64sAttribute", writeUnitTestingNullableInt64sAttributeInteractionInfo);
@@ -4965,13 +6263,19 @@ public class ClusterWriteMapping {
         unitTestingnullableEnum8CommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableEnum8AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableEnum8Attribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableEnum8.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableEnum8Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableEnum8CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableEnum8Attribute", writeUnitTestingNullableEnum8AttributeInteractionInfo);
@@ -4987,13 +6291,19 @@ public class ClusterWriteMapping {
         unitTestingnullableEnum16CommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableEnum16AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableEnum16Attribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableEnum16.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableEnum16Attribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableEnum16CommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableEnum16Attribute", writeUnitTestingNullableEnum16AttributeInteractionInfo);
@@ -5009,13 +6319,19 @@ public class ClusterWriteMapping {
         unitTestingnullableFloatSingleCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableFloatSingleAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableFloatSingleAttribute(
-          (DefaultClusterCallback) callback,
-          (Float) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableFloatSingle.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableFloatSingleAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Float) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableFloatSingleCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableFloatSingleAttribute", writeUnitTestingNullableFloatSingleAttributeInteractionInfo);
@@ -5031,13 +6347,19 @@ public class ClusterWriteMapping {
         unitTestingnullableFloatDoubleCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableFloatDoubleAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableFloatDoubleAttribute(
-          (DefaultClusterCallback) callback,
-          (Double) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableFloatDouble.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableFloatDoubleAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Double) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableFloatDoubleCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableFloatDoubleAttribute", writeUnitTestingNullableFloatDoubleAttributeInteractionInfo);
@@ -5053,13 +6375,19 @@ public class ClusterWriteMapping {
         unitTestingnullableOctetStringCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableOctetStringAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableOctetStringAttribute(
-          (DefaultClusterCallback) callback,
-          (byte[]) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableOctetString.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableOctetStringAttribute(
+//          (DefaultClusterCallback) callback,
+//          (byte[]) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableOctetStringCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableOctetStringAttribute", writeUnitTestingNullableOctetStringAttributeInteractionInfo);
@@ -5075,13 +6403,19 @@ public class ClusterWriteMapping {
         unitTestingnullableCharStringCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableCharStringAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableCharStringAttribute(
-          (DefaultClusterCallback) callback,
-          (String) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableCharString.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableCharStringAttribute(
+//          (DefaultClusterCallback) callback,
+//          (String) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableCharStringCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableCharStringAttribute", writeUnitTestingNullableCharStringAttributeInteractionInfo);
@@ -5097,13 +6431,19 @@ public class ClusterWriteMapping {
         unitTestingnullableEnumAttrCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableEnumAttrAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableEnumAttrAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableEnumAttr.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableEnumAttrAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableEnumAttrCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableEnumAttrAttribute", writeUnitTestingNullableEnumAttrAttributeInteractionInfo);
@@ -5119,13 +6459,19 @@ public class ClusterWriteMapping {
         unitTestingnullableRangeRestrictedInt8uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableRangeRestrictedInt8uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableRangeRestrictedInt8uAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableRangeRestrictedInt8u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableRangeRestrictedInt8uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableRangeRestrictedInt8uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableRangeRestrictedInt8uAttribute", writeUnitTestingNullableRangeRestrictedInt8uAttributeInteractionInfo);
@@ -5141,13 +6487,19 @@ public class ClusterWriteMapping {
         unitTestingnullableRangeRestrictedInt8sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableRangeRestrictedInt8sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableRangeRestrictedInt8sAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableRangeRestrictedInt8s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableRangeRestrictedInt8sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableRangeRestrictedInt8sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableRangeRestrictedInt8sAttribute", writeUnitTestingNullableRangeRestrictedInt8sAttributeInteractionInfo);
@@ -5163,13 +6515,19 @@ public class ClusterWriteMapping {
         unitTestingnullableRangeRestrictedInt16uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableRangeRestrictedInt16uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableRangeRestrictedInt16uAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableRangeRestrictedInt16u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableRangeRestrictedInt16uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableRangeRestrictedInt16uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableRangeRestrictedInt16uAttribute", writeUnitTestingNullableRangeRestrictedInt16uAttributeInteractionInfo);
@@ -5185,13 +6543,19 @@ public class ClusterWriteMapping {
         unitTestingnullableRangeRestrictedInt16sCommandParameterInfo
     );
     InteractionInfo writeUnitTestingNullableRangeRestrictedInt16sAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeNullableRangeRestrictedInt16sAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.NullableRangeRestrictedInt16s.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeNullableRangeRestrictedInt16sAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingNullableRangeRestrictedInt16sCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeNullableRangeRestrictedInt16sAttribute", writeUnitTestingNullableRangeRestrictedInt16sAttributeInteractionInfo);
@@ -5207,13 +6571,19 @@ public class ClusterWriteMapping {
         unitTestingwriteOnlyInt8uCommandParameterInfo
     );
     InteractionInfo writeUnitTestingWriteOnlyInt8uAttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.UnitTestingCluster) cluster).writeWriteOnlyInt8uAttribute(
-          (DefaultClusterCallback) callback,
-          (Integer) commandArguments.get("value")
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.UnitTesting.ID, ClusterIDMapping.UnitTesting.Attribute.WriteOnlyInt8u.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.UnitTestingCluster) cluster).writeWriteOnlyInt8uAttribute(
+//          (DefaultClusterCallback) callback,
+//          (Integer) commandArguments.get("value")
+//
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       writeUnitTestingWriteOnlyInt8uCommandParams
     );
     writeUnitTestingInteractionInfo.put("writeWriteOnlyInt8uAttribute", writeUnitTestingWriteOnlyInt8uAttributeInteractionInfo);

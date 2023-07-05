@@ -16,13 +16,51 @@
  */
 package chip.devicecontroller;
 
+import chip.clusterinfo.ClusterCommandCallback;
 import chip.clusterinfo.CommandParameterInfo;
+import chip.clusterinfo.CommandResponseInfo;
+import chip.clusterinfo.DelegatedClusterCallback;
 import chip.clusterinfo.InteractionInfo;
+import chip.devicecontroller.model.ChipAttributePath;
+import chip.devicecontroller.model.ChipEventPath;
+import chip.devicecontroller.model.NodeState;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClusterReadMapping {
+  public static abstract class DelegatedReportCallback implements ReportCallback, DelegatedClusterCallback {
+    private ChipAttributePath path;
+    private ClusterCommandCallback callback;
+
+    @Override
+    public void setCallbackDelegate(ClusterCommandCallback callback) {
+      this.callback = callback;
+    }
+
+    public void setAttributePath(ChipAttributePath path) {
+      this.path = path;
+    }
+
+    @Override
+    public void onReport(NodeState nodeState) {
+      byte[] tlv = nodeState.getEndpointState((int)path.getEndpointId().getId()).getClusterState(path.getClusterId().getId()).getAttributeState(path.getAttributeId().getId()).getTlv();
+      Object obj = parseTlv(path, tlv);
+
+      Map<CommandResponseInfo, Object> responseValues = new LinkedHashMap<>();
+      CommandResponseInfo valueKey = new CommandResponseInfo("value", obj.getClass().getSimpleName());
+      responseValues.put(valueKey, obj);
+      callback.onSuccess(responseValues);
+    }
+
+    public abstract Object parseTlv(ChipAttributePath path, byte[] tlv);
+
+    @Override
+    public void onError(ChipAttributePath attributePath, ChipEventPath eventPath, Exception e) {
+      callback.onFailure(e);
+    }
+  }
 
 {% for cluster in clientClusters | sort(attribute='code') %}
   {%-  set typeLookup = idl | createLookupContext(cluster) %}
@@ -32,12 +70,23 @@ public class ClusterReadMapping {
         {#- TODO: add support for struct-typed attributes -#}
         Map<String, CommandParameterInfo> read{{cluster.name}}{{attribute.definition.name | upfirst}}CommandParams = new LinkedHashMap<String, CommandParameterInfo>();
         InteractionInfo read{{cluster.name}}{{attribute.definition.name | upfirst}}AttributeInteractionInfo = new InteractionInfo(
-          (cluster, callback, commandArguments) -> {
-            ((ChipClusters.{{cluster.name}}Cluster) cluster).read{{attribute.definition.name | upfirst}}Attribute(
-              ({{ attribute | chipClustersCallbackName(typeLookup) }}) callback
-            );
+          (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+            DelegatedReportCallback reportCallback = (DelegatedReportCallback) callback;
+            final ChipAttributePath path = ChipAttributePath.newInstance(endpointId, ClusterIDMapping.{{cluster.name}}.ID, ClusterIDMapping.{{cluster.name}}.Attribute.{{attribute.definition.name | upfirst}}.getID());
+            reportCallback.setAttributePath(path);
+            deviceController.readAttributePath(reportCallback, devicePtr, List.of(path), 0);
+//          (cluster, callback, commandArguments) -> {
+//            ((ChipClusters.{{cluster.name}}Cluster) cluster).read{{attribute.definition.name | upfirst}}Attribute(
+//              ({{ attribute | chipClustersCallbackName(typeLookup) }}) callback
+//            );
           },
-          () -> new ClusterInfoMapping.{{ attribute | delegatedCallbackName(typeLookup)}}(),
+          //() -> new ClusterInfoMapping.{{ attribute | delegatedCallbackName(typeLookup)}}(),
+          () -> new DelegatedReportCallback() {
+            @Override
+            public Object parseTlv(ChipAttributePath path, byte[] tlv) {
+              return ChipTLVValueDecoder.decodeAttributeValue(path, tlv);
+            }
+          },
           read{{cluster.name}}{{attribute.definition.name | upfirst}}CommandParams
         );
         result.put("read{{attribute.definition.name | upfirst}}Attribute", read{{cluster.name}}{{attribute.definition.name | upfirst}}AttributeInteractionInfo);
@@ -56,4 +105,3 @@ public class ClusterReadMapping {
         }};
     }
 }
-

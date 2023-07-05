@@ -276,6 +276,16 @@ kotlin_library("onboardingpayload_manual_code_test") {
   kotlinc_flags = [ "-Xlint:deprecation" ]
 }
 
+kotlin_library("chipcluster") {
+  output_name = "ChipCluster.jar"
+
+  deps = [
+    ":tlv"
+  ]
+
+  sources = [ "generated/java/chip/cluster/ChipStructs.kt" ]
+}
+
 group("unit_tests") {
   deps = [
     ":json_to_tlv_to_json_test",
@@ -291,6 +301,7 @@ android_library("java") {
 
   deps = [
     ":tlv",
+    ":chipcluster",
     "${chip_root}/third_party/java_deps:annotation",
   ]
 
@@ -338,6 +349,7 @@ android_library("java") {
     "src/chip/devicecontroller/model/AttributeState.java",
     "src/chip/devicecontroller/model/AttributeWriteRequest.java",
     "src/chip/devicecontroller/model/ChipAttributePath.java",
+    "src/chip/devicecontroller/model/ChipClusterPath.java",
     "src/chip/devicecontroller/model/ChipEventPath.java",
     "src/chip/devicecontroller/model/ChipPathId.java",
     "src/chip/devicecontroller/model/ClusterState.java",

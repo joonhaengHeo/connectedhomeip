@@ -21,21 +21,12 @@ import java.util.Locale;
 import java.util.Objects;
 
 /** An attribute path that should be used for requests. */
-public class ChipAttributePath {
-  private ChipPathId endpointId, clusterId, attributeId;
+public class ChipAttributePath extends ChipClusterPath {
+  private ChipPathId attributeId;
 
   private ChipAttributePath(ChipPathId endpointId, ChipPathId clusterId, ChipPathId attributeId) {
-    this.endpointId = endpointId;
-    this.clusterId = clusterId;
+    super(endpointId, clusterId);
     this.attributeId = attributeId;
-  }
-
-  public ChipPathId getEndpointId() {
-    return endpointId;
-  }
-
-  public ChipPathId getClusterId() {
-    return clusterId;
   }
 
   public ChipPathId getAttributeId() {
@@ -77,5 +68,10 @@ public class ChipAttributePath {
   public static ChipAttributePath newInstance(int endpointId, long clusterId, long attributeId) {
     return new ChipAttributePath(
         ChipPathId.forId(endpointId), ChipPathId.forId(clusterId), ChipPathId.forId(attributeId));
+  }
+
+  public static ChipAttributePath newInstance(ChipClusterPath cluster, long attributeId) {
+    return new ChipAttributePath(
+        cluster.getEndpointId(), cluster.getClusterId(), ChipPathId.forId(attributeId));
   }
 }

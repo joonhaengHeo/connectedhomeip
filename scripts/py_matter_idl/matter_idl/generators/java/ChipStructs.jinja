@@ -1,0 +1,154 @@
+{%- macro encode_value(source, encodable, depth) -%}
+  {%- if encodable.is_nullable -%}
+    {{encode_value(source, encodable.without_nullable(), depth + 1)}}?
+  {%- elif encodable.is_optional -%}
+    Optional<{{encode_value(source, encodable.without_optional(), depth + 1)}}>
+  {%- elif encodable.is_list -%}
+    List<{{encode_value(source, encodable.without_list(), depth + 1)}}>
+  {%- elif encodable.is_struct -%}
+    {%- set struct = encodable.get_underlying_struct() -%}
+    {{source.name}}Cluster{{struct.name}}
+  {%- else -%}
+    {{encodable.boxed_kotlin_type}}
+  {%- endif -%}
+{%- endmacro -%}
+
+{%- macro encode_tlv(encodable, tag, name, depth) %}
+  {%- if encodable.is_nullable -%}
+    if ({{name}} == null) { tlvWriter.putNull({{tag}}) }
+    else {
+      {{encode_tlv(encodable.without_nullable(), tag, name, depth + 1)}}
+    }
+  {%- elif encodable.is_optional -%}
+    if ({{name}}.isPresent) {
+      val opt_{{name}} = {{name}}.get()
+      {{encode_tlv(encodable.without_optional(), tag, "opt_" + name, depth + 1)}}
+    }
+  {%- elif encodable.is_list -%}
+      tlvWriter.startList({{tag}})
+      val iter_{{name}} = {{name}}.iterator()
+      while(iter_{{name}}.hasNext()) {
+        val next = iter_{{name}}.next()
+        {{encode_tlv(encodable.without_list(), "AnonymousTag", "next", depth + 1)}}
+      }
+      tlvWriter.endList()
+  {%- elif encodable.is_struct -%}
+      {{name}}.toTlv({{tag}}, tlvWriter)
+  {%- else -%}
+      tlvWriter.put({{tag}}, {{name}})
+  {%- endif -%}
+{%- endmacro -%}
+
+{%- macro decode_tlv(encodable, tag, name, depth) %}
+  {%- if encodable.is_nullable -%}
+    if ({{name}} == null) { tlvWriter.putNull({{tag}}) }
+    else {
+      {{decode_tlv(encodable.without_nullable(), tag, name, depth + 1)}}
+    }
+  {%- elif encodable.is_optional -%}
+    if ({{name}}.isPresent) {
+      val opt_{{name}} = {{name}}.get()
+      {{decode_tlv(encodable.without_optional(), tag, "opt_" + name, depth + 1)}}
+    }
+  {%- elif encodable.is_list -%}
+      tlvWriter.startList({{tag}})
+      val iter_{{name}} = {{name}}.iterator()
+      while(iter_{{name}}.hasNext()) {
+        val next = iter_{{name}}.next()
+        {{decode_tlv(encodable.without_list(), "AnonymousTag", "next", depth + 1)}}
+      }
+      tlvWriter.endList()
+  {%- elif encodable.is_struct -%}
+      {{name}}.toTlv({{tag}}, tlvWriter)
+  {%- else -%}
+      tlvReader.get({{tag}}, {{name}})
+  {%- endif -%}
+{%- endmacro -%}
+
+{%- macro contextSpecificTag(id) -%}
+  ContextSpecificTag({{id}})
+{%- endmacro -%}
+
+/*
+ *
+ *    Copyright (c) 2023 Project CHIP Authors
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+package chip.devicecontroller.cluster
+
+import chip.tlv.Tag
+import chip.tlv.AnonymousTag
+import chip.tlv.ContextSpecificTag
+import chip.tlv.TlvWriter
+
+import java.util.Optional
+
+class ChipStructs {
+  {%- for cluster in clientClusters | sort(attribute='code') %}
+    {%- set typeLookup = idl | createLookupContext(cluster) %}
+    {%- for struct in cluster.structs -%}{% if not struct.tag %}
+    class {{cluster.name}}Cluster{{struct.name}} (
+      {%- for field in struct.fields %}
+        {%- set encodable = field | asEncodable(typeLookup) %}
+        val {{field.name}}: {{encode_value(cluster, encodable, 0)}}
+        {%- if loop.index0 < loop.length - 1 -%}{{","}}{%- endif -%}
+      {%- endfor -%}) {
+      override fun toString() : String {
+        val builder: StringBuilder = StringBuilder()
+        builder.append("{{cluster.name}}Cluster{{struct.name}} {\n")
+        {%- for field in struct.fields %}
+        builder.append("\t{{field.name}} : ${{field.name}}\n")
+        {%- endfor %}
+        builder.append("}\n")
+        return builder.toString()
+      }
+
+      fun toTlv(tag: Tag, tlvWriter: TlvWriter) {
+        tlvWriter.startStructure(tag)
+        {% for field in struct.fields %}
+          {%- set encodable = field | asEncodable(typeLookup) %}
+          {%- set tag = contextSpecificTag(field.code) -%}
+          {{encode_tlv(encodable, tag, field.name, 0)}}
+        {% endfor -%}
+        tlvWriter.endStructure()
+      }
+
+      fun fromTlv()
+
+      fun toTlv() : ByteArray {
+        val tlvWriter = TlvWriter()
+        toTlv(AnonymousTag, tlvWriter)
+        return tlvWriter.getEncoded()
+      }
+
+      companion object {
+        fun fromTlv(tlv: ByteArray) : {{cluster.name}}Cluster{{struct.name}} {
+          return fromTlv(AnonymousTag, tlv)
+        }
+
+        fun fromTlv(tag: Tag, tlv: ByteArray) : {{cluster.name}}Cluster{{struct.name}} {
+          val tlvReader = TlvReader(tlv)
+          tlvReader.enterStructure(tag)
+          {% for field in struct.fields %}
+            {%- set encodable = field | asEncodable(typeLookup) %}
+            {%- set tag = contextSpecificTag(field.code) -%}
+            {{decode_tlv(encodable, tag, field.name, 0)}}
+          {% endfor -%}
+          exitContainer()
+        }
+      }
+    }
+    {% endif %}{%- endfor -%}
+  {%- endfor -%}
+}
