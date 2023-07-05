@@ -16,14 +16,40 @@
  */
 package chip.devicecontroller;
 
+import chip.clusterinfo.ClusterCommandCallback;
 import chip.clusterinfo.CommandParameterInfo;
+import chip.clusterinfo.CommandResponseInfo;
+import chip.clusterinfo.DelegatedClusterCallback;
 import chip.clusterinfo.InteractionInfo;
 import chip.devicecontroller.ChipClusters.DefaultClusterCallback;
+import chip.devicecontroller.model.AttributeWriteRequest;
+import chip.devicecontroller.model.ChipAttributePath;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClusterWriteMapping {
+  public static class DelegatedWriteCallback implements WriteAttributesCallback, DelegatedClusterCallback {
+    private ClusterCommandCallback callback;
+
+    @Override
+    public void setCallbackDelegate(ClusterCommandCallback callback) {
+      this.callback = callback;
+    }
+
+    @Override
+    public void onResponse(ChipAttributePath attributePath) {
+      Map<CommandResponseInfo, Object> responseValues = new LinkedHashMap<>();
+      callback.onSuccess(responseValues);
+    }
+
+    @Override
+    public void onError(ChipAttributePath attributePath, Exception e) {
+      callback.onFailure(e);
+    }
+  }
+
   public Map<String, Map<String, InteractionInfo>> getWriteAttributeMap() {
     Map<String, Map<String, InteractionInfo>> writeAttributeMap = new HashMap<>();
 
@@ -46,14 +72,19 @@ public class ClusterWriteMapping {
         {{cluster.name | lowfirst_except_acronym}}{{attribute.definition.name | lowfirst_except_acronym}}CommandParameterInfo
     );
     InteractionInfo write{{cluster.name}}{{attribute.definition.name | upfirst}}AttributeInteractionInfo = new InteractionInfo(
-      (cluster, callback, commandArguments) -> {
-        ((ChipClusters.{{cluster.name}}Cluster) cluster).write{{attribute.definition.name | upfirst}}Attribute(
-          (DefaultClusterCallback) callback,
-          ({{ encodable.boxed_java_type }}) commandArguments.get("value")
-          {%- if attribute.requires_timed_write -%}, 10000 {% endif %}
-        );
+      (deviceController, devicePtr, endpointId, callback, commandArguments) -> {
+        final AttributeWriteRequest pathRequest = AttributeWriteRequest.newInstance(endpointId, ClusterIDMapping.{{cluster.name}}.ID, ClusterIDMapping.{{cluster.name}}.Attribute.{{attribute.definition.name | upfirst}}.getID(), null);
+        deviceController.write((DelegatedWriteCallback)callback, devicePtr, List.of(pathRequest), 0, 0);
+//      (cluster, callback, commandArguments) -> {
+//        ((ChipClusters.{{cluster.name}}Cluster) cluster).write{{attribute.definition.name | upfirst}}Attribute(
+//          (DefaultClusterCallback) callback,
+//          ({{ encodable.boxed_java_type }}) commandArguments.get("value")
+//          {%- if attribute.requires_timed_write -%}, 10000 {% endif %}
+//        );
+//      },
       },
-      () -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      //() -> new ClusterInfoMapping.DelegatedDefaultClusterCallback(),
+      () -> new DelegatedWriteCallback(),
       write{{cluster.name}}{{attribute.definition.name | upfirst}}CommandParams
     );
     write{{cluster.name}}InteractionInfo.put("write{{attribute.definition.name | upfirst}}Attribute", write{{cluster.name}}{{attribute.definition.name | upfirst}}AttributeInteractionInfo);

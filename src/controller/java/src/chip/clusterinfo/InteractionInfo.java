@@ -1,6 +1,8 @@
 package chip.clusterinfo;
 
-import chip.devicecontroller.ChipClusters.BaseChipCluster;
+import chip.devicecontroller.ChipDeviceController;
+import chip.devicecontroller.model.ChipClusterPath;
+
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -44,6 +46,6 @@ public class InteractionInfo {
   @FunctionalInterface
   public interface ClusterCommandFunction {
     void invokeCommand(
-        BaseChipCluster cluster, Object callback, Map<String, Object> commandArguments);
+        ChipDeviceController deviceController, long devicePtr, int endpointId, Object callback, Map<String, Object> commandArguments);
   }
 }

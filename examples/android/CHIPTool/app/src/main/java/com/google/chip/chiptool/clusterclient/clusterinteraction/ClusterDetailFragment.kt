@@ -19,6 +19,7 @@ import chip.clusterinfo.DelegatedClusterCallback
 import chip.devicecontroller.ChipClusters
 import chip.devicecontroller.ChipDeviceController
 import chip.devicecontroller.ClusterInfoMapping
+import chip.devicecontroller.model.ChipAttributePath
 import com.google.chip.chiptool.ChipClient
 import com.google.chip.chiptool.ChipClient.getConnectedDevicePointer
 import com.google.chip.chiptool.GenericChipDeviceListener
@@ -43,7 +44,7 @@ class ClusterDetailFragment : Fragment() {
   private lateinit var scope: CoroutineScope
   private var clusterMap: Map<String, ClusterInfo> = ClusterInfoMapping().clusterMap
   private lateinit var selectedClusterInfo: ClusterInfo
-  private lateinit var selectedCluster: ChipClusters.BaseChipCluster
+//  private lateinit var selectedCluster: ChipClusters.BaseChipCluster
   private lateinit var selectedCommandCallback: DelegatedClusterCallback
   private lateinit var selectedInteractionInfo: InteractionInfo
   private var devicePtr by Delegates.notNull<Long>()
@@ -146,7 +147,8 @@ class ClusterDetailFragment : Fragment() {
         )
       }
       selectedInteractionInfo.getCommandFunction()
-        .invokeCommand(selectedCluster, selectedCommandCallback, commandArguments)
+//        .invokeCommand(selectedCluster, selectedCommandCallback, commandArguments)
+        .invokeCommand(deviceController, devicePtr, endpointId, selectedCommandCallback, commandArguments)
     }
   }
 
@@ -162,7 +164,7 @@ class ClusterDetailFragment : Fragment() {
     commandAutoComplete.visibility = View.VISIBLE
     commandAutoComplete.setText(historyCommand.commandName)
     selectedClusterInfo = clusterMap[historyCommand.clusterName]!!
-    selectedCluster = selectedClusterInfo.createClusterFunction.create(devicePtr, endpointId)
+//    selectedCluster = selectedClusterInfo.createClusterFunction.create(devicePtr, endpointId)
     selectedInteractionInfo = selectedClusterInfo.commands[historyCommand.commandName]!!
     selectedCommandCallback = selectedInteractionInfo.commandCallbackSupplier.get()
     setCallbackDelegate(inflater, callbackList)
@@ -237,7 +239,7 @@ class ClusterDetailFragment : Fragment() {
       // when new command is selected, clear all the parameterList and callbackList
       parameterList.removeAllViews()
       callbackList.removeAllViews()
-      selectedCluster = selectedClusterInfo.createClusterFunction.create(devicePtr, endpointId)
+//      selectedCluster = selectedClusterInfo.createClusterFunction.create(devicePtr, endpointId)
       val selectedCommand: String = commandAutoComplete.adapter.getItem(position).toString()
       selectedInteractionInfo = selectedClusterInfo.commands[selectedCommand]!!
       selectedCommandCallback = selectedInteractionInfo.commandCallbackSupplier.get()

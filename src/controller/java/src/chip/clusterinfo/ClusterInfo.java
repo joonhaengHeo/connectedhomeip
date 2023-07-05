@@ -1,22 +1,24 @@
 package chip.clusterinfo;
 
-import chip.devicecontroller.ChipClusters.BaseChipCluster;
 import java.util.Map;
 
 /** ClusterInfo maps commands and provides a constructor function for a cluster. */
 public class ClusterInfo {
-  private final ClusterConstructor createClusterFunction;
+  // private final ClusterConstructor createClusterFunction;
+  private final long clusterId;
   private final Map<String, InteractionInfo> commands;
 
-  public ClusterInfo(
-      ClusterConstructor createClusterFunction, Map<String, InteractionInfo> commands) {
-    this.createClusterFunction = createClusterFunction;
+  // public ClusterInfo(
+      // ClusterConstructor createClusterFunction, Map<String, InteractionInfo> commands) {
+  public ClusterInfo(long clusterId, Map<String, InteractionInfo> commands) {
+    // this.createClusterFunction = createClusterFunction;
+    this.clusterId = clusterId;
     this.commands = commands;
   }
 
-  public ClusterConstructor getCreateClusterFunction() {
-    return createClusterFunction;
-  }
+  // public ClusterConstructor getCreateClusterFunction() {
+  //   return createClusterFunction;
+  // }
 
   public Map<String, InteractionInfo> getCommands() {
     return commands;
@@ -31,8 +33,8 @@ public class ClusterInfo {
    * ClusterInfoMapping, each ClusterConstructor was generated using the intended function. Using
    * lambda function, it only needs to have ptr and endpointId to create the intended cluster.
    */
-  @FunctionalInterface
-  public interface ClusterConstructor {
-    BaseChipCluster create(Long devicePtr, int endpointId);
-  }
+  // @FunctionalInterface
+  // public interface ClusterConstructor {
+  //   BaseChipCluster create(Long devicePtr, int endpointId);
+  // }
 }
