@@ -277,13 +277,13 @@ kotlin_library("onboardingpayload_manual_code_test") {
 }
 
 kotlin_library("chipcluster") {
-  output_name = "ChipCluster.jar"
+  output_name = "CHIPClusters.jar"
 
   deps = [
     ":tlv"
   ]
 
-  sources = [ "generated/java/chip/cluster/ChipStructs.kt" ]
+  sources = [ "src/chip/cluster/TlvReaderExtension.kt", "generated/java/chip/cluster/ChipStructs.kt", "generated/java/chip/cluster/ChipEventStructs.kt", "generated/java/chip/cluster/ClusterIDMapping.kt"]
 }
 
 group("unit_tests") {

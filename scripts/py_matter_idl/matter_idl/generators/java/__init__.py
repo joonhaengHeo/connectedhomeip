@@ -789,3 +789,21 @@ class JavaClassGenerator(__JavaCodeGenerator):
                 'clientClusters': clientClusters,
             }
         )
+
+        self.internal_render_one_output(
+            template_path="ChipEventStructs.jinja",
+            output_file_name="java/chip/cluster/ChipEventStructs.kt",
+            vars={
+                'idl': self.idl,
+                'clientClusters': clientClusters,
+            }
+        )
+
+        self.internal_render_one_output(
+            template_path="ClusterIDMappingKotlin.jinja",
+            output_file_name="java/chip/cluster/ClusterIDMapping.kt",
+            vars={
+                'idl': self.idl,
+                'clientClusters': clientClusters,
+            }
+        )
