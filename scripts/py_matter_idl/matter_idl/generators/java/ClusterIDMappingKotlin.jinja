@@ -14,41 +14,9 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package chip.devicecontroller.cluster
+package chip.devicecontroller
 
 class ClusterIDMapping {
-  interface BaseCluster {
-    fun getID(): Long
-
-    @Throws(NoSuchFieldError::class)
-    fun getAttributeName(id: Long): String
-
-    @Throws(NoSuchFieldError::class)
-    fun getEventName(id: Long): String
-
-    @Throws(NoSuchFieldError::class)
-    fun getCommandName(id: Long): String
-
-    @Throws(IllegalArgumentException::class)
-    fun getAttributeID(name: String): Long
-
-    @Throws(IllegalArgumentException::class)
-    fun getEventID(name: String): Long
-
-    @Throws(IllegalArgumentException::class)
-    fun getCommandID(name: String): Long
-  }
-
-  companion object {
-    fun getCluster(clusterId: Long): BaseCluster {
-      {%- for cluster in clientClusters | sort(attribute='code') %}
-      if (clusterId == {{cluster.name}}.ID) {
-        return {{cluster.name}}();
-      }
-      {%- endfor -%}
-    }
-  }
-
   {%- for cluster in clientClusters | sort(attribute='code') %}
   class {{cluster.name}}: BaseCluster {
     enum class Attribute(val ID: Long) {
@@ -115,7 +83,7 @@ class ClusterIDMapping {
       {%- endfor -%};
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): {{command.name | upfirst}}CommandField {
+        fun value(id: Int): {{command.name | upfirst}}CommandField {
           for (field in {{command.name | upfirst}}CommandField.values()) {
             if (field.ID == id) {
               return field
@@ -159,4 +127,38 @@ class ClusterIDMapping {
     }
   }
   {%- endfor -%}
+  
+  companion object {
+    fun getCluster(clusterId: Long): BaseCluster? {
+      {%- for cluster in clientClusters | sort(attribute='code') %}
+      if (clusterId == {{cluster.name}}.ID) {
+        return {{cluster.name}}()
+      }
+      {%- endfor %}
+      return null
+    }
+  }
+
+  interface BaseCluster {
+    fun getID(): Long
+
+    @Throws(NoSuchFieldError::class)
+    fun getAttributeName(id: Long): String
+
+    @Throws(NoSuchFieldError::class)
+    fun getEventName(id: Long): String
+
+    @Throws(NoSuchFieldError::class)
+    fun getCommandName(id: Long): String
+
+    @Throws(IllegalArgumentException::class)
+    fun getAttributeID(name: String): Long
+
+    @Throws(IllegalArgumentException::class)
+    fun getEventID(name: String): Long
+
+    @Throws(IllegalArgumentException::class)
+    fun getCommandID(name: String): Long
+  }
+
 }

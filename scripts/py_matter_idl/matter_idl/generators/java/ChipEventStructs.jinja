@@ -135,18 +135,7 @@ class ChipEventStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : {{cluster.name}}Cluster{{event.name}}Event {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : {{cluster.name}}Cluster{{event.name}}Event {
           tlvReader.enterStructure(tag)
           {% for field in event.fields %}

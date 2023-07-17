@@ -45,18 +45,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ScenesClusterAttributeValuePair {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ScenesClusterAttributeValuePair {
           tlvReader.enterStructure(tag)
           val attributeID: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -94,18 +83,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ScenesClusterExtensionFieldSet {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ScenesClusterExtensionFieldSet {
           tlvReader.enterStructure(tag)
           val clusterID: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -147,18 +125,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : DescriptorClusterDeviceTypeStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : DescriptorClusterDeviceTypeStruct {
           tlvReader.enterStructure(tag)
           val deviceType: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -211,18 +178,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : BindingClusterTargetStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : BindingClusterTargetStruct {
           tlvReader.enterStructure(tag)
           val node: Optional<Long> = try {
@@ -285,18 +241,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : AccessControlClusterAccessControlTargetStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : AccessControlClusterAccessControlTargetStruct {
           tlvReader.enterStructure(tag)
           val cluster: Long? = try {
@@ -371,18 +316,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : AccessControlClusterAccessControlEntryStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : AccessControlClusterAccessControlEntryStruct {
           tlvReader.enterStructure(tag)
           val privilege: Int = tlvReader.getInt(ContextSpecificTag(1))
@@ -447,18 +381,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : AccessControlClusterAccessControlExtensionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : AccessControlClusterAccessControlExtensionStruct {
           tlvReader.enterStructure(tag)
           val data: ByteArray = tlvReader.getByteArray(ContextSpecificTag(1))
@@ -502,18 +425,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ActionsClusterActionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ActionsClusterActionStruct {
           tlvReader.enterStructure(tag)
           val actionID: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -561,18 +473,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ActionsClusterEndpointListStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ActionsClusterEndpointListStruct {
           tlvReader.enterStructure(tag)
           val endpointListID: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -616,18 +517,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : BasicInformationClusterCapabilityMinimaStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : BasicInformationClusterCapabilityMinimaStruct {
           tlvReader.enterStructure(tag)
           val caseSessionsPerFabric: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -662,18 +552,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : BasicInformationClusterProductAppearanceStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : BasicInformationClusterProductAppearanceStruct {
           tlvReader.enterStructure(tag)
           val finish: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -713,18 +592,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : OtaSoftwareUpdateRequestorClusterProviderLocation {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : OtaSoftwareUpdateRequestorClusterProviderLocation {
           tlvReader.enterStructure(tag)
           val providerNodeID: Long = tlvReader.getLong(ContextSpecificTag(1))
@@ -769,18 +637,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : PowerSourceClusterBatChargeFaultChangeType {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : PowerSourceClusterBatChargeFaultChangeType {
           tlvReader.enterStructure(tag)
           val current: List<Int> = mutableListOf<Int>().apply {
@@ -844,18 +701,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : PowerSourceClusterBatFaultChangeType {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : PowerSourceClusterBatFaultChangeType {
           tlvReader.enterStructure(tag)
           val current: List<Int> = mutableListOf<Int>().apply {
@@ -919,18 +765,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : PowerSourceClusterWiredFaultChangeType {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : PowerSourceClusterWiredFaultChangeType {
           tlvReader.enterStructure(tag)
           val current: List<Int> = mutableListOf<Int>().apply {
@@ -982,18 +817,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : GeneralCommissioningClusterBasicCommissioningInfo {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : GeneralCommissioningClusterBasicCommissioningInfo {
           tlvReader.enterStructure(tag)
           val failSafeExpiryLengthSeconds: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -1025,18 +849,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : NetworkCommissioningClusterNetworkInfoStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : NetworkCommissioningClusterNetworkInfoStruct {
           tlvReader.enterStructure(tag)
           val networkID: ByteArray = tlvReader.getByteArray(ContextSpecificTag(0))
@@ -1086,18 +899,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : NetworkCommissioningClusterThreadInterfaceScanResultStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : NetworkCommissioningClusterThreadInterfaceScanResultStruct {
           tlvReader.enterStructure(tag)
           val panId: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -1147,18 +949,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : NetworkCommissioningClusterWiFiInterfaceScanResultStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : NetworkCommissioningClusterWiFiInterfaceScanResultStruct {
           tlvReader.enterStructure(tag)
           val security: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -1230,18 +1021,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : GeneralDiagnosticsClusterNetworkInterface {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : GeneralDiagnosticsClusterNetworkInterface {
           tlvReader.enterStructure(tag)
           val name: String = tlvReader.getString(ContextSpecificTag(0))
@@ -1330,18 +1110,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : SoftwareDiagnosticsClusterThreadMetricsStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : SoftwareDiagnosticsClusterThreadMetricsStruct {
           tlvReader.enterStructure(tag)
           val id: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -1434,18 +1203,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ThreadNetworkDiagnosticsClusterNeighborTableStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ThreadNetworkDiagnosticsClusterNeighborTableStruct {
           tlvReader.enterStructure(tag)
           val extAddress: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -1529,18 +1287,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ThreadNetworkDiagnosticsClusterOperationalDatasetComponents {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ThreadNetworkDiagnosticsClusterOperationalDatasetComponents {
           tlvReader.enterStructure(tag)
           val activeTimestampPresent: Boolean = tlvReader.getBoolean(ContextSpecificTag(0))
@@ -1606,18 +1353,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ThreadNetworkDiagnosticsClusterRouteTableStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ThreadNetworkDiagnosticsClusterRouteTableStruct {
           tlvReader.enterStructure(tag)
           val extAddress: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -1657,18 +1393,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ThreadNetworkDiagnosticsClusterSecurityPolicy {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ThreadNetworkDiagnosticsClusterSecurityPolicy {
           tlvReader.enterStructure(tag)
           val rotationTime: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -1706,18 +1431,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : TimeSynchronizationClusterDSTOffsetStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : TimeSynchronizationClusterDSTOffsetStruct {
           tlvReader.enterStructure(tag)
           val offset: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -1755,18 +1469,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : TimeSynchronizationClusterFabricScopedTrustedTimeSourceStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : TimeSynchronizationClusterFabricScopedTrustedTimeSourceStruct {
           tlvReader.enterStructure(tag)
           val nodeID: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -1804,18 +1507,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : TimeSynchronizationClusterTimeZoneStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : TimeSynchronizationClusterTimeZoneStruct {
           tlvReader.enterStructure(tag)
           val offset: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -1855,18 +1547,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : TimeSynchronizationClusterTrustedTimeSourceStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : TimeSynchronizationClusterTrustedTimeSourceStruct {
           tlvReader.enterStructure(tag)
           val fabricIndex: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -1902,18 +1583,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : BridgedDeviceBasicInformationClusterProductAppearanceStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : BridgedDeviceBasicInformationClusterProductAppearanceStruct {
           tlvReader.enterStructure(tag)
           val finish: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -1962,18 +1632,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : OperationalCredentialsClusterFabricDescriptorStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : OperationalCredentialsClusterFabricDescriptorStruct {
           tlvReader.enterStructure(tag)
           val rootPublicKey: ByteArray = tlvReader.getByteArray(ContextSpecificTag(1))
@@ -2015,18 +1674,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : OperationalCredentialsClusterNOCStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : OperationalCredentialsClusterNOCStruct {
           tlvReader.enterStructure(tag)
           val noc: ByteArray = tlvReader.getByteArray(ContextSpecificTag(1))
@@ -2079,18 +1727,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : GroupKeyManagementClusterGroupInfoMapStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : GroupKeyManagementClusterGroupInfoMapStruct {
           tlvReader.enterStructure(tag)
           val groupId: Int = tlvReader.getInt(ContextSpecificTag(1))
@@ -2141,18 +1778,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : GroupKeyManagementClusterGroupKeyMapStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : GroupKeyManagementClusterGroupKeyMapStruct {
           tlvReader.enterStructure(tag)
           val groupId: Int = tlvReader.getInt(ContextSpecificTag(1))
@@ -2221,18 +1847,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : GroupKeyManagementClusterGroupKeySetStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : GroupKeyManagementClusterGroupKeySetStruct {
           tlvReader.enterStructure(tag)
           val groupKeySetID: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -2300,18 +1915,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : FixedLabelClusterLabelStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : FixedLabelClusterLabelStruct {
           tlvReader.enterStructure(tag)
           val label: String = tlvReader.getString(ContextSpecificTag(0))
@@ -2343,18 +1947,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : UserLabelClusterLabelStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : UserLabelClusterLabelStruct {
           tlvReader.enterStructure(tag)
           val label: String = tlvReader.getString(ContextSpecificTag(0))
@@ -2392,18 +1985,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : IcdManagementClusterMonitoringRegistrationStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : IcdManagementClusterMonitoringRegistrationStruct {
           tlvReader.enterStructure(tag)
           val checkInNodeID: Long = tlvReader.getLong(ContextSpecificTag(1))
@@ -2437,18 +2019,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ModeSelectClusterSemanticTagStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ModeSelectClusterSemanticTagStruct {
           tlvReader.enterStructure(tag)
           val mfgCode: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -2489,18 +2060,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ModeSelectClusterModeOptionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ModeSelectClusterModeOptionStruct {
           tlvReader.enterStructure(tag)
           val label: String = tlvReader.getString(ContextSpecificTag(0))
@@ -2546,18 +2106,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : LaundryWasherModeClusterModeTagStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : LaundryWasherModeClusterModeTagStruct {
           tlvReader.enterStructure(tag)
           val mfgCode: Optional<Int> = try {
@@ -2602,18 +2151,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : LaundryWasherModeClusterModeOptionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : LaundryWasherModeClusterModeOptionStruct {
           tlvReader.enterStructure(tag)
           val label: String = tlvReader.getString(ContextSpecificTag(0))
@@ -2659,18 +2197,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : RefrigeratorAndTemperatureControlledCabinetModeClusterModeTagStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : RefrigeratorAndTemperatureControlledCabinetModeClusterModeTagStruct {
           tlvReader.enterStructure(tag)
           val mfgCode: Optional<Int> = try {
@@ -2715,18 +2242,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : RefrigeratorAndTemperatureControlledCabinetModeClusterModeOptionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : RefrigeratorAndTemperatureControlledCabinetModeClusterModeOptionStruct {
           tlvReader.enterStructure(tag)
           val label: String = tlvReader.getString(ContextSpecificTag(0))
@@ -2772,18 +2288,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : RvcRunModeClusterModeTagStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : RvcRunModeClusterModeTagStruct {
           tlvReader.enterStructure(tag)
           val mfgCode: Optional<Int> = try {
@@ -2828,18 +2333,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : RvcRunModeClusterModeOptionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : RvcRunModeClusterModeOptionStruct {
           tlvReader.enterStructure(tag)
           val label: String = tlvReader.getString(ContextSpecificTag(0))
@@ -2885,18 +2379,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : RvcCleanModeClusterModeTagStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : RvcCleanModeClusterModeTagStruct {
           tlvReader.enterStructure(tag)
           val mfgCode: Optional<Int> = try {
@@ -2941,18 +2424,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : RvcCleanModeClusterModeOptionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : RvcCleanModeClusterModeOptionStruct {
           tlvReader.enterStructure(tag)
           val label: String = tlvReader.getString(ContextSpecificTag(0))
@@ -2998,18 +2470,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : DishwasherModeClusterModeTagStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : DishwasherModeClusterModeTagStruct {
           tlvReader.enterStructure(tag)
           val mfgCode: Optional<Int> = try {
@@ -3054,18 +2515,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : DishwasherModeClusterModeOptionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : DishwasherModeClusterModeOptionStruct {
           tlvReader.enterStructure(tag)
           val label: String = tlvReader.getString(ContextSpecificTag(0))
@@ -3117,18 +2567,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : OperationalStateClusterErrorStateStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : OperationalStateClusterErrorStateStruct {
           tlvReader.enterStructure(tag)
           val errorStateID: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3172,18 +2611,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : OperationalStateClusterOperationalStateStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : OperationalStateClusterOperationalStateStruct {
           tlvReader.enterStructure(tag)
           val operationalStateID: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3228,18 +2656,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : RvcOperationalStateClusterErrorStateStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : RvcOperationalStateClusterErrorStateStruct {
           tlvReader.enterStructure(tag)
           val errorStateID: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3283,18 +2700,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : RvcOperationalStateClusterOperationalStateStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : RvcOperationalStateClusterOperationalStateStruct {
           tlvReader.enterStructure(tag)
           val operationalStateID: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3330,18 +2736,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : DoorLockClusterCredentialStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : DoorLockClusterCredentialStruct {
           tlvReader.enterStructure(tag)
           val credentialType: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3382,18 +2777,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ThermostatClusterThermostatScheduleTransition {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ThermostatClusterThermostatScheduleTransition {
           tlvReader.enterStructure(tag)
           val transitionTime: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3454,18 +2838,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ChannelClusterChannelInfoStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ChannelClusterChannelInfoStruct {
           tlvReader.enterStructure(tag)
           val majorNumber: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3524,18 +2897,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ChannelClusterLineupInfoStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ChannelClusterLineupInfoStruct {
           tlvReader.enterStructure(tag)
           val operatorName: String = tlvReader.getString(ContextSpecificTag(0))
@@ -3577,18 +2939,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : TargetNavigatorClusterTargetInfoStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : TargetNavigatorClusterTargetInfoStruct {
           tlvReader.enterStructure(tag)
           val identifier: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3623,18 +2974,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : MediaPlaybackClusterPlaybackPositionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : MediaPlaybackClusterPlaybackPositionStruct {
           tlvReader.enterStructure(tag)
           val updatedAt: Long = tlvReader.getLong(ContextSpecificTag(0))
@@ -3677,18 +3017,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : MediaInputClusterInputInfoStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : MediaInputClusterInputInfoStruct {
           tlvReader.enterStructure(tag)
           val index: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3725,18 +3054,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ContentLauncherClusterDimensionStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ContentLauncherClusterDimensionStruct {
           tlvReader.enterStructure(tag)
           val width: Double = tlvReader.getDouble(ContextSpecificTag(0))
@@ -3769,18 +3087,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ContentLauncherClusterAdditionalInfoStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ContentLauncherClusterAdditionalInfoStruct {
           tlvReader.enterStructure(tag)
           val name: String = tlvReader.getString(ContextSpecificTag(0))
@@ -3824,18 +3131,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ContentLauncherClusterParameterStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ContentLauncherClusterParameterStruct {
           tlvReader.enterStructure(tag)
           val type: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -3885,18 +3181,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ContentLauncherClusterContentSearchStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ContentLauncherClusterContentSearchStruct {
           tlvReader.enterStructure(tag)
           val parameterList: List<ContentLauncherClusterParameterStruct> = mutableListOf<ContentLauncherClusterParameterStruct>().apply {
@@ -3949,18 +3234,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ContentLauncherClusterStyleInformationStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ContentLauncherClusterStyleInformationStruct {
           tlvReader.enterStructure(tag)
           val imageURL: Optional<String> = try {
@@ -4032,18 +3306,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ContentLauncherClusterBrandingInformationStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ContentLauncherClusterBrandingInformationStruct {
           tlvReader.enterStructure(tag)
           val providerName: String = tlvReader.getString(ContextSpecificTag(0))
@@ -4102,18 +3365,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : AudioOutputClusterOutputInfoStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : AudioOutputClusterOutputInfoStruct {
           tlvReader.enterStructure(tag)
           val index: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -4146,18 +3398,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ApplicationLauncherClusterApplicationStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ApplicationLauncherClusterApplicationStruct {
           tlvReader.enterStructure(tag)
           val catalogVendorID: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -4192,18 +3433,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ApplicationLauncherClusterApplicationEPStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ApplicationLauncherClusterApplicationEPStruct {
           tlvReader.enterStructure(tag)
           val application: ApplicationLauncherClusterApplicationStruct = ApplicationLauncherClusterApplicationStruct.fromTlv(ContextSpecificTag(0), tlvReader)
@@ -4239,18 +3469,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : ApplicationBasicClusterApplicationStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : ApplicationBasicClusterApplicationStruct {
           tlvReader.enterStructure(tag)
           val catalogVendorID: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -4300,18 +3519,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : UnitTestingClusterSimpleStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : UnitTestingClusterSimpleStruct {
           tlvReader.enterStructure(tag)
           val a: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -4385,18 +3593,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : UnitTestingClusterTestFabricScoped {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : UnitTestingClusterTestFabricScoped {
           tlvReader.enterStructure(tag)
           val fabricSensitiveInt8u: Int = tlvReader.getInt(ContextSpecificTag(1))
@@ -4558,18 +3755,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : UnitTestingClusterNullablesAndOptionalsStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : UnitTestingClusterNullablesAndOptionalsStruct {
           tlvReader.enterStructure(tag)
           val nullableInt: Int? = try {
@@ -4716,18 +3902,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : UnitTestingClusterNestedStruct {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : UnitTestingClusterNestedStruct {
           tlvReader.enterStructure(tag)
           val a: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -4799,18 +3974,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : UnitTestingClusterNestedStructList {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : UnitTestingClusterNestedStructList {
           tlvReader.enterStructure(tag)
           val a: Int = tlvReader.getInt(ContextSpecificTag(0))
@@ -4890,18 +4054,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : UnitTestingClusterDoubleNestedStructList {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : UnitTestingClusterDoubleNestedStructList {
           tlvReader.enterStructure(tag)
           val a: List<UnitTestingClusterNestedStructList> = mutableListOf<UnitTestingClusterNestedStructList>().apply {
@@ -4942,18 +4095,7 @@ class ChipStructs {
         tlvWriter.endStructure()
       }
 
-      fun toTlv() : ByteArray {
-        val tlvWriter = TlvWriter()
-        toTlv(AnonymousTag, tlvWriter)
-        return tlvWriter.getEncoded()
-      }
-
       companion object {
-        fun fromTlv(tlv: ByteArray) : UnitTestingClusterTestListStructOctet {
-          val tlvReader = TlvReader(tlv)
-          return fromTlv(AnonymousTag, tlvReader)
-        }
-
         fun fromTlv(tag: Tag, tlvReader: TlvReader) : UnitTestingClusterTestListStructOctet {
           tlvReader.enterStructure(tag)
           val member1: Long = tlvReader.getLong(ContextSpecificTag(0))

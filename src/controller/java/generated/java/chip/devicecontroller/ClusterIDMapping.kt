@@ -17,430 +17,6 @@
 package chip.devicecontroller.cluster
 
 class ClusterIDMapping {
-  interface BaseCluster {
-    fun getID(): Long
-
-    @Throws(NoSuchFieldError::class)
-    fun getAttributeName(id: Long): String
-
-    @Throws(NoSuchFieldError::class)
-    fun getEventName(id: Long): String
-
-    @Throws(NoSuchFieldError::class)
-    fun getCommandName(id: Long): String
-
-    @Throws(IllegalArgumentException::class)
-    fun getAttributeID(name: String): Long
-
-    @Throws(IllegalArgumentException::class)
-    fun getEventID(name: String): Long
-
-    @Throws(IllegalArgumentException::class)
-    fun getCommandID(name: String): Long
-  }
-
-  companion object {
-    fun getCluster(clusterId: Long): BaseCluster {
-      if (clusterId == Identify.ID) {
-        return Identify();
-      }
-      if (clusterId == Groups.ID) {
-        return Groups();
-      }
-      if (clusterId == Scenes.ID) {
-        return Scenes();
-      }
-      if (clusterId == OnOff.ID) {
-        return OnOff();
-      }
-      if (clusterId == OnOffSwitchConfiguration.ID) {
-        return OnOffSwitchConfiguration();
-      }
-      if (clusterId == LevelControl.ID) {
-        return LevelControl();
-      }
-      if (clusterId == BinaryInputBasic.ID) {
-        return BinaryInputBasic();
-      }
-      if (clusterId == PulseWidthModulation.ID) {
-        return PulseWidthModulation();
-      }
-      if (clusterId == Descriptor.ID) {
-        return Descriptor();
-      }
-      if (clusterId == Binding.ID) {
-        return Binding();
-      }
-      if (clusterId == AccessControl.ID) {
-        return AccessControl();
-      }
-      if (clusterId == Actions.ID) {
-        return Actions();
-      }
-      if (clusterId == BasicInformation.ID) {
-        return BasicInformation();
-      }
-      if (clusterId == OtaSoftwareUpdateProvider.ID) {
-        return OtaSoftwareUpdateProvider();
-      }
-      if (clusterId == OtaSoftwareUpdateRequestor.ID) {
-        return OtaSoftwareUpdateRequestor();
-      }
-      if (clusterId == LocalizationConfiguration.ID) {
-        return LocalizationConfiguration();
-      }
-      if (clusterId == TimeFormatLocalization.ID) {
-        return TimeFormatLocalization();
-      }
-      if (clusterId == UnitLocalization.ID) {
-        return UnitLocalization();
-      }
-      if (clusterId == PowerSourceConfiguration.ID) {
-        return PowerSourceConfiguration();
-      }
-      if (clusterId == PowerSource.ID) {
-        return PowerSource();
-      }
-      if (clusterId == GeneralCommissioning.ID) {
-        return GeneralCommissioning();
-      }
-      if (clusterId == NetworkCommissioning.ID) {
-        return NetworkCommissioning();
-      }
-      if (clusterId == DiagnosticLogs.ID) {
-        return DiagnosticLogs();
-      }
-      if (clusterId == GeneralDiagnostics.ID) {
-        return GeneralDiagnostics();
-      }
-      if (clusterId == SoftwareDiagnostics.ID) {
-        return SoftwareDiagnostics();
-      }
-      if (clusterId == ThreadNetworkDiagnostics.ID) {
-        return ThreadNetworkDiagnostics();
-      }
-      if (clusterId == WiFiNetworkDiagnostics.ID) {
-        return WiFiNetworkDiagnostics();
-      }
-      if (clusterId == EthernetNetworkDiagnostics.ID) {
-        return EthernetNetworkDiagnostics();
-      }
-      if (clusterId == TimeSynchronization.ID) {
-        return TimeSynchronization();
-      }
-      if (clusterId == BridgedDeviceBasicInformation.ID) {
-        return BridgedDeviceBasicInformation();
-      }
-      if (clusterId == Switch.ID) {
-        return Switch();
-      }
-      if (clusterId == AdministratorCommissioning.ID) {
-        return AdministratorCommissioning();
-      }
-      if (clusterId == OperationalCredentials.ID) {
-        return OperationalCredentials();
-      }
-      if (clusterId == GroupKeyManagement.ID) {
-        return GroupKeyManagement();
-      }
-      if (clusterId == FixedLabel.ID) {
-        return FixedLabel();
-      }
-      if (clusterId == UserLabel.ID) {
-        return UserLabel();
-      }
-      if (clusterId == ProxyConfiguration.ID) {
-        return ProxyConfiguration();
-      }
-      if (clusterId == ProxyDiscovery.ID) {
-        return ProxyDiscovery();
-      }
-      if (clusterId == ProxyValid.ID) {
-        return ProxyValid();
-      }
-      if (clusterId == BooleanState.ID) {
-        return BooleanState();
-      }
-      if (clusterId == IcdManagement.ID) {
-        return IcdManagement();
-      }
-      if (clusterId == ModeSelect.ID) {
-        return ModeSelect();
-      }
-      if (clusterId == LaundryWasherMode.ID) {
-        return LaundryWasherMode();
-      }
-      if (clusterId == RefrigeratorAndTemperatureControlledCabinetMode.ID) {
-        return RefrigeratorAndTemperatureControlledCabinetMode();
-      }
-      if (clusterId == LaundryWasherControls.ID) {
-        return LaundryWasherControls();
-      }
-      if (clusterId == RvcRunMode.ID) {
-        return RvcRunMode();
-      }
-      if (clusterId == RvcCleanMode.ID) {
-        return RvcCleanMode();
-      }
-      if (clusterId == TemperatureControl.ID) {
-        return TemperatureControl();
-      }
-      if (clusterId == RefrigeratorAlarm.ID) {
-        return RefrigeratorAlarm();
-      }
-      if (clusterId == DishwasherMode.ID) {
-        return DishwasherMode();
-      }
-      if (clusterId == AirQuality.ID) {
-        return AirQuality();
-      }
-      if (clusterId == SmokeCoAlarm.ID) {
-        return SmokeCoAlarm();
-      }
-      if (clusterId == DishwasherAlarm.ID) {
-        return DishwasherAlarm();
-      }
-      if (clusterId == OperationalState.ID) {
-        return OperationalState();
-      }
-      if (clusterId == RvcOperationalState.ID) {
-        return RvcOperationalState();
-      }
-      if (clusterId == HepaFilterMonitoring.ID) {
-        return HepaFilterMonitoring();
-      }
-      if (clusterId == ActivatedCarbonFilterMonitoring.ID) {
-        return ActivatedCarbonFilterMonitoring();
-      }
-      if (clusterId == CeramicFilterMonitoring.ID) {
-        return CeramicFilterMonitoring();
-      }
-      if (clusterId == ElectrostaticFilterMonitoring.ID) {
-        return ElectrostaticFilterMonitoring();
-      }
-      if (clusterId == UvFilterMonitoring.ID) {
-        return UvFilterMonitoring();
-      }
-      if (clusterId == IonizingFilterMonitoring.ID) {
-        return IonizingFilterMonitoring();
-      }
-      if (clusterId == ZeoliteFilterMonitoring.ID) {
-        return ZeoliteFilterMonitoring();
-      }
-      if (clusterId == OzoneFilterMonitoring.ID) {
-        return OzoneFilterMonitoring();
-      }
-      if (clusterId == WaterTankMonitoring.ID) {
-        return WaterTankMonitoring();
-      }
-      if (clusterId == FuelTankMonitoring.ID) {
-        return FuelTankMonitoring();
-      }
-      if (clusterId == InkCartridgeMonitoring.ID) {
-        return InkCartridgeMonitoring();
-      }
-      if (clusterId == TonerCartridgeMonitoring.ID) {
-        return TonerCartridgeMonitoring();
-      }
-      if (clusterId == DoorLock.ID) {
-        return DoorLock();
-      }
-      if (clusterId == WindowCovering.ID) {
-        return WindowCovering();
-      }
-      if (clusterId == BarrierControl.ID) {
-        return BarrierControl();
-      }
-      if (clusterId == PumpConfigurationAndControl.ID) {
-        return PumpConfigurationAndControl();
-      }
-      if (clusterId == Thermostat.ID) {
-        return Thermostat();
-      }
-      if (clusterId == FanControl.ID) {
-        return FanControl();
-      }
-      if (clusterId == ThermostatUserInterfaceConfiguration.ID) {
-        return ThermostatUserInterfaceConfiguration();
-      }
-      if (clusterId == ColorControl.ID) {
-        return ColorControl();
-      }
-      if (clusterId == BallastConfiguration.ID) {
-        return BallastConfiguration();
-      }
-      if (clusterId == IlluminanceMeasurement.ID) {
-        return IlluminanceMeasurement();
-      }
-      if (clusterId == TemperatureMeasurement.ID) {
-        return TemperatureMeasurement();
-      }
-      if (clusterId == PressureMeasurement.ID) {
-        return PressureMeasurement();
-      }
-      if (clusterId == FlowMeasurement.ID) {
-        return FlowMeasurement();
-      }
-      if (clusterId == RelativeHumidityMeasurement.ID) {
-        return RelativeHumidityMeasurement();
-      }
-      if (clusterId == OccupancySensing.ID) {
-        return OccupancySensing();
-      }
-      if (clusterId == CarbonMonoxideConcentrationMeasurement.ID) {
-        return CarbonMonoxideConcentrationMeasurement();
-      }
-      if (clusterId == CarbonDioxideConcentrationMeasurement.ID) {
-        return CarbonDioxideConcentrationMeasurement();
-      }
-      if (clusterId == EthyleneConcentrationMeasurement.ID) {
-        return EthyleneConcentrationMeasurement();
-      }
-      if (clusterId == EthyleneOxideConcentrationMeasurement.ID) {
-        return EthyleneOxideConcentrationMeasurement();
-      }
-      if (clusterId == HydrogenConcentrationMeasurement.ID) {
-        return HydrogenConcentrationMeasurement();
-      }
-      if (clusterId == HydrogenSulfideConcentrationMeasurement.ID) {
-        return HydrogenSulfideConcentrationMeasurement();
-      }
-      if (clusterId == NitricOxideConcentrationMeasurement.ID) {
-        return NitricOxideConcentrationMeasurement();
-      }
-      if (clusterId == NitrogenDioxideConcentrationMeasurement.ID) {
-        return NitrogenDioxideConcentrationMeasurement();
-      }
-      if (clusterId == OxygenConcentrationMeasurement.ID) {
-        return OxygenConcentrationMeasurement();
-      }
-      if (clusterId == OzoneConcentrationMeasurement.ID) {
-        return OzoneConcentrationMeasurement();
-      }
-      if (clusterId == SulfurDioxideConcentrationMeasurement.ID) {
-        return SulfurDioxideConcentrationMeasurement();
-      }
-      if (clusterId == DissolvedOxygenConcentrationMeasurement.ID) {
-        return DissolvedOxygenConcentrationMeasurement();
-      }
-      if (clusterId == BromateConcentrationMeasurement.ID) {
-        return BromateConcentrationMeasurement();
-      }
-      if (clusterId == ChloraminesConcentrationMeasurement.ID) {
-        return ChloraminesConcentrationMeasurement();
-      }
-      if (clusterId == ChlorineConcentrationMeasurement.ID) {
-        return ChlorineConcentrationMeasurement();
-      }
-      if (clusterId == FecalColiformEColiConcentrationMeasurement.ID) {
-        return FecalColiformEColiConcentrationMeasurement();
-      }
-      if (clusterId == FluorideConcentrationMeasurement.ID) {
-        return FluorideConcentrationMeasurement();
-      }
-      if (clusterId == HaloaceticAcidsConcentrationMeasurement.ID) {
-        return HaloaceticAcidsConcentrationMeasurement();
-      }
-      if (clusterId == TotalTrihalomethanesConcentrationMeasurement.ID) {
-        return TotalTrihalomethanesConcentrationMeasurement();
-      }
-      if (clusterId == TotalColiformBacteriaConcentrationMeasurement.ID) {
-        return TotalColiformBacteriaConcentrationMeasurement();
-      }
-      if (clusterId == TurbidityConcentrationMeasurement.ID) {
-        return TurbidityConcentrationMeasurement();
-      }
-      if (clusterId == CopperConcentrationMeasurement.ID) {
-        return CopperConcentrationMeasurement();
-      }
-      if (clusterId == LeadConcentrationMeasurement.ID) {
-        return LeadConcentrationMeasurement();
-      }
-      if (clusterId == ManganeseConcentrationMeasurement.ID) {
-        return ManganeseConcentrationMeasurement();
-      }
-      if (clusterId == SulfateConcentrationMeasurement.ID) {
-        return SulfateConcentrationMeasurement();
-      }
-      if (clusterId == BromodichloromethaneConcentrationMeasurement.ID) {
-        return BromodichloromethaneConcentrationMeasurement();
-      }
-      if (clusterId == BromoformConcentrationMeasurement.ID) {
-        return BromoformConcentrationMeasurement();
-      }
-      if (clusterId == ChlorodibromomethaneConcentrationMeasurement.ID) {
-        return ChlorodibromomethaneConcentrationMeasurement();
-      }
-      if (clusterId == ChloroformConcentrationMeasurement.ID) {
-        return ChloroformConcentrationMeasurement();
-      }
-      if (clusterId == SodiumConcentrationMeasurement.ID) {
-        return SodiumConcentrationMeasurement();
-      }
-      if (clusterId == Pm25ConcentrationMeasurement.ID) {
-        return Pm25ConcentrationMeasurement();
-      }
-      if (clusterId == FormaldehydeConcentrationMeasurement.ID) {
-        return FormaldehydeConcentrationMeasurement();
-      }
-      if (clusterId == Pm1ConcentrationMeasurement.ID) {
-        return Pm1ConcentrationMeasurement();
-      }
-      if (clusterId == Pm10ConcentrationMeasurement.ID) {
-        return Pm10ConcentrationMeasurement();
-      }
-      if (clusterId == TotalVolatileOrganicCompoundsConcentrationMeasurement.ID) {
-        return TotalVolatileOrganicCompoundsConcentrationMeasurement();
-      }
-      if (clusterId == RadonConcentrationMeasurement.ID) {
-        return RadonConcentrationMeasurement();
-      }
-      if (clusterId == WakeOnLan.ID) {
-        return WakeOnLan();
-      }
-      if (clusterId == Channel.ID) {
-        return Channel();
-      }
-      if (clusterId == TargetNavigator.ID) {
-        return TargetNavigator();
-      }
-      if (clusterId == MediaPlayback.ID) {
-        return MediaPlayback();
-      }
-      if (clusterId == MediaInput.ID) {
-        return MediaInput();
-      }
-      if (clusterId == LowPower.ID) {
-        return LowPower();
-      }
-      if (clusterId == KeypadInput.ID) {
-        return KeypadInput();
-      }
-      if (clusterId == ContentLauncher.ID) {
-        return ContentLauncher();
-      }
-      if (clusterId == AudioOutput.ID) {
-        return AudioOutput();
-      }
-      if (clusterId == ApplicationLauncher.ID) {
-        return ApplicationLauncher();
-      }
-      if (clusterId == ApplicationBasic.ID) {
-        return ApplicationBasic();
-      }
-      if (clusterId == AccountLogin.ID) {
-        return AccountLogin();
-      }
-      if (clusterId == ElectricalMeasurement.ID) {
-        return ElectricalMeasurement();
-      }
-      if (clusterId == UnitTesting.ID) {
-        return UnitTesting();
-      }
-      if (clusterId == FaultInjection.ID) {
-        return FaultInjection();
-      }}
-  }
   class Identify: BaseCluster {
     enum class Attribute(val ID: Long) {
             IdentifyTime(0L), 
@@ -498,7 +74,7 @@ class ClusterIDMapping {
         IdentifyTime(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): IdentifyCommandField {
+        fun value(id: Int): IdentifyCommandField {
           for (field in IdentifyCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -513,7 +89,7 @@ class ClusterIDMapping {
         EffectVariant(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TriggerEffectCommandField {
+        fun value(id: Int): TriggerEffectCommandField {
           for (field in TriggerEffectCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -615,7 +191,7 @@ class ClusterIDMapping {
         GroupName(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): AddGroupCommandField {
+        fun value(id: Int): AddGroupCommandField {
           for (field in AddGroupCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -629,7 +205,7 @@ class ClusterIDMapping {
         GroupID(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ViewGroupCommandField {
+        fun value(id: Int): ViewGroupCommandField {
           for (field in ViewGroupCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -643,7 +219,7 @@ class ClusterIDMapping {
         GroupList(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetGroupMembershipCommandField {
+        fun value(id: Int): GetGroupMembershipCommandField {
           for (field in GetGroupMembershipCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -657,7 +233,7 @@ class ClusterIDMapping {
         GroupID(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RemoveGroupCommandField {
+        fun value(id: Int): RemoveGroupCommandField {
           for (field in RemoveGroupCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -672,7 +248,7 @@ class ClusterIDMapping {
         GroupName(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): AddGroupIfIdentifyingCommandField {
+        fun value(id: Int): AddGroupIfIdentifyingCommandField {
           for (field in AddGroupIfIdentifyingCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -788,7 +364,7 @@ class ClusterIDMapping {
         ExtensionFieldSets(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): AddSceneCommandField {
+        fun value(id: Int): AddSceneCommandField {
           for (field in AddSceneCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -803,7 +379,7 @@ class ClusterIDMapping {
         SceneID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ViewSceneCommandField {
+        fun value(id: Int): ViewSceneCommandField {
           for (field in ViewSceneCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -818,7 +394,7 @@ class ClusterIDMapping {
         SceneID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RemoveSceneCommandField {
+        fun value(id: Int): RemoveSceneCommandField {
           for (field in RemoveSceneCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -832,7 +408,7 @@ class ClusterIDMapping {
         GroupID(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RemoveAllScenesCommandField {
+        fun value(id: Int): RemoveAllScenesCommandField {
           for (field in RemoveAllScenesCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -847,7 +423,7 @@ class ClusterIDMapping {
         SceneID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StoreSceneCommandField {
+        fun value(id: Int): StoreSceneCommandField {
           for (field in StoreSceneCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -863,7 +439,7 @@ class ClusterIDMapping {
         TransitionTime(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RecallSceneCommandField {
+        fun value(id: Int): RecallSceneCommandField {
           for (field in RecallSceneCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -877,7 +453,7 @@ class ClusterIDMapping {
         GroupID(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetSceneMembershipCommandField {
+        fun value(id: Int): GetSceneMembershipCommandField {
           for (field in GetSceneMembershipCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -895,7 +471,7 @@ class ClusterIDMapping {
         ExtensionFieldSets(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): EnhancedAddSceneCommandField {
+        fun value(id: Int): EnhancedAddSceneCommandField {
           for (field in EnhancedAddSceneCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -910,7 +486,7 @@ class ClusterIDMapping {
         SceneID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): EnhancedViewSceneCommandField {
+        fun value(id: Int): EnhancedViewSceneCommandField {
           for (field in EnhancedViewSceneCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -928,7 +504,7 @@ class ClusterIDMapping {
         SceneIdentifierTo(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): CopySceneCommandField {
+        fun value(id: Int): CopySceneCommandField {
           for (field in CopySceneCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1034,7 +610,7 @@ class ClusterIDMapping {
         EffectVariant(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): OffWithEffectCommandField {
+        fun value(id: Int): OffWithEffectCommandField {
           for (field in OffWithEffectCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1050,7 +626,7 @@ class ClusterIDMapping {
         OffWaitTime(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): OnWithTimedOffCommandField {
+        fun value(id: Int): OnWithTimedOffCommandField {
           for (field in OnWithTimedOffCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1252,7 +828,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveToLevelCommandField {
+        fun value(id: Int): MoveToLevelCommandField {
           for (field in MoveToLevelCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1269,7 +845,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveCommandField {
+        fun value(id: Int): MoveCommandField {
           for (field in MoveCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1287,7 +863,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StepCommandField {
+        fun value(id: Int): StepCommandField {
           for (field in StepCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1302,7 +878,7 @@ class ClusterIDMapping {
         OptionsOverride(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StopCommandField {
+        fun value(id: Int): StopCommandField {
           for (field in StopCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1319,7 +895,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveToLevelWithOnOffCommandField {
+        fun value(id: Int): MoveToLevelWithOnOffCommandField {
           for (field in MoveToLevelWithOnOffCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1336,7 +912,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveWithOnOffCommandField {
+        fun value(id: Int): MoveWithOnOffCommandField {
           for (field in MoveWithOnOffCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1354,7 +930,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StepWithOnOffCommandField {
+        fun value(id: Int): StepWithOnOffCommandField {
           for (field in StepWithOnOffCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1369,7 +945,7 @@ class ClusterIDMapping {
         OptionsOverride(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StopWithOnOffCommandField {
+        fun value(id: Int): StopWithOnOffCommandField {
           for (field in StopWithOnOffCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1383,7 +959,7 @@ class ClusterIDMapping {
         Frequency(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveToClosestFrequencyCommandField {
+        fun value(id: Int): MoveToClosestFrequencyCommandField {
           for (field in MoveToClosestFrequencyCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1916,7 +1492,7 @@ class ClusterIDMapping {
         InvokeID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): InstantActionCommandField {
+        fun value(id: Int): InstantActionCommandField {
           for (field in InstantActionCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1932,7 +1508,7 @@ class ClusterIDMapping {
         TransitionTime(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): InstantActionWithTransitionCommandField {
+        fun value(id: Int): InstantActionWithTransitionCommandField {
           for (field in InstantActionWithTransitionCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1947,7 +1523,7 @@ class ClusterIDMapping {
         InvokeID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StartActionCommandField {
+        fun value(id: Int): StartActionCommandField {
           for (field in StartActionCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1963,7 +1539,7 @@ class ClusterIDMapping {
         Duration(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StartActionWithDurationCommandField {
+        fun value(id: Int): StartActionWithDurationCommandField {
           for (field in StartActionWithDurationCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1978,7 +1554,7 @@ class ClusterIDMapping {
         InvokeID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StopActionCommandField {
+        fun value(id: Int): StopActionCommandField {
           for (field in StopActionCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -1993,7 +1569,7 @@ class ClusterIDMapping {
         InvokeID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): PauseActionCommandField {
+        fun value(id: Int): PauseActionCommandField {
           for (field in PauseActionCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2009,7 +1585,7 @@ class ClusterIDMapping {
         Duration(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): PauseActionWithDurationCommandField {
+        fun value(id: Int): PauseActionWithDurationCommandField {
           for (field in PauseActionWithDurationCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2024,7 +1600,7 @@ class ClusterIDMapping {
         InvokeID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ResumeActionCommandField {
+        fun value(id: Int): ResumeActionCommandField {
           for (field in ResumeActionCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2039,7 +1615,7 @@ class ClusterIDMapping {
         InvokeID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): EnableActionCommandField {
+        fun value(id: Int): EnableActionCommandField {
           for (field in EnableActionCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2055,7 +1631,7 @@ class ClusterIDMapping {
         Duration(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): EnableActionWithDurationCommandField {
+        fun value(id: Int): EnableActionWithDurationCommandField {
           for (field in EnableActionWithDurationCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2070,7 +1646,7 @@ class ClusterIDMapping {
         InvokeID(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): DisableActionCommandField {
+        fun value(id: Int): DisableActionCommandField {
           for (field in DisableActionCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2086,7 +1662,7 @@ class ClusterIDMapping {
         Duration(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): DisableActionWithDurationCommandField {
+        fun value(id: Int): DisableActionWithDurationCommandField {
           for (field in DisableActionWithDurationCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2296,7 +1872,7 @@ class ClusterIDMapping {
         MetadataForProvider(7);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): QueryImageCommandField {
+        fun value(id: Int): QueryImageCommandField {
           for (field in QueryImageCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2311,7 +1887,7 @@ class ClusterIDMapping {
         NewVersion(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ApplyUpdateRequestCommandField {
+        fun value(id: Int): ApplyUpdateRequestCommandField {
           for (field in ApplyUpdateRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2326,7 +1902,7 @@ class ClusterIDMapping {
         SoftwareVersion(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): NotifyUpdateAppliedCommandField {
+        fun value(id: Int): NotifyUpdateAppliedCommandField {
           for (field in NotifyUpdateAppliedCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2432,7 +2008,7 @@ class ClusterIDMapping {
         Endpoint(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): AnnounceOTAProviderCommandField {
+        fun value(id: Int): AnnounceOTAProviderCommandField {
           for (field in AnnounceOTAProviderCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2976,7 +2552,7 @@ class ClusterIDMapping {
         Breadcrumb(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ArmFailSafeCommandField {
+        fun value(id: Int): ArmFailSafeCommandField {
           for (field in ArmFailSafeCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -2992,7 +2568,7 @@ class ClusterIDMapping {
         Breadcrumb(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetRegulatoryConfigCommandField {
+        fun value(id: Int): SetRegulatoryConfigCommandField {
           for (field in SetRegulatoryConfigCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3101,7 +2677,7 @@ class ClusterIDMapping {
         Breadcrumb(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ScanNetworksCommandField {
+        fun value(id: Int): ScanNetworksCommandField {
           for (field in ScanNetworksCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3117,7 +2693,7 @@ class ClusterIDMapping {
         Breadcrumb(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): AddOrUpdateWiFiNetworkCommandField {
+        fun value(id: Int): AddOrUpdateWiFiNetworkCommandField {
           for (field in AddOrUpdateWiFiNetworkCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3132,7 +2708,7 @@ class ClusterIDMapping {
         Breadcrumb(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): AddOrUpdateThreadNetworkCommandField {
+        fun value(id: Int): AddOrUpdateThreadNetworkCommandField {
           for (field in AddOrUpdateThreadNetworkCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3147,7 +2723,7 @@ class ClusterIDMapping {
         Breadcrumb(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RemoveNetworkCommandField {
+        fun value(id: Int): RemoveNetworkCommandField {
           for (field in RemoveNetworkCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3162,7 +2738,7 @@ class ClusterIDMapping {
         Breadcrumb(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ConnectNetworkCommandField {
+        fun value(id: Int): ConnectNetworkCommandField {
           for (field in ConnectNetworkCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3178,7 +2754,7 @@ class ClusterIDMapping {
         Breadcrumb(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ReorderNetworkCommandField {
+        fun value(id: Int): ReorderNetworkCommandField {
           for (field in ReorderNetworkCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3275,7 +2851,7 @@ class ClusterIDMapping {
         TransferFileDesignator(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RetrieveLogsRequestCommandField {
+        fun value(id: Int): RetrieveLogsRequestCommandField {
           for (field in RetrieveLogsRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3384,7 +2960,7 @@ class ClusterIDMapping {
         EventTrigger(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestEventTriggerCommandField {
+        fun value(id: Int): TestEventTriggerCommandField {
           for (field in TestEventTriggerCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3922,7 +3498,7 @@ class ClusterIDMapping {
         TimeSource(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetUTCTimeCommandField {
+        fun value(id: Int): SetUTCTimeCommandField {
           for (field in SetUTCTimeCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3936,7 +3512,7 @@ class ClusterIDMapping {
         TrustedTimeSource(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetTrustedTimeSourceCommandField {
+        fun value(id: Int): SetTrustedTimeSourceCommandField {
           for (field in SetTrustedTimeSourceCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3950,7 +3526,7 @@ class ClusterIDMapping {
         TimeZone(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetTimeZoneCommandField {
+        fun value(id: Int): SetTimeZoneCommandField {
           for (field in SetTimeZoneCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3964,7 +3540,7 @@ class ClusterIDMapping {
         DSTOffset(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetDSTOffsetCommandField {
+        fun value(id: Int): SetDSTOffsetCommandField {
           for (field in SetDSTOffsetCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -3978,7 +3554,7 @@ class ClusterIDMapping {
         DefaultNTP(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetDefaultNTPCommandField {
+        fun value(id: Int): SetDefaultNTPCommandField {
           for (field in SetDefaultNTPCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4272,7 +3848,7 @@ class ClusterIDMapping {
         Salt(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): OpenCommissioningWindowCommandField {
+        fun value(id: Int): OpenCommissioningWindowCommandField {
           for (field in OpenCommissioningWindowCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4286,7 +3862,7 @@ class ClusterIDMapping {
         CommissioningTimeout(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): OpenBasicCommissioningWindowCommandField {
+        fun value(id: Int): OpenBasicCommissioningWindowCommandField {
           for (field in OpenBasicCommissioningWindowCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4394,7 +3970,7 @@ class ClusterIDMapping {
         AttestationNonce(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): AttestationRequestCommandField {
+        fun value(id: Int): AttestationRequestCommandField {
           for (field in AttestationRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4408,7 +3984,7 @@ class ClusterIDMapping {
         CertificateType(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): CertificateChainRequestCommandField {
+        fun value(id: Int): CertificateChainRequestCommandField {
           for (field in CertificateChainRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4423,7 +3999,7 @@ class ClusterIDMapping {
         IsForUpdateNOC(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): CSRRequestCommandField {
+        fun value(id: Int): CSRRequestCommandField {
           for (field in CSRRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4441,7 +4017,7 @@ class ClusterIDMapping {
         AdminVendorId(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): AddNOCCommandField {
+        fun value(id: Int): AddNOCCommandField {
           for (field in AddNOCCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4456,7 +4032,7 @@ class ClusterIDMapping {
         ICACValue(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): UpdateNOCCommandField {
+        fun value(id: Int): UpdateNOCCommandField {
           for (field in UpdateNOCCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4470,7 +4046,7 @@ class ClusterIDMapping {
         Label(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): UpdateFabricLabelCommandField {
+        fun value(id: Int): UpdateFabricLabelCommandField {
           for (field in UpdateFabricLabelCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4484,7 +4060,7 @@ class ClusterIDMapping {
         FabricIndex(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RemoveFabricCommandField {
+        fun value(id: Int): RemoveFabricCommandField {
           for (field in RemoveFabricCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4498,7 +4074,7 @@ class ClusterIDMapping {
         RootCACertificate(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): AddTrustedRootCertificateCommandField {
+        fun value(id: Int): AddTrustedRootCertificateCommandField {
           for (field in AddTrustedRootCertificateCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4600,7 +4176,7 @@ class ClusterIDMapping {
         GroupKeySet(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): KeySetWriteCommandField {
+        fun value(id: Int): KeySetWriteCommandField {
           for (field in KeySetWriteCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4614,7 +4190,7 @@ class ClusterIDMapping {
         GroupKeySetID(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): KeySetReadCommandField {
+        fun value(id: Int): KeySetReadCommandField {
           for (field in KeySetReadCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -4628,7 +4204,7 @@ class ClusterIDMapping {
         GroupKeySetID(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): KeySetRemoveCommandField {
+        fun value(id: Int): KeySetRemoveCommandField {
           for (field in KeySetRemoveCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -5218,7 +4794,7 @@ class ClusterIDMapping {
         VerificationKey(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RegisterClientCommandField {
+        fun value(id: Int): RegisterClientCommandField {
           for (field in RegisterClientCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -5233,7 +4809,7 @@ class ClusterIDMapping {
         Key(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): UnregisterClientCommandField {
+        fun value(id: Int): UnregisterClientCommandField {
           for (field in UnregisterClientCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -5334,7 +4910,7 @@ class ClusterIDMapping {
         NewMode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ChangeToModeCommandField {
+        fun value(id: Int): ChangeToModeCommandField {
           for (field in ChangeToModeCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -5433,7 +5009,7 @@ class ClusterIDMapping {
         NewMode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ChangeToModeCommandField {
+        fun value(id: Int): ChangeToModeCommandField {
           for (field in ChangeToModeCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -5532,7 +5108,7 @@ class ClusterIDMapping {
         NewMode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ChangeToModeCommandField {
+        fun value(id: Int): ChangeToModeCommandField {
           for (field in ChangeToModeCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -5715,7 +5291,7 @@ class ClusterIDMapping {
         NewMode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ChangeToModeCommandField {
+        fun value(id: Int): ChangeToModeCommandField {
           for (field in ChangeToModeCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -5814,7 +5390,7 @@ class ClusterIDMapping {
         NewMode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ChangeToModeCommandField {
+        fun value(id: Int): ChangeToModeCommandField {
           for (field in ChangeToModeCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -5916,7 +5492,7 @@ class ClusterIDMapping {
         TargetTemperatureLevel(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetTemperatureCommandField {
+        fun value(id: Int): SetTemperatureCommandField {
           for (field in SetTemperatureCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -6099,7 +5675,7 @@ class ClusterIDMapping {
         NewMode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ChangeToModeCommandField {
+        fun value(id: Int): ChangeToModeCommandField {
           for (field in ChangeToModeCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -6386,7 +5962,7 @@ class ClusterIDMapping {
         Alarms(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ResetCommandField {
+        fun value(id: Int): ResetCommandField {
           for (field in ResetCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -6400,7 +5976,7 @@ class ClusterIDMapping {
         Mask(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ModifyEnabledAlarmsCommandField {
+        fun value(id: Int): ModifyEnabledAlarmsCommandField {
           for (field in ModifyEnabledAlarmsCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7758,7 +7334,7 @@ class ClusterIDMapping {
         PINCode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): LockDoorCommandField {
+        fun value(id: Int): LockDoorCommandField {
           for (field in LockDoorCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7772,7 +7348,7 @@ class ClusterIDMapping {
         PINCode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): UnlockDoorCommandField {
+        fun value(id: Int): UnlockDoorCommandField {
           for (field in UnlockDoorCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7787,7 +7363,7 @@ class ClusterIDMapping {
         PINCode(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): UnlockWithTimeoutCommandField {
+        fun value(id: Int): UnlockWithTimeoutCommandField {
           for (field in UnlockWithTimeoutCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7807,7 +7383,7 @@ class ClusterIDMapping {
         EndMinute(6);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetWeekDayScheduleCommandField {
+        fun value(id: Int): SetWeekDayScheduleCommandField {
           for (field in SetWeekDayScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7822,7 +7398,7 @@ class ClusterIDMapping {
         UserIndex(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetWeekDayScheduleCommandField {
+        fun value(id: Int): GetWeekDayScheduleCommandField {
           for (field in GetWeekDayScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7837,7 +7413,7 @@ class ClusterIDMapping {
         UserIndex(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ClearWeekDayScheduleCommandField {
+        fun value(id: Int): ClearWeekDayScheduleCommandField {
           for (field in ClearWeekDayScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7854,7 +7430,7 @@ class ClusterIDMapping {
         LocalEndTime(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetYearDayScheduleCommandField {
+        fun value(id: Int): SetYearDayScheduleCommandField {
           for (field in SetYearDayScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7869,7 +7445,7 @@ class ClusterIDMapping {
         UserIndex(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetYearDayScheduleCommandField {
+        fun value(id: Int): GetYearDayScheduleCommandField {
           for (field in GetYearDayScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7884,7 +7460,7 @@ class ClusterIDMapping {
         UserIndex(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ClearYearDayScheduleCommandField {
+        fun value(id: Int): ClearYearDayScheduleCommandField {
           for (field in ClearYearDayScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7901,7 +7477,7 @@ class ClusterIDMapping {
         OperatingMode(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetHolidayScheduleCommandField {
+        fun value(id: Int): SetHolidayScheduleCommandField {
           for (field in SetHolidayScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7915,7 +7491,7 @@ class ClusterIDMapping {
         HolidayIndex(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetHolidayScheduleCommandField {
+        fun value(id: Int): GetHolidayScheduleCommandField {
           for (field in GetHolidayScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7929,7 +7505,7 @@ class ClusterIDMapping {
         HolidayIndex(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ClearHolidayScheduleCommandField {
+        fun value(id: Int): ClearHolidayScheduleCommandField {
           for (field in ClearHolidayScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7949,7 +7525,7 @@ class ClusterIDMapping {
         CredentialRule(6);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetUserCommandField {
+        fun value(id: Int): SetUserCommandField {
           for (field in SetUserCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7963,7 +7539,7 @@ class ClusterIDMapping {
         UserIndex(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetUserCommandField {
+        fun value(id: Int): GetUserCommandField {
           for (field in GetUserCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7977,7 +7553,7 @@ class ClusterIDMapping {
         UserIndex(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ClearUserCommandField {
+        fun value(id: Int): ClearUserCommandField {
           for (field in ClearUserCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -7996,7 +7572,7 @@ class ClusterIDMapping {
         UserType(5);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetCredentialCommandField {
+        fun value(id: Int): SetCredentialCommandField {
           for (field in SetCredentialCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8010,7 +7586,7 @@ class ClusterIDMapping {
         Credential(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetCredentialStatusCommandField {
+        fun value(id: Int): GetCredentialStatusCommandField {
           for (field in GetCredentialStatusCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8024,7 +7600,7 @@ class ClusterIDMapping {
         Credential(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ClearCredentialCommandField {
+        fun value(id: Int): ClearCredentialCommandField {
           for (field in ClearCredentialCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8038,7 +7614,7 @@ class ClusterIDMapping {
         PINCode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): UnboltDoorCommandField {
+        fun value(id: Int): UnboltDoorCommandField {
           for (field in UnboltDoorCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8161,7 +7737,7 @@ class ClusterIDMapping {
         LiftValue(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GoToLiftValueCommandField {
+        fun value(id: Int): GoToLiftValueCommandField {
           for (field in GoToLiftValueCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8175,7 +7751,7 @@ class ClusterIDMapping {
         LiftPercent100thsValue(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GoToLiftPercentageCommandField {
+        fun value(id: Int): GoToLiftPercentageCommandField {
           for (field in GoToLiftPercentageCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8189,7 +7765,7 @@ class ClusterIDMapping {
         TiltValue(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GoToTiltValueCommandField {
+        fun value(id: Int): GoToTiltValueCommandField {
           for (field in GoToTiltValueCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8203,7 +7779,7 @@ class ClusterIDMapping {
         TiltPercent100thsValue(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GoToTiltPercentageCommandField {
+        fun value(id: Int): GoToTiltPercentageCommandField {
           for (field in GoToTiltPercentageCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8309,7 +7885,7 @@ class ClusterIDMapping {
         PercentOpen(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): BarrierControlGoToPercentCommandField {
+        fun value(id: Int): BarrierControlGoToPercentCommandField {
           for (field in BarrierControlGoToPercentCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8577,7 +8153,7 @@ class ClusterIDMapping {
         Amount(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetpointRaiseLowerCommandField {
+        fun value(id: Int): SetpointRaiseLowerCommandField {
           for (field in SetpointRaiseLowerCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8594,7 +8170,7 @@ class ClusterIDMapping {
         Transitions(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SetWeeklyScheduleCommandField {
+        fun value(id: Int): SetWeeklyScheduleCommandField {
           for (field in SetWeeklyScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8609,7 +8185,7 @@ class ClusterIDMapping {
         ModeToReturn(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetWeeklyScheduleCommandField {
+        fun value(id: Int): GetWeeklyScheduleCommandField {
           for (field in GetWeeklyScheduleCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8718,7 +8294,7 @@ class ClusterIDMapping {
         LowestOff(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StepCommandField {
+        fun value(id: Int): StepCommandField {
           for (field in StepCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8970,7 +8546,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveToHueCommandField {
+        fun value(id: Int): MoveToHueCommandField {
           for (field in MoveToHueCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -8987,7 +8563,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveHueCommandField {
+        fun value(id: Int): MoveHueCommandField {
           for (field in MoveHueCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9005,7 +8581,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StepHueCommandField {
+        fun value(id: Int): StepHueCommandField {
           for (field in StepHueCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9022,7 +8598,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveToSaturationCommandField {
+        fun value(id: Int): MoveToSaturationCommandField {
           for (field in MoveToSaturationCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9039,7 +8615,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveSaturationCommandField {
+        fun value(id: Int): MoveSaturationCommandField {
           for (field in MoveSaturationCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9057,7 +8633,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StepSaturationCommandField {
+        fun value(id: Int): StepSaturationCommandField {
           for (field in StepSaturationCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9075,7 +8651,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveToHueAndSaturationCommandField {
+        fun value(id: Int): MoveToHueAndSaturationCommandField {
           for (field in MoveToHueAndSaturationCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9093,7 +8669,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveToColorCommandField {
+        fun value(id: Int): MoveToColorCommandField {
           for (field in MoveToColorCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9110,7 +8686,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveColorCommandField {
+        fun value(id: Int): MoveColorCommandField {
           for (field in MoveColorCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9128,7 +8704,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StepColorCommandField {
+        fun value(id: Int): StepColorCommandField {
           for (field in StepColorCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9145,7 +8721,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveToColorTemperatureCommandField {
+        fun value(id: Int): MoveToColorTemperatureCommandField {
           for (field in MoveToColorTemperatureCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9163,7 +8739,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): EnhancedMoveToHueCommandField {
+        fun value(id: Int): EnhancedMoveToHueCommandField {
           for (field in EnhancedMoveToHueCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9180,7 +8756,7 @@ class ClusterIDMapping {
         OptionsOverride(3);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): EnhancedMoveHueCommandField {
+        fun value(id: Int): EnhancedMoveHueCommandField {
           for (field in EnhancedMoveHueCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9198,7 +8774,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): EnhancedStepHueCommandField {
+        fun value(id: Int): EnhancedStepHueCommandField {
           for (field in EnhancedStepHueCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9216,7 +8792,7 @@ class ClusterIDMapping {
         OptionsOverride(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): EnhancedMoveToHueAndSaturationCommandField {
+        fun value(id: Int): EnhancedMoveToHueAndSaturationCommandField {
           for (field in EnhancedMoveToHueAndSaturationCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9236,7 +8812,7 @@ class ClusterIDMapping {
         OptionsOverride(6);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ColorLoopSetCommandField {
+        fun value(id: Int): ColorLoopSetCommandField {
           for (field in ColorLoopSetCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9251,7 +8827,7 @@ class ClusterIDMapping {
         OptionsOverride(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StopMoveStepCommandField {
+        fun value(id: Int): StopMoveStepCommandField {
           for (field in StopMoveStepCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9270,7 +8846,7 @@ class ClusterIDMapping {
         OptionsOverride(5);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): MoveColorTemperatureCommandField {
+        fun value(id: Int): MoveColorTemperatureCommandField {
           for (field in MoveColorTemperatureCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -9290,7 +8866,7 @@ class ClusterIDMapping {
         OptionsOverride(6);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StepColorTemperatureCommandField {
+        fun value(id: Int): StepColorTemperatureCommandField {
           for (field in StepColorTemperatureCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13359,7 +12935,7 @@ class ClusterIDMapping {
         Match(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ChangeChannelCommandField {
+        fun value(id: Int): ChangeChannelCommandField {
           for (field in ChangeChannelCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13374,7 +12950,7 @@ class ClusterIDMapping {
         MinorNumber(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): ChangeChannelByNumberCommandField {
+        fun value(id: Int): ChangeChannelByNumberCommandField {
           for (field in ChangeChannelByNumberCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13388,7 +12964,7 @@ class ClusterIDMapping {
         Count(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SkipChannelCommandField {
+        fun value(id: Int): SkipChannelCommandField {
           for (field in SkipChannelCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13486,7 +13062,7 @@ class ClusterIDMapping {
         Data(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): NavigateTargetCommandField {
+        fun value(id: Int): NavigateTargetCommandField {
           for (field in NavigateTargetCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13598,7 +13174,7 @@ class ClusterIDMapping {
         DeltaPositionMilliseconds(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SkipForwardCommandField {
+        fun value(id: Int): SkipForwardCommandField {
           for (field in SkipForwardCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13612,7 +13188,7 @@ class ClusterIDMapping {
         DeltaPositionMilliseconds(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SkipBackwardCommandField {
+        fun value(id: Int): SkipBackwardCommandField {
           for (field in SkipBackwardCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13626,7 +13202,7 @@ class ClusterIDMapping {
         Position(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SeekCommandField {
+        fun value(id: Int): SeekCommandField {
           for (field in SeekCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13726,7 +13302,7 @@ class ClusterIDMapping {
         Index(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SelectInputCommandField {
+        fun value(id: Int): SelectInputCommandField {
           for (field in SelectInputCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13741,7 +13317,7 @@ class ClusterIDMapping {
         Name(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RenameInputCommandField {
+        fun value(id: Int): RenameInputCommandField {
           for (field in RenameInputCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -13917,7 +13493,7 @@ class ClusterIDMapping {
         KeyCode(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SendKeyCommandField {
+        fun value(id: Int): SendKeyCommandField {
           for (field in SendKeyCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14017,7 +13593,7 @@ class ClusterIDMapping {
         Data(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): LaunchContentCommandField {
+        fun value(id: Int): LaunchContentCommandField {
           for (field in LaunchContentCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14033,7 +13609,7 @@ class ClusterIDMapping {
         BrandingInformation(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): LaunchURLCommandField {
+        fun value(id: Int): LaunchURLCommandField {
           for (field in LaunchURLCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14131,7 +13707,7 @@ class ClusterIDMapping {
         Index(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SelectOutputCommandField {
+        fun value(id: Int): SelectOutputCommandField {
           for (field in SelectOutputCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14146,7 +13722,7 @@ class ClusterIDMapping {
         Name(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): RenameOutputCommandField {
+        fun value(id: Int): RenameOutputCommandField {
           for (field in RenameOutputCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14246,7 +13822,7 @@ class ClusterIDMapping {
         Data(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): LaunchAppCommandField {
+        fun value(id: Int): LaunchAppCommandField {
           for (field in LaunchAppCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14260,7 +13836,7 @@ class ClusterIDMapping {
         Application(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): StopAppCommandField {
+        fun value(id: Int): StopAppCommandField {
           for (field in StopAppCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14274,7 +13850,7 @@ class ClusterIDMapping {
         Application(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): HideAppCommandField {
+        fun value(id: Int): HideAppCommandField {
           for (field in HideAppCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14459,7 +14035,7 @@ class ClusterIDMapping {
         TempAccountIdentifier(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetSetupPINCommandField {
+        fun value(id: Int): GetSetupPINCommandField {
           for (field in GetSetupPINCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14474,7 +14050,7 @@ class ClusterIDMapping {
         SetupPIN(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): LoginCommandField {
+        fun value(id: Int): LoginCommandField {
           for (field in LoginCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14700,7 +14276,7 @@ class ClusterIDMapping {
         NumberOfIntervals(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): GetMeasurementProfileCommandCommandField {
+        fun value(id: Int): GetMeasurementProfileCommandCommandField {
           for (field in GetMeasurementProfileCommandCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14901,7 +14477,7 @@ class ClusterIDMapping {
         Arg2(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestAddArgumentsCommandField {
+        fun value(id: Int): TestAddArgumentsCommandField {
           for (field in TestAddArgumentsCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14915,7 +14491,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestSimpleArgumentRequestCommandField {
+        fun value(id: Int): TestSimpleArgumentRequestCommandField {
           for (field in TestSimpleArgumentRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14934,7 +14510,7 @@ class ClusterIDMapping {
         Arg6(5);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestStructArrayArgumentRequestCommandField {
+        fun value(id: Int): TestStructArrayArgumentRequestCommandField {
           for (field in TestStructArrayArgumentRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14948,7 +14524,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestStructArgumentRequestCommandField {
+        fun value(id: Int): TestStructArgumentRequestCommandField {
           for (field in TestStructArgumentRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14962,7 +14538,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestNestedStructArgumentRequestCommandField {
+        fun value(id: Int): TestNestedStructArgumentRequestCommandField {
           for (field in TestNestedStructArgumentRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14976,7 +14552,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestListStructArgumentRequestCommandField {
+        fun value(id: Int): TestListStructArgumentRequestCommandField {
           for (field in TestListStructArgumentRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -14990,7 +14566,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestListInt8UArgumentRequestCommandField {
+        fun value(id: Int): TestListInt8UArgumentRequestCommandField {
           for (field in TestListInt8UArgumentRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15004,7 +14580,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestNestedStructListArgumentRequestCommandField {
+        fun value(id: Int): TestNestedStructListArgumentRequestCommandField {
           for (field in TestNestedStructListArgumentRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15018,7 +14594,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestListNestedStructListArgumentRequestCommandField {
+        fun value(id: Int): TestListNestedStructListArgumentRequestCommandField {
           for (field in TestListNestedStructListArgumentRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15032,7 +14608,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestListInt8UReverseRequestCommandField {
+        fun value(id: Int): TestListInt8UReverseRequestCommandField {
           for (field in TestListInt8UReverseRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15047,7 +14623,7 @@ class ClusterIDMapping {
         Arg2(1);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestEnumsRequestCommandField {
+        fun value(id: Int): TestEnumsRequestCommandField {
           for (field in TestEnumsRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15061,7 +14637,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestNullableOptionalRequestCommandField {
+        fun value(id: Int): TestNullableOptionalRequestCommandField {
           for (field in TestNullableOptionalRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15086,7 +14662,7 @@ class ClusterIDMapping {
         NullableOptionalList(11);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestComplexNullableOptionalRequestCommandField {
+        fun value(id: Int): TestComplexNullableOptionalRequestCommandField {
           for (field in TestComplexNullableOptionalRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15100,7 +14676,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): SimpleStructEchoRequestCommandField {
+        fun value(id: Int): SimpleStructEchoRequestCommandField {
           for (field in SimpleStructEchoRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15114,7 +14690,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestSimpleOptionalArgumentRequestCommandField {
+        fun value(id: Int): TestSimpleOptionalArgumentRequestCommandField {
           for (field in TestSimpleOptionalArgumentRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15130,7 +14706,7 @@ class ClusterIDMapping {
         Arg3(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestEmitTestEventRequestCommandField {
+        fun value(id: Int): TestEmitTestEventRequestCommandField {
           for (field in TestEmitTestEventRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15144,7 +14720,7 @@ class ClusterIDMapping {
         Arg1(0);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): TestEmitTestFabricScopedEventRequestCommandField {
+        fun value(id: Int): TestEmitTestFabricScopedEventRequestCommandField {
           for (field in TestEmitTestFabricScopedEventRequestCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15244,7 +14820,7 @@ class ClusterIDMapping {
         TakeMutex(4);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): FailAtFaultCommandField {
+        fun value(id: Int): FailAtFaultCommandField {
           for (field in FailAtFaultCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15260,7 +14836,7 @@ class ClusterIDMapping {
         Percentage(2);
       companion object {
         @Throws(NoSuchFieldError::class)
-        fun value(id: Long): FailRandomlyAtFaultCommandField {
+        fun value(id: Int): FailRandomlyAtFaultCommandField {
           for (field in FailRandomlyAtFaultCommandField.values()) {
             if (field.ID == id) {
               return field
@@ -15300,4 +14876,431 @@ class ClusterIDMapping {
     companion object {
       const val ID = 4294048774L
     }
-  }}
+  }companion object {
+    fun getCluster(clusterId: Long): BaseCluster? {
+      if (clusterId == Identify.ID) {
+        return Identify()
+      }
+      if (clusterId == Groups.ID) {
+        return Groups()
+      }
+      if (clusterId == Scenes.ID) {
+        return Scenes()
+      }
+      if (clusterId == OnOff.ID) {
+        return OnOff()
+      }
+      if (clusterId == OnOffSwitchConfiguration.ID) {
+        return OnOffSwitchConfiguration()
+      }
+      if (clusterId == LevelControl.ID) {
+        return LevelControl()
+      }
+      if (clusterId == BinaryInputBasic.ID) {
+        return BinaryInputBasic()
+      }
+      if (clusterId == PulseWidthModulation.ID) {
+        return PulseWidthModulation()
+      }
+      if (clusterId == Descriptor.ID) {
+        return Descriptor()
+      }
+      if (clusterId == Binding.ID) {
+        return Binding()
+      }
+      if (clusterId == AccessControl.ID) {
+        return AccessControl()
+      }
+      if (clusterId == Actions.ID) {
+        return Actions()
+      }
+      if (clusterId == BasicInformation.ID) {
+        return BasicInformation()
+      }
+      if (clusterId == OtaSoftwareUpdateProvider.ID) {
+        return OtaSoftwareUpdateProvider()
+      }
+      if (clusterId == OtaSoftwareUpdateRequestor.ID) {
+        return OtaSoftwareUpdateRequestor()
+      }
+      if (clusterId == LocalizationConfiguration.ID) {
+        return LocalizationConfiguration()
+      }
+      if (clusterId == TimeFormatLocalization.ID) {
+        return TimeFormatLocalization()
+      }
+      if (clusterId == UnitLocalization.ID) {
+        return UnitLocalization()
+      }
+      if (clusterId == PowerSourceConfiguration.ID) {
+        return PowerSourceConfiguration()
+      }
+      if (clusterId == PowerSource.ID) {
+        return PowerSource()
+      }
+      if (clusterId == GeneralCommissioning.ID) {
+        return GeneralCommissioning()
+      }
+      if (clusterId == NetworkCommissioning.ID) {
+        return NetworkCommissioning()
+      }
+      if (clusterId == DiagnosticLogs.ID) {
+        return DiagnosticLogs()
+      }
+      if (clusterId == GeneralDiagnostics.ID) {
+        return GeneralDiagnostics()
+      }
+      if (clusterId == SoftwareDiagnostics.ID) {
+        return SoftwareDiagnostics()
+      }
+      if (clusterId == ThreadNetworkDiagnostics.ID) {
+        return ThreadNetworkDiagnostics()
+      }
+      if (clusterId == WiFiNetworkDiagnostics.ID) {
+        return WiFiNetworkDiagnostics()
+      }
+      if (clusterId == EthernetNetworkDiagnostics.ID) {
+        return EthernetNetworkDiagnostics()
+      }
+      if (clusterId == TimeSynchronization.ID) {
+        return TimeSynchronization()
+      }
+      if (clusterId == BridgedDeviceBasicInformation.ID) {
+        return BridgedDeviceBasicInformation()
+      }
+      if (clusterId == Switch.ID) {
+        return Switch()
+      }
+      if (clusterId == AdministratorCommissioning.ID) {
+        return AdministratorCommissioning()
+      }
+      if (clusterId == OperationalCredentials.ID) {
+        return OperationalCredentials()
+      }
+      if (clusterId == GroupKeyManagement.ID) {
+        return GroupKeyManagement()
+      }
+      if (clusterId == FixedLabel.ID) {
+        return FixedLabel()
+      }
+      if (clusterId == UserLabel.ID) {
+        return UserLabel()
+      }
+      if (clusterId == ProxyConfiguration.ID) {
+        return ProxyConfiguration()
+      }
+      if (clusterId == ProxyDiscovery.ID) {
+        return ProxyDiscovery()
+      }
+      if (clusterId == ProxyValid.ID) {
+        return ProxyValid()
+      }
+      if (clusterId == BooleanState.ID) {
+        return BooleanState()
+      }
+      if (clusterId == IcdManagement.ID) {
+        return IcdManagement()
+      }
+      if (clusterId == ModeSelect.ID) {
+        return ModeSelect()
+      }
+      if (clusterId == LaundryWasherMode.ID) {
+        return LaundryWasherMode()
+      }
+      if (clusterId == RefrigeratorAndTemperatureControlledCabinetMode.ID) {
+        return RefrigeratorAndTemperatureControlledCabinetMode()
+      }
+      if (clusterId == LaundryWasherControls.ID) {
+        return LaundryWasherControls()
+      }
+      if (clusterId == RvcRunMode.ID) {
+        return RvcRunMode()
+      }
+      if (clusterId == RvcCleanMode.ID) {
+        return RvcCleanMode()
+      }
+      if (clusterId == TemperatureControl.ID) {
+        return TemperatureControl()
+      }
+      if (clusterId == RefrigeratorAlarm.ID) {
+        return RefrigeratorAlarm()
+      }
+      if (clusterId == DishwasherMode.ID) {
+        return DishwasherMode()
+      }
+      if (clusterId == AirQuality.ID) {
+        return AirQuality()
+      }
+      if (clusterId == SmokeCoAlarm.ID) {
+        return SmokeCoAlarm()
+      }
+      if (clusterId == DishwasherAlarm.ID) {
+        return DishwasherAlarm()
+      }
+      if (clusterId == OperationalState.ID) {
+        return OperationalState()
+      }
+      if (clusterId == RvcOperationalState.ID) {
+        return RvcOperationalState()
+      }
+      if (clusterId == HepaFilterMonitoring.ID) {
+        return HepaFilterMonitoring()
+      }
+      if (clusterId == ActivatedCarbonFilterMonitoring.ID) {
+        return ActivatedCarbonFilterMonitoring()
+      }
+      if (clusterId == CeramicFilterMonitoring.ID) {
+        return CeramicFilterMonitoring()
+      }
+      if (clusterId == ElectrostaticFilterMonitoring.ID) {
+        return ElectrostaticFilterMonitoring()
+      }
+      if (clusterId == UvFilterMonitoring.ID) {
+        return UvFilterMonitoring()
+      }
+      if (clusterId == IonizingFilterMonitoring.ID) {
+        return IonizingFilterMonitoring()
+      }
+      if (clusterId == ZeoliteFilterMonitoring.ID) {
+        return ZeoliteFilterMonitoring()
+      }
+      if (clusterId == OzoneFilterMonitoring.ID) {
+        return OzoneFilterMonitoring()
+      }
+      if (clusterId == WaterTankMonitoring.ID) {
+        return WaterTankMonitoring()
+      }
+      if (clusterId == FuelTankMonitoring.ID) {
+        return FuelTankMonitoring()
+      }
+      if (clusterId == InkCartridgeMonitoring.ID) {
+        return InkCartridgeMonitoring()
+      }
+      if (clusterId == TonerCartridgeMonitoring.ID) {
+        return TonerCartridgeMonitoring()
+      }
+      if (clusterId == DoorLock.ID) {
+        return DoorLock()
+      }
+      if (clusterId == WindowCovering.ID) {
+        return WindowCovering()
+      }
+      if (clusterId == BarrierControl.ID) {
+        return BarrierControl()
+      }
+      if (clusterId == PumpConfigurationAndControl.ID) {
+        return PumpConfigurationAndControl()
+      }
+      if (clusterId == Thermostat.ID) {
+        return Thermostat()
+      }
+      if (clusterId == FanControl.ID) {
+        return FanControl()
+      }
+      if (clusterId == ThermostatUserInterfaceConfiguration.ID) {
+        return ThermostatUserInterfaceConfiguration()
+      }
+      if (clusterId == ColorControl.ID) {
+        return ColorControl()
+      }
+      if (clusterId == BallastConfiguration.ID) {
+        return BallastConfiguration()
+      }
+      if (clusterId == IlluminanceMeasurement.ID) {
+        return IlluminanceMeasurement()
+      }
+      if (clusterId == TemperatureMeasurement.ID) {
+        return TemperatureMeasurement()
+      }
+      if (clusterId == PressureMeasurement.ID) {
+        return PressureMeasurement()
+      }
+      if (clusterId == FlowMeasurement.ID) {
+        return FlowMeasurement()
+      }
+      if (clusterId == RelativeHumidityMeasurement.ID) {
+        return RelativeHumidityMeasurement()
+      }
+      if (clusterId == OccupancySensing.ID) {
+        return OccupancySensing()
+      }
+      if (clusterId == CarbonMonoxideConcentrationMeasurement.ID) {
+        return CarbonMonoxideConcentrationMeasurement()
+      }
+      if (clusterId == CarbonDioxideConcentrationMeasurement.ID) {
+        return CarbonDioxideConcentrationMeasurement()
+      }
+      if (clusterId == EthyleneConcentrationMeasurement.ID) {
+        return EthyleneConcentrationMeasurement()
+      }
+      if (clusterId == EthyleneOxideConcentrationMeasurement.ID) {
+        return EthyleneOxideConcentrationMeasurement()
+      }
+      if (clusterId == HydrogenConcentrationMeasurement.ID) {
+        return HydrogenConcentrationMeasurement()
+      }
+      if (clusterId == HydrogenSulfideConcentrationMeasurement.ID) {
+        return HydrogenSulfideConcentrationMeasurement()
+      }
+      if (clusterId == NitricOxideConcentrationMeasurement.ID) {
+        return NitricOxideConcentrationMeasurement()
+      }
+      if (clusterId == NitrogenDioxideConcentrationMeasurement.ID) {
+        return NitrogenDioxideConcentrationMeasurement()
+      }
+      if (clusterId == OxygenConcentrationMeasurement.ID) {
+        return OxygenConcentrationMeasurement()
+      }
+      if (clusterId == OzoneConcentrationMeasurement.ID) {
+        return OzoneConcentrationMeasurement()
+      }
+      if (clusterId == SulfurDioxideConcentrationMeasurement.ID) {
+        return SulfurDioxideConcentrationMeasurement()
+      }
+      if (clusterId == DissolvedOxygenConcentrationMeasurement.ID) {
+        return DissolvedOxygenConcentrationMeasurement()
+      }
+      if (clusterId == BromateConcentrationMeasurement.ID) {
+        return BromateConcentrationMeasurement()
+      }
+      if (clusterId == ChloraminesConcentrationMeasurement.ID) {
+        return ChloraminesConcentrationMeasurement()
+      }
+      if (clusterId == ChlorineConcentrationMeasurement.ID) {
+        return ChlorineConcentrationMeasurement()
+      }
+      if (clusterId == FecalColiformEColiConcentrationMeasurement.ID) {
+        return FecalColiformEColiConcentrationMeasurement()
+      }
+      if (clusterId == FluorideConcentrationMeasurement.ID) {
+        return FluorideConcentrationMeasurement()
+      }
+      if (clusterId == HaloaceticAcidsConcentrationMeasurement.ID) {
+        return HaloaceticAcidsConcentrationMeasurement()
+      }
+      if (clusterId == TotalTrihalomethanesConcentrationMeasurement.ID) {
+        return TotalTrihalomethanesConcentrationMeasurement()
+      }
+      if (clusterId == TotalColiformBacteriaConcentrationMeasurement.ID) {
+        return TotalColiformBacteriaConcentrationMeasurement()
+      }
+      if (clusterId == TurbidityConcentrationMeasurement.ID) {
+        return TurbidityConcentrationMeasurement()
+      }
+      if (clusterId == CopperConcentrationMeasurement.ID) {
+        return CopperConcentrationMeasurement()
+      }
+      if (clusterId == LeadConcentrationMeasurement.ID) {
+        return LeadConcentrationMeasurement()
+      }
+      if (clusterId == ManganeseConcentrationMeasurement.ID) {
+        return ManganeseConcentrationMeasurement()
+      }
+      if (clusterId == SulfateConcentrationMeasurement.ID) {
+        return SulfateConcentrationMeasurement()
+      }
+      if (clusterId == BromodichloromethaneConcentrationMeasurement.ID) {
+        return BromodichloromethaneConcentrationMeasurement()
+      }
+      if (clusterId == BromoformConcentrationMeasurement.ID) {
+        return BromoformConcentrationMeasurement()
+      }
+      if (clusterId == ChlorodibromomethaneConcentrationMeasurement.ID) {
+        return ChlorodibromomethaneConcentrationMeasurement()
+      }
+      if (clusterId == ChloroformConcentrationMeasurement.ID) {
+        return ChloroformConcentrationMeasurement()
+      }
+      if (clusterId == SodiumConcentrationMeasurement.ID) {
+        return SodiumConcentrationMeasurement()
+      }
+      if (clusterId == Pm25ConcentrationMeasurement.ID) {
+        return Pm25ConcentrationMeasurement()
+      }
+      if (clusterId == FormaldehydeConcentrationMeasurement.ID) {
+        return FormaldehydeConcentrationMeasurement()
+      }
+      if (clusterId == Pm1ConcentrationMeasurement.ID) {
+        return Pm1ConcentrationMeasurement()
+      }
+      if (clusterId == Pm10ConcentrationMeasurement.ID) {
+        return Pm10ConcentrationMeasurement()
+      }
+      if (clusterId == TotalVolatileOrganicCompoundsConcentrationMeasurement.ID) {
+        return TotalVolatileOrganicCompoundsConcentrationMeasurement()
+      }
+      if (clusterId == RadonConcentrationMeasurement.ID) {
+        return RadonConcentrationMeasurement()
+      }
+      if (clusterId == WakeOnLan.ID) {
+        return WakeOnLan()
+      }
+      if (clusterId == Channel.ID) {
+        return Channel()
+      }
+      if (clusterId == TargetNavigator.ID) {
+        return TargetNavigator()
+      }
+      if (clusterId == MediaPlayback.ID) {
+        return MediaPlayback()
+      }
+      if (clusterId == MediaInput.ID) {
+        return MediaInput()
+      }
+      if (clusterId == LowPower.ID) {
+        return LowPower()
+      }
+      if (clusterId == KeypadInput.ID) {
+        return KeypadInput()
+      }
+      if (clusterId == ContentLauncher.ID) {
+        return ContentLauncher()
+      }
+      if (clusterId == AudioOutput.ID) {
+        return AudioOutput()
+      }
+      if (clusterId == ApplicationLauncher.ID) {
+        return ApplicationLauncher()
+      }
+      if (clusterId == ApplicationBasic.ID) {
+        return ApplicationBasic()
+      }
+      if (clusterId == AccountLogin.ID) {
+        return AccountLogin()
+      }
+      if (clusterId == ElectricalMeasurement.ID) {
+        return ElectricalMeasurement()
+      }
+      if (clusterId == UnitTesting.ID) {
+        return UnitTesting()
+      }
+      if (clusterId == FaultInjection.ID) {
+        return FaultInjection()
+      }
+      return null
+    }
+  }
+
+  interface BaseCluster {
+    fun getID(): Long
+
+    @Throws(NoSuchFieldError::class)
+    fun getAttributeName(id: Long): String
+
+    @Throws(NoSuchFieldError::class)
+    fun getEventName(id: Long): String
+
+    @Throws(NoSuchFieldError::class)
+    fun getCommandName(id: Long): String
+
+    @Throws(IllegalArgumentException::class)
+    fun getAttributeID(name: String): Long
+
+    @Throws(IllegalArgumentException::class)
+    fun getEventID(name: String): Long
+
+    @Throws(IllegalArgumentException::class)
+    fun getCommandID(name: String): Long
+  }
+
+}
