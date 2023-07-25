@@ -59,6 +59,7 @@ class AddressCommissioningFragment : Fragment() {
 
       FragmentUtil.getHost(this, BarcodeFragment.Callback::class.java)
         ?.onCHIPDeviceInfoReceived(
+          null,
           CHIPDeviceInfo(
             discriminator = discriminator.toInt(),
             setupPinCode = pincode.toLong(),

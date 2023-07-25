@@ -143,37 +143,6 @@ class EnterNetworkFragment : Fragment() {
       ?.onNetworkCredentialsEntered(networkCredentials)
   }
 
-  private fun makeThreadOperationalDataset(
-    channel: Int,
-    panId: Int,
-    xpanId: ByteArray,
-    masterKey: ByteArray
-  ): ByteArray {
-    // channel
-    var dataset = byteArrayOf(TYPE_CHANNEL.toByte(), NUM_CHANNEL_BYTES.toByte())
-    dataset += 0x00.toByte() // Channel Page 0.
-    dataset += (channel.shr(8) and 0xFF).toByte()
-    dataset += (channel and 0xFF).toByte()
-
-    // PAN ID
-    dataset += TYPE_PANID.toByte()
-    dataset += NUM_PANID_BYTES.toByte()
-    dataset += (panId.shr(8) and 0xFF).toByte()
-    dataset += (panId and 0xFF).toByte()
-
-    // Extended PAN ID
-    dataset += TYPE_XPANID.toByte()
-    dataset += NUM_XPANID_BYTES.toByte()
-    dataset += xpanId
-
-    // Network Master Key
-    dataset += TYPE_MASTER_KEY.toByte()
-    dataset += NUM_MASTER_KEY_BYTES.toByte()
-    dataset += masterKey
-
-    return dataset
-  }
-
   private fun String.hexToByteArray(): ByteArray {
     return chunked(2).map { byteStr -> byteStr.toUByte(16).toByte() }.toByteArray()
   }
@@ -197,6 +166,37 @@ class EnterNetworkFragment : Fragment() {
         arguments =
           Bundle(1).apply { putString(ARG_PROVISION_NETWORK_TYPE, provisionNetworkType.name) }
       }
+    }
+
+    fun makeThreadOperationalDataset(
+            channel: Int,
+            panId: Int,
+            xpanId: ByteArray,
+            masterKey: ByteArray
+    ): ByteArray {
+      // channel
+      var dataset = byteArrayOf(TYPE_CHANNEL.toByte(), NUM_CHANNEL_BYTES.toByte())
+      dataset += 0x00.toByte() // Channel Page 0.
+      dataset += (channel.shr(8) and 0xFF).toByte()
+      dataset += (channel and 0xFF).toByte()
+
+      // PAN ID
+      dataset += TYPE_PANID.toByte()
+      dataset += NUM_PANID_BYTES.toByte()
+      dataset += (panId.shr(8) and 0xFF).toByte()
+      dataset += (panId and 0xFF).toByte()
+
+      // Extended PAN ID
+      dataset += TYPE_XPANID.toByte()
+      dataset += NUM_XPANID_BYTES.toByte()
+      dataset += xpanId
+
+      // Network Master Key
+      dataset += TYPE_MASTER_KEY.toByte()
+      dataset += NUM_MASTER_KEY_BYTES.toByte()
+      dataset += masterKey
+
+      return dataset
     }
   }
 }

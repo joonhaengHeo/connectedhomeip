@@ -81,7 +81,11 @@ class CHIPToolActivity :
     super.onSaveInstanceState(outState)
   }
 
-  override fun onCHIPDeviceInfoReceived(deviceInfo: CHIPDeviceInfo) {
+  override fun onCHIPDeviceInfoReceived(qrCode: String?, deviceInfo: CHIPDeviceInfo) {
+    if (qrCode != null) {
+      showFragment(DeviceProvisioningFragment.newInstance(qrCode, null))
+      return
+    }
     this.deviceInfo = deviceInfo
     if (networkType == null) {
       showFragment(CHIPDeviceDetailsFragment.newInstance(deviceInfo))
@@ -176,7 +180,7 @@ class CHIPToolActivity :
             2 -> ProvisionNetworkType.THREAD
             else -> null
           }
-        onCHIPDeviceInfoReceived(deviceInfo)
+        onCHIPDeviceInfoReceived(uri.toString().toUpperCase(), deviceInfo)
       }
       .create()
       .show()
@@ -226,7 +230,7 @@ class CHIPToolActivity :
 
       AlertDialog.Builder(this)
         .setTitle(R.string.provision_custom_flow_alert_title)
-        .setItems(buttons) { _, _ -> onCHIPDeviceInfoReceived(deviceInfo) }
+        .setItems(buttons) { _, _ -> onCHIPDeviceInfoReceived(appLinkData.toString(), deviceInfo) }
         .create()
         .show()
     } catch (ex: UnrecognizedQrCodeException) {

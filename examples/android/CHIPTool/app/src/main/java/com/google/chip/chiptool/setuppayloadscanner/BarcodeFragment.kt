@@ -195,7 +195,7 @@ class BarcodeFragment : Fragment() {
       Toast.makeText(requireContext(), "Unrecognized QR Code", Toast.LENGTH_SHORT).show()
     }
     FragmentUtil.getHost(this@BarcodeFragment, Callback::class.java)
-      ?.onCHIPDeviceInfoReceived(CHIPDeviceInfo.fromSetupPayload(payload))
+      ?.onCHIPDeviceInfoReceived(qrCode, CHIPDeviceInfo.fromSetupPayload(payload))
   }
 
   private fun handleScannedQrCode(barcode: Barcode) {
@@ -210,7 +210,7 @@ class BarcodeFragment : Fragment() {
         return@post
       }
       FragmentUtil.getHost(this@BarcodeFragment, Callback::class.java)
-        ?.onCHIPDeviceInfoReceived(CHIPDeviceInfo.fromSetupPayload(payload))
+        ?.onCHIPDeviceInfoReceived(barcode.displayValue, CHIPDeviceInfo.fromSetupPayload(payload))
     }
   }
 
@@ -251,7 +251,7 @@ class BarcodeFragment : Fragment() {
   /** Interface for notifying the host. */
   interface Callback {
     /** Notifies host of the [CHIPDeviceInfo] from the scanned QR code. */
-    fun onCHIPDeviceInfoReceived(deviceInfo: CHIPDeviceInfo)
+    fun onCHIPDeviceInfoReceived(qrCode: String?, deviceInfo: CHIPDeviceInfo)
   }
 
   companion object {

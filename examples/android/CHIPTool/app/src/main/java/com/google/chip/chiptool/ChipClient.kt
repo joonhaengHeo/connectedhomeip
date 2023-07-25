@@ -20,8 +20,11 @@ package com.google.chip.chiptool
 import android.content.Context
 import android.util.Log
 import chip.devicecontroller.ChipDeviceController
+import chip.devicecontroller.ChipStructs
 import chip.devicecontroller.ControllerParams
 import chip.devicecontroller.GetConnectedDeviceCallbackJni.GetConnectedDeviceCallback
+import chip.devicecontroller.NetworkCredentials
+import chip.devicecontroller.NetworkCredentials.ThreadCredentials
 import chip.platform.AndroidBleManager
 import chip.platform.AndroidChipPlatform
 import chip.platform.ChipMdnsCallbackImpl
@@ -31,9 +34,12 @@ import chip.platform.NsdManagerServiceResolver
 import chip.platform.PreferencesConfigurationManager
 import chip.platform.PreferencesKeyValueStoreManager
 import com.google.chip.chiptool.attestation.ExampleAttestationTrustStoreDelegate
+import com.google.chip.chiptool.provisioning.EnterNetworkFragment
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.util.ArrayList
+import java.util.Optional
 
 /** Lazily instantiates [ChipDeviceController] and holds a reference to it. */
 object ChipClient {
@@ -48,16 +54,43 @@ object ChipClient {
 
     if (!this::chipDeviceController.isInitialized) {
       chipDeviceController =
-        ChipDeviceController(ControllerParams.newBuilder().setControllerVendorId(VENDOR_ID).build())
+        ChipDeviceController(ControllerParams.newBuilder().setAttemptNetworkScanWiFi(true).setAttemptNetworkScanThread(true).setControllerVendorId(VENDOR_ID).build())
 
       // Set delegate for attestation trust store for device attestation verifier.
       // It will replace the default attestation trust store.
       chipDeviceController.setAttestationTrustStoreDelegate(
         ExampleAttestationTrustStoreDelegate(chipDeviceController)
       )
+
+      chipDeviceController.setScanNetworksListener(object: ChipDeviceController.ScanNetworksListener {
+        override fun onScanNetworksFailure(errorCode: Int) {
+          Log.d(TAG, "onScanNetworksFailure: $errorCode")
+        }
+
+        override fun onScanNetworksSuccess(networkingStatus: Int?, debugText: Optional<String>?, wiFiScanResults: Optional<ArrayList<ChipStructs.NetworkCommissioningClusterWiFiInterfaceScanResultStruct>>?, threadScanResults: Optional<ArrayList<ChipStructs.NetworkCommissioningClusterThreadInterfaceScanResultStruct>>?) {
+          Log.d(TAG, "onScanNetworksSuccess: $networkingStatus")
+          if (wiFiScanResults != null && wiFiScanResults.isPresent) {
+            Log.d(TAG, "wiFiScanResults: ${wiFiScanResults.get()}")
+          }
+
+          if (threadScanResults != null && threadScanResults.isPresent) {
+            Log.d(TAG, "threadScanResults: ${threadScanResults.get()}") }
+            for (result in threadScanResults!!.get()) {
+              if (result.networkName == "OpenThreadMatter") {
+                val credentials = ThreadCredentials(EnterNetworkFragment.makeThreadOperationalDataset(result.channel, result.panId, "1111111122222222".hexToByteArray(), "00112233445566778899aabbccddeeff".hexToByteArray()))
+                chipDeviceController.updateCommissioningNetworkCredentials(NetworkCredentials.forThread(credentials))
+              }
+            }
+        }
+
+      })
     }
 
     return chipDeviceController
+  }
+
+  private fun String.hexToByteArray(): ByteArray {
+    return chunked(2).map { byteStr -> byteStr.toUByte(16).toByte() }.toByteArray()
   }
 
   fun getAndroidChipPlatform(context: Context?): AndroidChipPlatform {

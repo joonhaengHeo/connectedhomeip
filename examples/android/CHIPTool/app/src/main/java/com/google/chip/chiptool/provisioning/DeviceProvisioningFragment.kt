@@ -51,6 +51,8 @@ class DeviceProvisioningFragment : Fragment() {
 
   private lateinit var deviceInfo: CHIPDeviceInfo
 
+  private lateinit var qrCode: String
+
   private var gatt: BluetoothGatt? = null
 
   private val networkCredentialsParcelable: NetworkCredentialsParcelable?
@@ -73,6 +75,17 @@ class DeviceProvisioningFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View {
     scope = viewLifecycleOwner.lifecycleScope
+
+    qrCode = requireArguments().getString(ARG_QRCODE, "")
+    if (qrCode.isNotEmpty()) {
+      deviceInfo = CHIPDeviceInfo()
+      return inflater.inflate(R.layout.barcode_fragment, container, false).apply {
+        if (savedInstanceState == null) {
+          pairDeviceWithCode()
+        }
+      }
+    }
+
     deviceInfo = checkNotNull(requireArguments().getParcelable(ARG_DEVICE_INFO))
 
     return inflater.inflate(R.layout.barcode_fragment, container, false).apply {
@@ -230,6 +243,31 @@ class DeviceProvisioningFragment : Fragment() {
     }
   }
 
+  private fun pairDeviceWithCode() {
+    scope.launch {
+      deviceController.setCompletionListener(ConnectionCallback())
+
+      val deviceId = DeviceIdUtil.getNextAvailableId(requireContext())
+//      var network: NetworkCredentials? = null
+//      var networkParcelable = checkNotNull(networkCredentialsParcelable)
+//
+//      val wifi = networkParcelable.wiFiCredentials
+//      if (wifi != null) {
+//        network = NetworkCredentials.forWiFi(NetworkCredentials.WiFiCredentials(wifi.ssid, wifi.password))
+//      }
+//
+//      val thread = networkParcelable.threadCredentials
+//      if (thread != null) {
+//        network = NetworkCredentials.forThread(NetworkCredentials.ThreadCredentials(thread.operationalDataset))
+//      }
+
+      setAttestationDelegate()
+
+      deviceController.pairDeviceWithCode(deviceId, qrCode, false, false, null, null)
+      DeviceIdUtil.setNextAvailableId(requireContext(), deviceId + 1)
+    }
+  }
+
   private fun showMessage(msgResId: Int, stringArgs: String? = null) {
     requireActivity().runOnUiThread {
       val context = requireContext()
@@ -296,6 +334,7 @@ class DeviceProvisioningFragment : Fragment() {
     private const val TAG = "DeviceProvisioningFragment"
     private const val ARG_DEVICE_INFO = "device_info"
     private const val ARG_NETWORK_CREDENTIALS = "network_credentials"
+    private const val ARG_QRCODE = "qrcode"
     private const val STATUS_PAIRING_SUCCESS = 0
 
     /**
@@ -319,6 +358,16 @@ class DeviceProvisioningFragment : Fragment() {
             putParcelable(ARG_DEVICE_INFO, deviceInfo)
             putParcelable(ARG_NETWORK_CREDENTIALS, networkCredentialsParcelable)
           }
+      }
+    }
+
+    fun newInstance(qrCode: String, networkCredentialsParcelable: NetworkCredentialsParcelable?): DeviceProvisioningFragment {
+      return DeviceProvisioningFragment().apply {
+        arguments =
+                Bundle(2).apply {
+                  putString(ARG_QRCODE, qrCode)
+                  putParcelable(ARG_NETWORK_CREDENTIALS, networkCredentialsParcelable)
+                }
       }
     }
   }
