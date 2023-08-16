@@ -14,160 +14,183 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package chip.devicecontroller;
+package chip.devicecontroller
 
-public class ClusterIDMapping {
-    public interface BaseCluster {
-        long getID();
-        String getAttributeName(long id) throws NoSuchFieldError;
-        String getEventName(long id) throws NoSuchFieldError;
-        String getCommandName(long id) throws NoSuchFieldError;
-        long getAttributeID(String name) throws IllegalArgumentException;
-        long getEventID(String name) throws IllegalArgumentException;
-        long getCommandID(String name) throws IllegalArgumentException;
-    }
-
-    public static BaseCluster getCluster(long clusterId) {
-        {%- for cluster in clientClusters | sort(attribute='code') %}
-        if (clusterId == {{cluster.name}}.ID) {
-            return new {{cluster.name}}();
-        }
-        {%- endfor -%}
-        return null;
-    }
-
-    {%- for cluster in clientClusters | sort(attribute='code') %}
-    public static class {{cluster.name}} implements BaseCluster {
-        public static final long ID = {{cluster.code}}L;
-        public long getID() {
-            return ID;
-        }
-
-        public enum Attribute {
+class ClusterIDMapping {
+  {%- for cluster in clientClusters | sort(attribute='code') %}
+  class {{cluster.name}}: BaseCluster {
+    {%- if cluster.attributes %}
+    enum class Attribute(val id: Long) {
         {%- for attribute in cluster.attributes | sort(attribute='code') %}
-            {{attribute.definition.name | upfirst}}({{attribute.definition.code}}L),
-        {%- endfor -%}
-        ;
-            private final long id;
-            Attribute(long id) {
-                this.id = id;
+            {{attribute.definition.name | upfirst}}({{attribute.definition.code}}L)
+            {%- if loop.index0 < loop.length - 1 -%}{{", "}}{%- endif -%}
+        {%- endfor -%};
+
+      companion object {
+        @Throws(NoSuchFieldError::class)
+        fun value(id: Long): Attribute {
+          for (attribute in Attribute.values()) {
+            if (attribute.id == id) {
+              return attribute
             }
-
-            public long getID() {
-                return id;
-            }
-
-            public static Attribute value(long id) throws NoSuchFieldError {
-                for (Attribute attribute : Attribute.values()) {
-                    if (attribute.getID() == id) {
-                        return attribute;
-                    }
-                }
-                throw new NoSuchFieldError();
-            }
+          }
+          throw NoSuchFieldError()
         }
-
-        public enum Event {
-        {%- for event in cluster.events | sort(attribute='code') %}
-            {{event.name | upfirst}}({{event.code}}L),
-        {%- endfor -%}
-        ;
-            private final long id;
-            Event(long id) {
-                this.id = id;
-            }
-
-            public long getID() {
-                return id;
-            }
-
-            public static Event value(long id) throws NoSuchFieldError {
-                for (Event event : Event.values()) {
-                    if (event.getID() == id) {
-                        return event;
-                    }
-                }
-                throw new NoSuchFieldError();
-            }
-        }
-
-        public enum Command {
-        {%- for command in cluster.commands | sort(attribute='code') %}
-            {{command.name | upfirst}}({{command.code}}L),
-        {%- endfor -%}
-        ;
-            private final long id;
-            Command(long id) {
-                this.id = id;
-            }
-
-            public long getID() {
-                return id;
-            }
-
-            public static Command value(long id) throws NoSuchFieldError {
-                for (Command command : Command.values()) {
-                    if (command.getID() == id) {
-                        return command;
-                    }
-                }
-                throw new NoSuchFieldError();
-            }
-        }
-
-        {%- for command in cluster.commands | sort(attribute='code') %}
-            {%- if command.input_param -%}
-                public enum {{command.name | upfirst}}CommandField {
-                    {%- for field in (cluster.structs | named(command.input_param)).fields -%} {{field.name | upfirst}}({{field.code}}), {%- endfor -%};
-                    private final int id;
-                    {{command.name | upfirst}}CommandField(int id) {
-                        this.id = id;
-                    }
-
-                    public int getID() {
-                        return id;
-                    }
-                    public static {{command.name | upfirst}}CommandField value(int id) throws NoSuchFieldError {
-                        for ({{command.name | upfirst}}CommandField field : {{command.name | upfirst}}CommandField.values()) {
-                        if (field.getID() == id) {
-                            return field;
-                        }
-                        }
-                        throw new NoSuchFieldError();
-                    }
-                }
-            {%- endif -%}
-        {%- endfor -%}
-
-        @Override
-        public String getAttributeName(long id) throws NoSuchFieldError {
-            return Attribute.value(id).toString();
-        }
-
-        @Override
-        public String getEventName(long id) throws NoSuchFieldError {
-            return Event.value(id).toString();
-        }
-
-        @Override
-        public String getCommandName(long id) throws NoSuchFieldError {
-            return Command.value(id).toString();
-        }
-
-        @Override
-        public long getAttributeID(String name) throws IllegalArgumentException {
-            return Attribute.valueOf(name).getID();
-        }
-
-        @Override
-        public long getEventID(String name) throws IllegalArgumentException {
-            return Event.valueOf(name).getID();
-        }
-
-        @Override
-        public long getCommandID(String name) throws IllegalArgumentException {
-            return Command.valueOf(name).getID();
-        }
+      }
     }
-    {%- endfor -%}
+    {%- endif -%}
+
+    {%- if cluster.events %}
+    enum class Event(val id: Long) {
+      {%- for event in cluster.events | sort(attribute='code') %}
+        {{event.name | upfirst}}({{event.code}}L)
+        {%- if loop.index0 < loop.length - 1 -%}{{", "}}{%- endif -%}
+      {%- endfor -%};
+
+      companion object {
+        @Throws(NoSuchFieldError::class)
+        fun value(id: Long): Event {
+          for (event in Event.values()) {
+            if (event.id == id) {
+              return event
+            }
+          }
+          throw NoSuchFieldError()
+        }
+      }
+    }
+    {%- endif -%}
+
+    {%- if cluster.commands %}
+    enum class Command(val id: Long) {
+      {%- for command in cluster.commands | sort(attribute='code') %}
+        {{command.name | upfirst}}({{command.code}}L)
+        {%- if loop.index0 < loop.length - 1 -%}{{", "}}{%- endif -%}
+      {%- endfor -%};
+
+      companion object {
+        @Throws(NoSuchFieldError::class)
+        fun value(id: Long): Command {
+          for (command in Command.values()) {
+            if (command.id == id) {
+              return command
+            }
+          }
+          throw NoSuchFieldError()
+        }
+      }
+    }
+    {%- endif -%}
+
+    {%- for command in cluster.commands | sort(attribute='code') %}
+    {%- if command.input_param %}
+    enum class {{command.name | upfirst}}CommandField(val id: Int) {
+      {%- for field in (cluster.structs | named(command.input_param)).fields %}
+        {{field.name | upfirst}}({{field.code}})
+        {%- if loop.index0 < loop.length - 1 -%}{{", "}}{%- endif -%}
+      {%- endfor -%};
+
+      companion object {
+        @Throws(NoSuchFieldError::class)
+        fun value(id: Int): {{command.name | upfirst}}CommandField {
+          for (field in {{command.name | upfirst}}CommandField.values()) {
+            if (field.id == id) {
+              return field
+            }
+          }
+          throw NoSuchFieldError()
+        }
+      }
+    }
+    {%- endif -%}
+    {% endfor %}
+
+    override fun getID(): Long { return ID }
+
+    override fun getAttributeName(id: Long): String {
+        {%- if cluster.attributes %}
+        return Attribute.value(id).toString()
+        {%- else %}
+        throw IllegalArgumentException()
+        {%- endif %}
+    }
+
+    override fun getEventName(id: Long): String {
+        {%- if cluster.events %}
+        return Event.value(id).toString()
+        {%- else %}
+        throw IllegalArgumentException()
+        {%- endif %}
+    }
+
+    override fun getCommandName(id: Long): String {
+        {%- if cluster.commands %}
+        return Command.value(id).toString()
+        {%- else %}
+        throw IllegalArgumentException()
+        {%- endif %}
+    }
+
+    override fun getAttributeID(name: String): Long {
+        {%- if cluster.attributes %}
+        return Attribute.valueOf(name).id
+        {%- else %}
+        throw NoSuchFieldError()
+        {%- endif %}
+    }
+
+    override fun getEventID(name: String): Long {
+        {%- if cluster.events %}
+        return Event.valueOf(name).id
+        {%- else %}
+        throw NoSuchFieldError()
+        {%- endif %}
+    }
+
+    override fun getCommandID(name: String): Long {
+        {%- if cluster.commands %}
+        return Command.valueOf(name).id
+        {%- else %}
+        throw NoSuchFieldError()
+        {%- endif %}
+    }
+
+    companion object {
+      const val ID = {{cluster.code}}L
+    }
+  }
+  {%- endfor -%}
+
+  companion object {
+    fun getCluster(clusterId: Long): BaseCluster? {
+      {%- for cluster in clientClusters | sort(attribute='code') %}
+      if (clusterId == {{cluster.name}}.ID) {
+        return {{cluster.name}}()
+      }
+      {%- endfor %}
+      return null
+    }
+  }
+
+  interface BaseCluster {
+    fun getID(): Long
+
+    @Throws(NoSuchFieldError::class)
+    fun getAttributeName(id: Long): String
+
+    @Throws(NoSuchFieldError::class)
+    fun getEventName(id: Long): String
+
+    @Throws(NoSuchFieldError::class)
+    fun getCommandName(id: Long): String
+
+    @Throws(IllegalArgumentException::class)
+    fun getAttributeID(name: String): Long
+
+    @Throws(IllegalArgumentException::class)
+    fun getEventID(name: String): Long
+
+    @Throws(IllegalArgumentException::class)
+    fun getCommandID(name: String): Long
+  }
 }

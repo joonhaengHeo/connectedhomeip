@@ -352,18 +352,15 @@ group("unit_tests") {
   ]
 }
 
-android_library("chipclusterID") {
+kotlin_library("chipclusterID") {
   output_name = "CHIPClusterID.jar"
 
   sources = [
-    "generated/java/chip/devicecontroller/ClusterIDMapping.java",
-    "src/chip/devicecontroller/ChipIdLookup.java",
+    "generated/java/chip/devicecontroller/ClusterIDMapping.kt",
+    "src/chip/devicecontroller/ChipIdLookup.kt",
   ]
 
-  javac_flags = [
-    "-Xlint:deprecation",
-    "-parameters",  # Store infomation about method parameters
-  ]
+  kotlinc_flags = [ "-Xlint:deprecation" ]
 }
 
 android_library("java") {
