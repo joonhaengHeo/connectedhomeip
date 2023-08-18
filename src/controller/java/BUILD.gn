@@ -353,12 +353,18 @@ group("unit_tests") {
 }
 
 kotlin_library("chipclusterID") {
+  import(
+      "${chip_root}/src/controller/java/generated/java/chip/devicecontroller/ClusterIDMapping/files.gni")
+
   output_name = "CHIPClusterID.jar"
 
   sources = [
-    "generated/java/chip/devicecontroller/ClusterIDMapping.kt",
+    "generated/java/chip/devicecontroller/ClusterIDMapping/Clusters.kt",
     "src/chip/devicecontroller/ChipIdLookup.kt",
+    "src/chip/devicecontroller/ClusterIDMapping/BaseCluster.kt",
   ]
+
+  sources += cluster_sources
 
   kotlinc_flags = [ "-Xlint:deprecation" ]
 }

@@ -1,0 +1,196 @@
+/*
+ *
+ *    Copyright (c) 2023 Project CHIP Authors
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+package chip.devicecontroller.ClusterIDMapping
+
+object {{cluster.name}}: BaseCluster() {
+  const val ID = {{cluster.code}}L
+  {%- if cluster.attributes %}
+  sealed class Attribute(val id: Long, val name: String) {
+    {%- for attribute in cluster.attributes | sort(attribute='code') %}
+      object {{attribute.definition.name | upfirst}} : Attribute({{attribute.definition.code}}L, "{{attribute.definition.name | upfirst}}")
+    {%- endfor %}
+
+    companion object {
+      fun values(): List<Attribute> {
+        return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+      }
+
+      @Throws(NoSuchFieldError::class)
+      fun value(id: Long): Attribute {
+        for (attribute in values()) {
+          if (attribute.id == id) {
+            return attribute
+          }
+        }
+        throw NoSuchFieldError()
+      }
+
+      @Throws(IllegalArgumentException::class)
+      fun valueOf(value: String): Attribute {
+        for (attribute in values()) {
+          if (attribute.name == value) {
+            return attribute
+          }
+        }
+        throw IllegalArgumentException()
+      }
+    }
+  }
+  {%- endif -%}
+
+  {%- if cluster.events %}
+  sealed class Event(val id: Long, val name: String) {
+    {%- for event in cluster.events | sort(attribute='code') %}
+      object {{event.name | upfirst}} : Event({{event.code}}L, "{{event.name | upfirst}}")
+    {%- endfor %}
+
+    companion object {
+      fun values(): List<Event> {
+          return Event::class.sealedSubclasses.map { it.objectInstance!! }
+      }
+
+      @Throws(NoSuchFieldError::class)
+      fun value(id: Long): Event {
+        for (event in values()) {
+          if (event.id == id) {
+            return event
+          }
+        }
+        throw NoSuchFieldError()
+      }
+
+      @Throws(IllegalArgumentException::class)
+      fun valueOf(value: String): Event {
+        for (event in values()) {
+          if (event.name == value) {
+            return event
+          }
+        }
+        throw IllegalArgumentException()
+      }
+    }
+  }
+  {%- endif -%}
+
+  {%- if cluster.commands %}
+  sealed class Command(val id: Long, val name: String) {
+    {%- for command in cluster.commands | sort(attribute='code') %}
+      object {{command.name | upfirst}} : Command({{command.code}}L, "{{command.name | upfirst}}")
+    {%- endfor %}
+
+    companion object {
+      fun values(): List<Command> {
+          return Command::class.sealedSubclasses.map { it.objectInstance!! }
+      }
+
+      @Throws(NoSuchFieldError::class)
+      fun value(id: Long): Command {
+        for (command in values()) {
+          if (command.id == id) {
+            return command
+          }
+        }
+        throw NoSuchFieldError()
+      }
+
+      @Throws(IllegalArgumentException::class)
+      fun valueOf(value: String): Command {
+        for (command in values()) {
+          if (command.name == value) {
+            return command
+          }
+        }
+        throw IllegalArgumentException()
+      }
+    }
+  }
+  {%- endif -%}
+
+  {%- for command in cluster.commands | sort(attribute='code') %}
+  {%- if command.input_param %}
+  sealed class {{command.name | upfirst}}CommandField(val id: Int, val name: String) {
+    {%- for field in (cluster.structs | named(command.input_param)).fields %}
+      object {{field.name | upfirst}} : {{command.name | upfirst}}CommandField({{field.code}}, "{{field.name | upfirst}}")
+    {%- endfor %}
+
+    companion object {
+      fun values(): List<{{command.name | upfirst}}CommandField> {
+          return {{command.name | upfirst}}CommandField::class.sealedSubclasses.map { it.objectInstance!! }
+      }
+
+      @Throws(NoSuchFieldError::class)
+      fun value(id: Int): {{command.name | upfirst}}CommandField {
+        for (field in values()) {
+          if (field.id == id) {
+            return field
+          }
+        }
+        throw NoSuchFieldError()
+      }
+
+      @Throws(IllegalArgumentException::class)
+      fun valueOf(value: String): {{command.name | upfirst}}CommandField {
+        for (field in values()) {
+          if (field.name == value) {
+            return field
+          }
+        }
+        throw IllegalArgumentException()
+      }
+    }
+  }
+  {%- endif -%}
+  {% endfor %}
+
+  override fun getID(): Long { return ID }
+
+  {%- if cluster.attributes %}
+  override fun getAttributeName(id: Long): String {
+    return Attribute.value(id).toString()
+  }
+  {%- endif %}
+
+  {%- if cluster.events %}
+  override fun getEventName(id: Long): String {
+    return Event.value(id).toString()
+  }
+  {%- endif %}
+
+  {%- if cluster.commands %}
+  override fun getCommandName(id: Long): String {
+    return Command.value(id).toString()
+  }
+  {%- endif %}
+
+  {%- if cluster.attributes %}
+  override fun getAttributeID(name: String): Long {
+    return Attribute.valueOf(name).id
+  }
+  {%- endif %}
+
+  {%- if cluster.events %}
+  override fun getEventID(name: String): Long {
+    return Event.valueOf(name).id        
+  }
+  {%- endif %}
+
+  {%- if cluster.commands %}
+  override fun getCommandID(name: String): Long {
+    return Command.valueOf(name).id
+  }
+  {%- endif %}
+}

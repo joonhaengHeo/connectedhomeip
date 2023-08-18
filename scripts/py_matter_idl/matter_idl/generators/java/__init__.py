@@ -782,13 +782,37 @@ class JavaClassGenerator(__JavaCodeGenerator):
         )
 
         self.internal_render_one_output(
-            template_path="ClusterIDMapping.jinja",
-            output_file_name="java/chip/devicecontroller/ClusterIDMapping.kt",
+            template_path="Clusters.jinja",
+            output_file_name="java/chip/devicecontroller/ClusterIDMapping/Clusters.kt",
             vars={
                 'idl': self.idl,
                 'clientClusters': clientClusters,
             }
         )
+
+        self.internal_render_one_output(
+            template_path="ClustersFiles.jinja",
+            output_file_name="java/chip/devicecontroller/ClusterIDMapping/files.gni",
+            vars={
+                'idl': self.idl,
+                'clientClusters': clientClusters,
+            }
+        )
+
+        for cluster in self.idl.clusters:
+            if cluster.side != ClusterSide.CLIENT:
+                continue
+
+            output_name = "java/chip/devicecontroller/ClusterIDMapping/{cluster_name}.kt"
+            self.internal_render_one_output(
+                template_path="ClusterIDMappingClass.jinja",
+                output_file_name=output_name.format(
+                    cluster_name=cluster.name),
+                vars={
+                    'cluster': cluster,
+                    'typeLookup': TypeLookupContext(self.idl, cluster),
+                }
+            )
 
         # Every cluster has its own impl, to avoid
         # very large compilations (running out of RAM)

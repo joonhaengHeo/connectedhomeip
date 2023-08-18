@@ -16,13 +16,15 @@
  */
 package chip.devicecontroller
 
+import chip.devicecontroller.ClusterIDMapping.Clusters
+
 object ChipIdLookup {
     /**
      * Translates cluster ID to a cluster name in upper camel case. If no matching ID is found,
      * returns an empty string.
      */
     fun clusterIdToName(clusterId: Long): String {
-        val cluster = ClusterIDMapping.getCluster(clusterId) ?: return "UNKNOWN_CLUSTER($clusterId)"
+        val cluster = Clusters.getCluster(clusterId) ?: return "UNKNOWN_CLUSTER($clusterId)"
         return cluster.javaClass.simpleName
     }
 
@@ -31,7 +33,7 @@ object ChipIdLookup {
      * IDs are found, returns an empty string.
      */
     fun attributeIdToName(clusterId: Long, attributeId: Long): String {
-        val cluster = ClusterIDMapping.getCluster(clusterId) ?: return "UNKNOWN_CLUSTER($clusterId)"
+        val cluster = Clusters.getCluster(clusterId) ?: return "UNKNOWN_CLUSTER($clusterId)"
         return try {
             cluster.getAttributeName(attributeId)
         } catch (e: NoSuchFieldError) {
@@ -44,7 +46,7 @@ object ChipIdLookup {
      * are found, returns an empty string.
      */
     fun eventIdToName(clusterId: Long, eventId: Long): String {
-        val cluster = ClusterIDMapping.getCluster(clusterId)  ?: return "UNKNOWN_CLUSTER($clusterId)"
+        val cluster = Clusters.getCluster(clusterId)  ?: return "UNKNOWN_CLUSTER($clusterId)"
         return try {
             cluster.getEventName(eventId)
         } catch (e: NoSuchFieldError) {

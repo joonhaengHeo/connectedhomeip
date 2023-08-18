@@ -1,0 +1,8 @@
+import("//build_overrides/build.gni")
+import("//build_overrides/chip.gni")
+
+cluster_sources = [
+{%- for cluster in clientClusters | sort(attribute='code') %}
+  "${chip_root}/src/controller/java/generated/java/chip/devicecontroller/ClusterIDMapping/{{cluster.name}}.kt",
+{%- endfor %}
+]
