@@ -16,27 +16,48 @@
  */
 package chip.devicecontroller
 
-class ClusterIDMapping {
-  class Identify : BaseCluster {
-    enum class Attribute(val id: Long) {
-      IdentifyTime(0L),
-      IdentifyType(1L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+sealed class ClusterIDMapping {
+  object Identify : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object IdentifyTime : Attribute(0L, "IdentifyTime")
+
+      object IdentifyType : Attribute(1L, "IdentifyType")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -99,10 +120,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -111,38 +128,52 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 3L
-    }
+    const val ID = 3L
   }
 
-  class Groups : BaseCluster {
-    enum class Attribute(val id: Long) {
-      NameSupport(0L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Groups : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object NameSupport : Attribute(0L, "NameSupport")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -258,10 +289,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -270,45 +297,66 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 4L
-    }
+    const val ID = 4L
   }
 
-  class Scenes : BaseCluster {
-    enum class Attribute(val id: Long) {
-      SceneCount(0L),
-      CurrentScene(1L),
-      CurrentGroup(2L),
-      SceneValid(3L),
-      NameSupport(4L),
-      LastConfiguredBy(5L),
-      SceneTableSize(6L),
-      RemainingCapacity(7L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Scenes : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object SceneCount : Attribute(0L, "SceneCount")
+
+      object CurrentScene : Attribute(1L, "CurrentScene")
+
+      object CurrentGroup : Attribute(2L, "CurrentGroup")
+
+      object SceneValid : Attribute(3L, "SceneValid")
+
+      object NameSupport : Attribute(4L, "NameSupport")
+
+      object LastConfiguredBy : Attribute(5L, "LastConfiguredBy")
+
+      object SceneTableSize : Attribute(6L, "SceneTableSize")
+
+      object RemainingCapacity : Attribute(7L, "RemainingCapacity")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -524,10 +572,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -536,42 +580,60 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 5L
-    }
+    const val ID = 5L
   }
 
-  class OnOff : BaseCluster {
-    enum class Attribute(val id: Long) {
-      OnOff(0L),
-      GlobalSceneControl(16384L),
-      OnTime(16385L),
-      OffWaitTime(16386L),
-      StartUpOnOff(16387L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object OnOff : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object OnOff : Attribute(0L, "OnOff")
+
+      object GlobalSceneControl : Attribute(16384L, "GlobalSceneControl")
+
+      object OnTime : Attribute(16385L, "OnTime")
+
+      object OffWaitTime : Attribute(16386L, "OffWaitTime")
+
+      object StartUpOnOff : Attribute(16387L, "StartUpOnOff")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -640,10 +702,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -652,39 +710,54 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 6L
-    }
+    const val ID = 6L
   }
 
-  class OnOffSwitchConfiguration : BaseCluster {
-    enum class Attribute(val id: Long) {
-      SwitchType(0L),
-      SwitchActions(16L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object OnOffSwitchConfiguration : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object SwitchType : Attribute(0L, "SwitchType")
+
+      object SwitchActions : Attribute(16L, "SwitchActions")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -697,63 +770,78 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 7L
-    }
+    const val ID = 7L
   }
 
-  class LevelControl : BaseCluster {
-    enum class Attribute(val id: Long) {
-      CurrentLevel(0L),
-      RemainingTime(1L),
-      MinLevel(2L),
-      MaxLevel(3L),
-      CurrentFrequency(4L),
-      MinFrequency(5L),
-      MaxFrequency(6L),
-      Options(15L),
-      OnOffTransitionTime(16L),
-      OnLevel(17L),
-      OnTransitionTime(18L),
-      OffTransitionTime(19L),
-      DefaultMoveRate(20L),
-      StartUpCurrentLevel(16384L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object LevelControl : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object CurrentLevel : Attribute(0L, "CurrentLevel")
+
+      object RemainingTime : Attribute(1L, "RemainingTime")
+
+      object MinLevel : Attribute(2L, "MinLevel")
+
+      object MaxLevel : Attribute(3L, "MaxLevel")
+
+      object CurrentFrequency : Attribute(4L, "CurrentFrequency")
+
+      object MinFrequency : Attribute(5L, "MinFrequency")
+
+      object MaxFrequency : Attribute(6L, "MaxFrequency")
+
+      object Options : Attribute(15L, "Options")
+
+      object OnOffTransitionTime : Attribute(16L, "OnOffTransitionTime")
+
+      object OnLevel : Attribute(17L, "OnLevel")
+
+      object OnTransitionTime : Attribute(18L, "OnTransitionTime")
+
+      object OffTransitionTime : Attribute(19L, "OffTransitionTime")
+
+      object DefaultMoveRate : Attribute(20L, "DefaultMoveRate")
+
+      object StartUpCurrentLevel : Attribute(16384L, "StartUpCurrentLevel")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -956,10 +1044,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -968,46 +1052,68 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 8L
-    }
+    const val ID = 8L
   }
 
-  class BinaryInputBasic : BaseCluster {
-    enum class Attribute(val id: Long) {
-      ActiveText(4L),
-      Description(28L),
-      InactiveText(46L),
-      OutOfService(81L),
-      Polarity(84L),
-      PresentValue(85L),
-      Reliability(103L),
-      StatusFlags(111L),
-      ApplicationType(256L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object BinaryInputBasic : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object ActiveText : Attribute(4L, "ActiveText")
+
+      object Description : Attribute(28L, "Description")
+
+      object InactiveText : Attribute(46L, "InactiveText")
+
+      object OutOfService : Attribute(81L, "OutOfService")
+
+      object Polarity : Attribute(84L, "Polarity")
+
+      object PresentValue : Attribute(85L, "PresentValue")
+
+      object Reliability : Attribute(103L, "Reliability")
+
+      object StatusFlags : Attribute(111L, "StatusFlags")
+
+      object ApplicationType : Attribute(256L, "ApplicationType")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1020,49 +1126,50 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 15L
-    }
+    const val ID = 15L
   }
 
-  class PulseWidthModulation : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object PulseWidthModulation : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1075,54 +1182,60 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 28L
-    }
+    const val ID = 28L
   }
 
-  class Descriptor : BaseCluster {
-    enum class Attribute(val id: Long) {
-      DeviceTypeList(0L),
-      ServerList(1L),
-      ClientList(2L),
-      PartsList(3L),
-      TagList(4L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Descriptor : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object DeviceTypeList : Attribute(0L, "DeviceTypeList")
+
+      object ServerList : Attribute(1L, "ServerList")
+
+      object ClientList : Attribute(2L, "ClientList")
+
+      object PartsList : Attribute(3L, "PartsList")
+
+      object TagList : Attribute(4L, "TagList")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1135,50 +1248,52 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 29L
-    }
+    const val ID = 29L
   }
 
-  class Binding : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Binding(0L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Binding : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Binding : Attribute(0L, "Binding")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1191,54 +1306,60 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 30L
-    }
+    const val ID = 30L
   }
 
-  class AccessControl : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Acl(0L),
-      Extension(1L),
-      SubjectsPerAccessControlEntry(2L),
-      TargetsPerAccessControlEntry(3L),
-      AccessControlEntriesPerFabric(4L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object AccessControl : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Acl : Attribute(0L, "Acl")
+
+      object Extension : Attribute(1L, "Extension")
+
+      object SubjectsPerAccessControlEntry : Attribute(2L, "SubjectsPerAccessControlEntry")
+
+      object TargetsPerAccessControlEntry : Attribute(3L, "TargetsPerAccessControlEntry")
+
+      object AccessControlEntriesPerFabric : Attribute(4L, "AccessControlEntriesPerFabric")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1272,10 +1393,6 @@ class ClusterIDMapping {
       return Event.value(id).toString()
     }
 
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
@@ -1284,36 +1401,52 @@ class ClusterIDMapping {
       return Event.valueOf(name).id
     }
 
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 31L
-    }
+    const val ID = 31L
   }
 
-  class Actions : BaseCluster {
-    enum class Attribute(val id: Long) {
-      ActionList(0L),
-      EndpointLists(1L),
-      SetupURL(2L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Actions : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object ActionList : Attribute(0L, "ActionList")
+
+      object EndpointLists : Attribute(1L, "EndpointLists")
+
+      object SetupURL : Attribute(2L, "SetupURL")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1599,50 +1732,88 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 37L
-    }
+    const val ID = 37L
   }
 
-  class BasicInformation : BaseCluster {
-    enum class Attribute(val id: Long) {
-      DataModelRevision(0L),
-      VendorName(1L),
-      VendorID(2L),
-      ProductName(3L),
-      ProductID(4L),
-      NodeLabel(5L),
-      Location(6L),
-      HardwareVersion(7L),
-      HardwareVersionString(8L),
-      SoftwareVersion(9L),
-      SoftwareVersionString(10L),
-      ManufacturingDate(11L),
-      PartNumber(12L),
-      ProductURL(13L),
-      ProductLabel(14L),
-      SerialNumber(15L),
-      LocalConfigDisabled(16L),
-      Reachable(17L),
-      UniqueID(18L),
-      CapabilityMinima(19L),
-      ProductAppearance(20L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object BasicInformation : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object DataModelRevision : Attribute(0L, "DataModelRevision")
+
+      object VendorName : Attribute(1L, "VendorName")
+
+      object VendorID : Attribute(2L, "VendorID")
+
+      object ProductName : Attribute(3L, "ProductName")
+
+      object ProductID : Attribute(4L, "ProductID")
+
+      object NodeLabel : Attribute(5L, "NodeLabel")
+
+      object Location : Attribute(6L, "Location")
+
+      object HardwareVersion : Attribute(7L, "HardwareVersion")
+
+      object HardwareVersionString : Attribute(8L, "HardwareVersionString")
+
+      object SoftwareVersion : Attribute(9L, "SoftwareVersion")
+
+      object SoftwareVersionString : Attribute(10L, "SoftwareVersionString")
+
+      object ManufacturingDate : Attribute(11L, "ManufacturingDate")
+
+      object PartNumber : Attribute(12L, "PartNumber")
+
+      object ProductURL : Attribute(13L, "ProductURL")
+
+      object ProductLabel : Attribute(14L, "ProductLabel")
+
+      object SerialNumber : Attribute(15L, "SerialNumber")
+
+      object LocalConfigDisabled : Attribute(16L, "LocalConfigDisabled")
+
+      object Reachable : Attribute(17L, "Reachable")
+
+      object UniqueID : Attribute(18L, "UniqueID")
+
+      object CapabilityMinima : Attribute(19L, "CapabilityMinima")
+
+      object ProductAppearance : Attribute(20L, "ProductAppearance")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1710,29 +1881,46 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 40L
-    }
+    const val ID = 40L
   }
 
-  class OtaSoftwareUpdateProvider : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object OtaSoftwareUpdateProvider : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1820,10 +2008,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -1832,41 +2016,58 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 41L
-    }
+    const val ID = 41L
   }
 
-  class OtaSoftwareUpdateRequestor : BaseCluster {
-    enum class Attribute(val id: Long) {
-      DefaultOTAProviders(0L),
-      UpdatePossible(1L),
-      UpdateState(2L),
-      UpdateStateProgress(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object OtaSoftwareUpdateRequestor : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object DefaultOTAProviders : Attribute(0L, "DefaultOTAProviders")
+
+      object UpdatePossible : Attribute(1L, "UpdatePossible")
+
+      object UpdateState : Attribute(2L, "UpdateState")
+
+      object UpdateStateProgress : Attribute(3L, "UpdateStateProgress")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1953,31 +2154,50 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 42L
-    }
+    const val ID = 42L
   }
 
-  class LocalizationConfiguration : BaseCluster {
-    enum class Attribute(val id: Long) {
-      ActiveLocale(0L),
-      SupportedLocales(1L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object LocalizationConfiguration : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object ActiveLocale : Attribute(0L, "ActiveLocale")
+
+      object SupportedLocales : Attribute(1L, "SupportedLocales")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -1990,52 +2210,56 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 43L
-    }
+    const val ID = 43L
   }
 
-  class TimeFormatLocalization : BaseCluster {
-    enum class Attribute(val id: Long) {
-      HourFormat(0L),
-      ActiveCalendarType(1L),
-      SupportedCalendarTypes(2L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object TimeFormatLocalization : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object HourFormat : Attribute(0L, "HourFormat")
+
+      object ActiveCalendarType : Attribute(1L, "ActiveCalendarType")
+
+      object SupportedCalendarTypes : Attribute(2L, "SupportedCalendarTypes")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -2048,50 +2272,52 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 44L
-    }
+    const val ID = 44L
   }
 
-  class UnitLocalization : BaseCluster {
-    enum class Attribute(val id: Long) {
-      TemperatureUnit(0L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object UnitLocalization : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object TemperatureUnit : Attribute(0L, "TemperatureUnit")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -2104,50 +2330,52 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 45L
-    }
+    const val ID = 45L
   }
 
-  class PowerSourceConfiguration : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Sources(0L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object PowerSourceConfiguration : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Sources : Attribute(0L, "Sources")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -2160,81 +2388,114 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 46L
-    }
+    const val ID = 46L
   }
 
-  class PowerSource : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Status(0L),
-      Order(1L),
-      Description(2L),
-      WiredAssessedInputVoltage(3L),
-      WiredAssessedInputFrequency(4L),
-      WiredCurrentType(5L),
-      WiredAssessedCurrent(6L),
-      WiredNominalVoltage(7L),
-      WiredMaximumCurrent(8L),
-      WiredPresent(9L),
-      ActiveWiredFaults(10L),
-      BatVoltage(11L),
-      BatPercentRemaining(12L),
-      BatTimeRemaining(13L),
-      BatChargeLevel(14L),
-      BatReplacementNeeded(15L),
-      BatReplaceability(16L),
-      BatPresent(17L),
-      ActiveBatFaults(18L),
-      BatReplacementDescription(19L),
-      BatCommonDesignation(20L),
-      BatANSIDesignation(21L),
-      BatIECDesignation(22L),
-      BatApprovedChemistry(23L),
-      BatCapacity(24L),
-      BatQuantity(25L),
-      BatChargeState(26L),
-      BatTimeToFullCharge(27L),
-      BatFunctionalWhileCharging(28L),
-      BatChargingCurrent(29L),
-      ActiveBatChargeFaults(30L),
-      EndpointList(31L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object PowerSource : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Status : Attribute(0L, "Status")
+
+      object Order : Attribute(1L, "Order")
+
+      object Description : Attribute(2L, "Description")
+
+      object WiredAssessedInputVoltage : Attribute(3L, "WiredAssessedInputVoltage")
+
+      object WiredAssessedInputFrequency : Attribute(4L, "WiredAssessedInputFrequency")
+
+      object WiredCurrentType : Attribute(5L, "WiredCurrentType")
+
+      object WiredAssessedCurrent : Attribute(6L, "WiredAssessedCurrent")
+
+      object WiredNominalVoltage : Attribute(7L, "WiredNominalVoltage")
+
+      object WiredMaximumCurrent : Attribute(8L, "WiredMaximumCurrent")
+
+      object WiredPresent : Attribute(9L, "WiredPresent")
+
+      object ActiveWiredFaults : Attribute(10L, "ActiveWiredFaults")
+
+      object BatVoltage : Attribute(11L, "BatVoltage")
+
+      object BatPercentRemaining : Attribute(12L, "BatPercentRemaining")
+
+      object BatTimeRemaining : Attribute(13L, "BatTimeRemaining")
+
+      object BatChargeLevel : Attribute(14L, "BatChargeLevel")
+
+      object BatReplacementNeeded : Attribute(15L, "BatReplacementNeeded")
+
+      object BatReplaceability : Attribute(16L, "BatReplaceability")
+
+      object BatPresent : Attribute(17L, "BatPresent")
+
+      object ActiveBatFaults : Attribute(18L, "ActiveBatFaults")
+
+      object BatReplacementDescription : Attribute(19L, "BatReplacementDescription")
+
+      object BatCommonDesignation : Attribute(20L, "BatCommonDesignation")
+
+      object BatANSIDesignation : Attribute(21L, "BatANSIDesignation")
+
+      object BatIECDesignation : Attribute(22L, "BatIECDesignation")
+
+      object BatApprovedChemistry : Attribute(23L, "BatApprovedChemistry")
+
+      object BatCapacity : Attribute(24L, "BatCapacity")
+
+      object BatQuantity : Attribute(25L, "BatQuantity")
+
+      object BatChargeState : Attribute(26L, "BatChargeState")
+
+      object BatTimeToFullCharge : Attribute(27L, "BatTimeToFullCharge")
+
+      object BatFunctionalWhileCharging : Attribute(28L, "BatFunctionalWhileCharging")
+
+      object BatChargingCurrent : Attribute(29L, "BatChargingCurrent")
+
+      object ActiveBatChargeFaults : Attribute(30L, "ActiveBatChargeFaults")
+
+      object EndpointList : Attribute(31L, "EndpointList")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -2269,10 +2530,6 @@ class ClusterIDMapping {
       return Event.value(id).toString()
     }
 
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
@@ -2281,38 +2538,56 @@ class ClusterIDMapping {
       return Event.valueOf(name).id
     }
 
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 47L
-    }
+    const val ID = 47L
   }
 
-  class GeneralCommissioning : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Breadcrumb(0L),
-      BasicCommissioningInfo(1L),
-      RegulatoryConfig(2L),
-      LocationCapability(3L),
-      SupportsConcurrentConnection(4L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object GeneralCommissioning : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Breadcrumb : Attribute(0L, "Breadcrumb")
+
+      object BasicCommissioningInfo : Attribute(1L, "BasicCommissioningInfo")
+
+      object RegulatoryConfig : Attribute(2L, "RegulatoryConfig")
+
+      object LocationCapability : Attribute(3L, "LocationCapability")
+
+      object SupportsConcurrentConnection : Attribute(4L, "SupportsConcurrentConnection")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -2378,10 +2653,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -2390,45 +2661,66 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 48L
-    }
+    const val ID = 48L
   }
 
-  class NetworkCommissioning : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MaxNetworks(0L),
-      Networks(1L),
-      ScanMaxTimeSeconds(2L),
-      ConnectMaxTimeSeconds(3L),
-      InterfaceEnabled(4L),
-      LastNetworkingStatus(5L),
-      LastNetworkID(6L),
-      LastConnectErrorValue(7L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object NetworkCommissioning : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MaxNetworks : Attribute(0L, "MaxNetworks")
+
+      object Networks : Attribute(1L, "Networks")
+
+      object ScanMaxTimeSeconds : Attribute(2L, "ScanMaxTimeSeconds")
+
+      object ConnectMaxTimeSeconds : Attribute(3L, "ConnectMaxTimeSeconds")
+
+      object InterfaceEnabled : Attribute(4L, "InterfaceEnabled")
+
+      object LastNetworkingStatus : Attribute(5L, "LastNetworkingStatus")
+
+      object LastNetworkID : Attribute(6L, "LastNetworkID")
+
+      object LastConnectErrorValue : Attribute(7L, "LastConnectErrorValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -2566,10 +2858,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -2578,37 +2866,50 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 49L
-    }
+    const val ID = 49L
   }
 
-  class DiagnosticLogs : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object DiagnosticLogs : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -2655,10 +2956,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -2667,46 +2964,68 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 50L
-    }
+    const val ID = 50L
   }
 
-  class GeneralDiagnostics : BaseCluster {
-    enum class Attribute(val id: Long) {
-      NetworkInterfaces(0L),
-      RebootCount(1L),
-      UpTime(2L),
-      TotalOperationalHours(3L),
-      BootReason(4L),
-      ActiveHardwareFaults(5L),
-      ActiveRadioFaults(6L),
-      ActiveNetworkFaults(7L),
-      TestEventTriggersEnabled(8L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object GeneralDiagnostics : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object NetworkInterfaces : Attribute(0L, "NetworkInterfaces")
+
+      object RebootCount : Attribute(1L, "RebootCount")
+
+      object UpTime : Attribute(2L, "UpTime")
+
+      object TotalOperationalHours : Attribute(3L, "TotalOperationalHours")
+
+      object BootReason : Attribute(4L, "BootReason")
+
+      object ActiveHardwareFaults : Attribute(5L, "ActiveHardwareFaults")
+
+      object ActiveRadioFaults : Attribute(6L, "ActiveRadioFaults")
+
+      object ActiveNetworkFaults : Attribute(7L, "ActiveNetworkFaults")
+
+      object TestEventTriggersEnabled : Attribute(8L, "TestEventTriggersEnabled")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -2791,33 +3110,54 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 51L
-    }
+    const val ID = 51L
   }
 
-  class SoftwareDiagnostics : BaseCluster {
-    enum class Attribute(val id: Long) {
-      ThreadMetrics(0L),
-      CurrentHeapFree(1L),
-      CurrentHeapUsed(2L),
-      CurrentHeapHighWatermark(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object SoftwareDiagnostics : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object ThreadMetrics : Attribute(0L, "ThreadMetrics")
+
+      object CurrentHeapFree : Attribute(1L, "CurrentHeapFree")
+
+      object CurrentHeapUsed : Attribute(2L, "CurrentHeapUsed")
+
+      object CurrentHeapHighWatermark : Attribute(3L, "CurrentHeapHighWatermark")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -2882,92 +3222,173 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 52L
-    }
+    const val ID = 52L
   }
 
-  class ThreadNetworkDiagnostics : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Channel(0L),
-      RoutingRole(1L),
-      NetworkName(2L),
-      PanId(3L),
-      ExtendedPanId(4L),
-      MeshLocalPrefix(5L),
-      OverrunCount(6L),
-      NeighborTable(7L),
-      RouteTable(8L),
-      PartitionId(9L),
-      Weighting(10L),
-      DataVersion(11L),
-      StableDataVersion(12L),
-      LeaderRouterId(13L),
-      DetachedRoleCount(14L),
-      ChildRoleCount(15L),
-      RouterRoleCount(16L),
-      LeaderRoleCount(17L),
-      AttachAttemptCount(18L),
-      PartitionIdChangeCount(19L),
-      BetterPartitionAttachAttemptCount(20L),
-      ParentChangeCount(21L),
-      TxTotalCount(22L),
-      TxUnicastCount(23L),
-      TxBroadcastCount(24L),
-      TxAckRequestedCount(25L),
-      TxAckedCount(26L),
-      TxNoAckRequestedCount(27L),
-      TxDataCount(28L),
-      TxDataPollCount(29L),
-      TxBeaconCount(30L),
-      TxBeaconRequestCount(31L),
-      TxOtherCount(32L),
-      TxRetryCount(33L),
-      TxDirectMaxRetryExpiryCount(34L),
-      TxIndirectMaxRetryExpiryCount(35L),
-      TxErrCcaCount(36L),
-      TxErrAbortCount(37L),
-      TxErrBusyChannelCount(38L),
-      RxTotalCount(39L),
-      RxUnicastCount(40L),
-      RxBroadcastCount(41L),
-      RxDataCount(42L),
-      RxDataPollCount(43L),
-      RxBeaconCount(44L),
-      RxBeaconRequestCount(45L),
-      RxOtherCount(46L),
-      RxAddressFilteredCount(47L),
-      RxDestAddrFilteredCount(48L),
-      RxDuplicatedCount(49L),
-      RxErrNoFrameCount(50L),
-      RxErrUnknownNeighborCount(51L),
-      RxErrInvalidSrcAddrCount(52L),
-      RxErrSecCount(53L),
-      RxErrFcsCount(54L),
-      RxErrOtherCount(55L),
-      ActiveTimestamp(56L),
-      PendingTimestamp(57L),
-      Delay(58L),
-      SecurityPolicy(59L),
-      ChannelPage0Mask(60L),
-      OperationalDatasetComponents(61L),
-      ActiveNetworkFaultsList(62L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ThreadNetworkDiagnostics : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Channel : Attribute(0L, "Channel")
+
+      object RoutingRole : Attribute(1L, "RoutingRole")
+
+      object NetworkName : Attribute(2L, "NetworkName")
+
+      object PanId : Attribute(3L, "PanId")
+
+      object ExtendedPanId : Attribute(4L, "ExtendedPanId")
+
+      object MeshLocalPrefix : Attribute(5L, "MeshLocalPrefix")
+
+      object OverrunCount : Attribute(6L, "OverrunCount")
+
+      object NeighborTable : Attribute(7L, "NeighborTable")
+
+      object RouteTable : Attribute(8L, "RouteTable")
+
+      object PartitionId : Attribute(9L, "PartitionId")
+
+      object Weighting : Attribute(10L, "Weighting")
+
+      object DataVersion : Attribute(11L, "DataVersion")
+
+      object StableDataVersion : Attribute(12L, "StableDataVersion")
+
+      object LeaderRouterId : Attribute(13L, "LeaderRouterId")
+
+      object DetachedRoleCount : Attribute(14L, "DetachedRoleCount")
+
+      object ChildRoleCount : Attribute(15L, "ChildRoleCount")
+
+      object RouterRoleCount : Attribute(16L, "RouterRoleCount")
+
+      object LeaderRoleCount : Attribute(17L, "LeaderRoleCount")
+
+      object AttachAttemptCount : Attribute(18L, "AttachAttemptCount")
+
+      object PartitionIdChangeCount : Attribute(19L, "PartitionIdChangeCount")
+
+      object BetterPartitionAttachAttemptCount :
+        Attribute(20L, "BetterPartitionAttachAttemptCount")
+
+      object ParentChangeCount : Attribute(21L, "ParentChangeCount")
+
+      object TxTotalCount : Attribute(22L, "TxTotalCount")
+
+      object TxUnicastCount : Attribute(23L, "TxUnicastCount")
+
+      object TxBroadcastCount : Attribute(24L, "TxBroadcastCount")
+
+      object TxAckRequestedCount : Attribute(25L, "TxAckRequestedCount")
+
+      object TxAckedCount : Attribute(26L, "TxAckedCount")
+
+      object TxNoAckRequestedCount : Attribute(27L, "TxNoAckRequestedCount")
+
+      object TxDataCount : Attribute(28L, "TxDataCount")
+
+      object TxDataPollCount : Attribute(29L, "TxDataPollCount")
+
+      object TxBeaconCount : Attribute(30L, "TxBeaconCount")
+
+      object TxBeaconRequestCount : Attribute(31L, "TxBeaconRequestCount")
+
+      object TxOtherCount : Attribute(32L, "TxOtherCount")
+
+      object TxRetryCount : Attribute(33L, "TxRetryCount")
+
+      object TxDirectMaxRetryExpiryCount : Attribute(34L, "TxDirectMaxRetryExpiryCount")
+
+      object TxIndirectMaxRetryExpiryCount : Attribute(35L, "TxIndirectMaxRetryExpiryCount")
+
+      object TxErrCcaCount : Attribute(36L, "TxErrCcaCount")
+
+      object TxErrAbortCount : Attribute(37L, "TxErrAbortCount")
+
+      object TxErrBusyChannelCount : Attribute(38L, "TxErrBusyChannelCount")
+
+      object RxTotalCount : Attribute(39L, "RxTotalCount")
+
+      object RxUnicastCount : Attribute(40L, "RxUnicastCount")
+
+      object RxBroadcastCount : Attribute(41L, "RxBroadcastCount")
+
+      object RxDataCount : Attribute(42L, "RxDataCount")
+
+      object RxDataPollCount : Attribute(43L, "RxDataPollCount")
+
+      object RxBeaconCount : Attribute(44L, "RxBeaconCount")
+
+      object RxBeaconRequestCount : Attribute(45L, "RxBeaconRequestCount")
+
+      object RxOtherCount : Attribute(46L, "RxOtherCount")
+
+      object RxAddressFilteredCount : Attribute(47L, "RxAddressFilteredCount")
+
+      object RxDestAddrFilteredCount : Attribute(48L, "RxDestAddrFilteredCount")
+
+      object RxDuplicatedCount : Attribute(49L, "RxDuplicatedCount")
+
+      object RxErrNoFrameCount : Attribute(50L, "RxErrNoFrameCount")
+
+      object RxErrUnknownNeighborCount : Attribute(51L, "RxErrUnknownNeighborCount")
+
+      object RxErrInvalidSrcAddrCount : Attribute(52L, "RxErrInvalidSrcAddrCount")
+
+      object RxErrSecCount : Attribute(53L, "RxErrSecCount")
+
+      object RxErrFcsCount : Attribute(54L, "RxErrFcsCount")
+
+      object RxErrOtherCount : Attribute(55L, "RxErrOtherCount")
+
+      object ActiveTimestamp : Attribute(56L, "ActiveTimestamp")
+
+      object PendingTimestamp : Attribute(57L, "PendingTimestamp")
+
+      object Delay : Attribute(58L, "Delay")
+
+      object SecurityPolicy : Attribute(59L, "SecurityPolicy")
+
+      object ChannelPage0Mask : Attribute(60L, "ChannelPage0Mask")
+
+      object OperationalDatasetComponents : Attribute(61L, "OperationalDatasetComponents")
+
+      object ActiveNetworkFaultsList : Attribute(62L, "ActiveNetworkFaultsList")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -3033,42 +3454,72 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 53L
-    }
+    const val ID = 53L
   }
 
-  class WiFiNetworkDiagnostics : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Bssid(0L),
-      SecurityType(1L),
-      WiFiVersion(2L),
-      ChannelNumber(3L),
-      Rssi(4L),
-      BeaconLostCount(5L),
-      BeaconRxCount(6L),
-      PacketMulticastRxCount(7L),
-      PacketMulticastTxCount(8L),
-      PacketUnicastRxCount(9L),
-      PacketUnicastTxCount(10L),
-      CurrentMaxRate(11L),
-      OverrunCount(12L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object WiFiNetworkDiagnostics : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Bssid : Attribute(0L, "Bssid")
+
+      object SecurityType : Attribute(1L, "SecurityType")
+
+      object WiFiVersion : Attribute(2L, "WiFiVersion")
+
+      object ChannelNumber : Attribute(3L, "ChannelNumber")
+
+      object Rssi : Attribute(4L, "Rssi")
+
+      object BeaconLostCount : Attribute(5L, "BeaconLostCount")
+
+      object BeaconRxCount : Attribute(6L, "BeaconRxCount")
+
+      object PacketMulticastRxCount : Attribute(7L, "PacketMulticastRxCount")
+
+      object PacketMulticastTxCount : Attribute(8L, "PacketMulticastTxCount")
+
+      object PacketUnicastRxCount : Attribute(9L, "PacketUnicastRxCount")
+
+      object PacketUnicastTxCount : Attribute(10L, "PacketUnicastTxCount")
+
+      object CurrentMaxRate : Attribute(11L, "CurrentMaxRate")
+
+      object OverrunCount : Attribute(12L, "OverrunCount")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -3135,38 +3586,64 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 54L
-    }
+    const val ID = 54L
   }
 
-  class EthernetNetworkDiagnostics : BaseCluster {
-    enum class Attribute(val id: Long) {
-      PHYRate(0L),
-      FullDuplex(1L),
-      PacketRxCount(2L),
-      PacketTxCount(3L),
-      TxErrCount(4L),
-      CollisionCount(5L),
-      OverrunCount(6L),
-      CarrierDetect(7L),
-      TimeSinceReset(8L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object EthernetNetworkDiagnostics : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object PHYRate : Attribute(0L, "PHYRate")
+
+      object FullDuplex : Attribute(1L, "FullDuplex")
+
+      object PacketRxCount : Attribute(2L, "PacketRxCount")
+
+      object PacketTxCount : Attribute(3L, "PacketTxCount")
+
+      object TxErrCount : Attribute(4L, "TxErrCount")
+
+      object CollisionCount : Attribute(5L, "CollisionCount")
+
+      object OverrunCount : Attribute(6L, "OverrunCount")
+
+      object CarrierDetect : Attribute(7L, "CarrierDetect")
+
+      object TimeSinceReset : Attribute(8L, "TimeSinceReset")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -3195,10 +3672,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -3207,50 +3680,76 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 55L
-    }
+    const val ID = 55L
   }
 
-  class TimeSynchronization : BaseCluster {
-    enum class Attribute(val id: Long) {
-      UTCTime(0L),
-      Granularity(1L),
-      TimeSource(2L),
-      TrustedTimeSource(3L),
-      DefaultNTP(4L),
-      TimeZone(5L),
-      DSTOffset(6L),
-      LocalTime(7L),
-      TimeZoneDatabase(8L),
-      NTPServerAvailable(9L),
-      TimeZoneListMaxSize(10L),
-      DSTOffsetListMaxSize(11L),
-      SupportsDNSResolve(12L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object TimeSynchronization : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object UTCTime : Attribute(0L, "UTCTime")
+
+      object Granularity : Attribute(1L, "Granularity")
+
+      object TimeSource : Attribute(2L, "TimeSource")
+
+      object TrustedTimeSource : Attribute(3L, "TrustedTimeSource")
+
+      object DefaultNTP : Attribute(4L, "DefaultNTP")
+
+      object TimeZone : Attribute(5L, "TimeZone")
+
+      object DSTOffset : Attribute(6L, "DSTOffset")
+
+      object LocalTime : Attribute(7L, "LocalTime")
+
+      object TimeZoneDatabase : Attribute(8L, "TimeZoneDatabase")
+
+      object NTPServerAvailable : Attribute(9L, "NTPServerAvailable")
+
+      object TimeZoneListMaxSize : Attribute(10L, "TimeZoneListMaxSize")
+
+      object DSTOffsetListMaxSize : Attribute(11L, "DSTOffsetListMaxSize")
+
+      object SupportsDNSResolve : Attribute(12L, "SupportsDNSResolve")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -3405,45 +3904,78 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 56L
-    }
+    const val ID = 56L
   }
 
-  class BridgedDeviceBasicInformation : BaseCluster {
-    enum class Attribute(val id: Long) {
-      VendorName(1L),
-      VendorID(2L),
-      ProductName(3L),
-      NodeLabel(5L),
-      HardwareVersion(7L),
-      HardwareVersionString(8L),
-      SoftwareVersion(9L),
-      SoftwareVersionString(10L),
-      ManufacturingDate(11L),
-      PartNumber(12L),
-      ProductURL(13L),
-      ProductLabel(14L),
-      SerialNumber(15L),
-      Reachable(17L),
-      UniqueID(18L),
-      ProductAppearance(20L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object BridgedDeviceBasicInformation : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object VendorName : Attribute(1L, "VendorName")
+
+      object VendorID : Attribute(2L, "VendorID")
+
+      object ProductName : Attribute(3L, "ProductName")
+
+      object NodeLabel : Attribute(5L, "NodeLabel")
+
+      object HardwareVersion : Attribute(7L, "HardwareVersion")
+
+      object HardwareVersionString : Attribute(8L, "HardwareVersionString")
+
+      object SoftwareVersion : Attribute(9L, "SoftwareVersion")
+
+      object SoftwareVersionString : Attribute(10L, "SoftwareVersionString")
+
+      object ManufacturingDate : Attribute(11L, "ManufacturingDate")
+
+      object PartNumber : Attribute(12L, "PartNumber")
+
+      object ProductURL : Attribute(13L, "ProductURL")
+
+      object ProductLabel : Attribute(14L, "ProductLabel")
+
+      object SerialNumber : Attribute(15L, "SerialNumber")
+
+      object Reachable : Attribute(17L, "Reachable")
+
+      object UniqueID : Attribute(18L, "UniqueID")
+
+      object ProductAppearance : Attribute(20L, "ProductAppearance")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -3479,10 +4011,6 @@ class ClusterIDMapping {
       return Event.value(id).toString()
     }
 
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
@@ -3491,36 +4019,52 @@ class ClusterIDMapping {
       return Event.valueOf(name).id
     }
 
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 57L
-    }
+    const val ID = 57L
   }
 
-  class Switch : BaseCluster {
-    enum class Attribute(val id: Long) {
-      NumberOfPositions(0L),
-      CurrentPosition(1L),
-      MultiPressMax(2L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Switch : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object NumberOfPositions : Attribute(0L, "NumberOfPositions")
+
+      object CurrentPosition : Attribute(1L, "CurrentPosition")
+
+      object MultiPressMax : Attribute(2L, "MultiPressMax")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -3559,10 +4103,6 @@ class ClusterIDMapping {
       return Event.value(id).toString()
     }
 
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
@@ -3571,36 +4111,52 @@ class ClusterIDMapping {
       return Event.valueOf(name).id
     }
 
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 59L
-    }
+    const val ID = 59L
   }
 
-  class AdministratorCommissioning : BaseCluster {
-    enum class Attribute(val id: Long) {
-      WindowStatus(0L),
-      AdminFabricIndex(1L),
-      AdminVendorId(2L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object AdministratorCommissioning : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object WindowStatus : Attribute(0L, "WindowStatus")
+
+      object AdminFabricIndex : Attribute(1L, "AdminFabricIndex")
+
+      object AdminVendorId : Attribute(2L, "AdminVendorId")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -3667,10 +4223,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -3679,43 +4231,62 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 60L
-    }
+    const val ID = 60L
   }
 
-  class OperationalCredentials : BaseCluster {
-    enum class Attribute(val id: Long) {
-      NOCs(0L),
-      Fabrics(1L),
-      SupportedFabrics(2L),
-      CommissionedFabrics(3L),
-      TrustedRootCertificates(4L),
-      CurrentFabricIndex(5L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object OperationalCredentials : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object NOCs : Attribute(0L, "NOCs")
+
+      object Fabrics : Attribute(1L, "Fabrics")
+
+      object SupportedFabrics : Attribute(2L, "SupportedFabrics")
+
+      object CommissionedFabrics : Attribute(3L, "CommissionedFabrics")
+
+      object TrustedRootCertificates : Attribute(4L, "TrustedRootCertificates")
+
+      object CurrentFabricIndex : Attribute(5L, "CurrentFabricIndex")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -3885,10 +4456,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -3897,41 +4464,58 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 62L
-    }
+    const val ID = 62L
   }
 
-  class GroupKeyManagement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GroupKeyMap(0L),
-      GroupTable(1L),
-      MaxGroupsPerFabric(2L),
-      MaxGroupKeysPerFabric(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object GroupKeyManagement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GroupKeyMap : Attribute(0L, "GroupKeyMap")
+
+      object GroupTable : Attribute(1L, "GroupTable")
+
+      object MaxGroupsPerFabric : Attribute(2L, "MaxGroupsPerFabric")
+
+      object MaxGroupKeysPerFabric : Attribute(3L, "MaxGroupKeysPerFabric")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4011,10 +4595,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -4023,38 +4603,52 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 63L
-    }
+    const val ID = 63L
   }
 
-  class FixedLabel : BaseCluster {
-    enum class Attribute(val id: Long) {
-      LabelList(0L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object FixedLabel : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object LabelList : Attribute(0L, "LabelList")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4067,50 +4661,52 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 64L
-    }
+    const val ID = 64L
   }
 
-  class UserLabel : BaseCluster {
-    enum class Attribute(val id: Long) {
-      LabelList(0L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object UserLabel : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object LabelList : Attribute(0L, "LabelList")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4123,49 +4719,50 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 65L
-    }
+    const val ID = 65L
   }
 
-  class ProxyConfiguration : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ProxyConfiguration : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4178,49 +4775,50 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 66L
-    }
+    const val ID = 66L
   }
 
-  class ProxyDiscovery : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ProxyDiscovery : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4233,49 +4831,50 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 67L
-    }
+    const val ID = 67L
   }
 
-  class ProxyValid : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ProxyValid : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4288,50 +4887,52 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 68L
-    }
+    const val ID = 68L
   }
 
-  class BooleanState : BaseCluster {
-    enum class Attribute(val id: Long) {
-      StateValue(0L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object BooleanState : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object StateValue : Attribute(0L, "StateValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4364,10 +4965,6 @@ class ClusterIDMapping {
       return Event.value(id).toString()
     }
 
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
@@ -4376,39 +4973,58 @@ class ClusterIDMapping {
       return Event.valueOf(name).id
     }
 
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 69L
-    }
+    const val ID = 69L
   }
 
-  class IcdManagement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      IdleModeInterval(0L),
-      ActiveModeInterval(1L),
-      ActiveModeThreshold(2L),
-      RegisteredClients(3L),
-      ICDCounter(4L),
-      ClientsSupportedPerFabric(5L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object IcdManagement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object IdleModeInterval : Attribute(0L, "IdleModeInterval")
+
+      object ActiveModeInterval : Attribute(1L, "ActiveModeInterval")
+
+      object ActiveModeThreshold : Attribute(2L, "ActiveModeThreshold")
+
+      object RegisteredClients : Attribute(3L, "RegisteredClients")
+
+      object ICDCounter : Attribute(4L, "ICDCounter")
+
+      object ClientsSupportedPerFabric : Attribute(5L, "ClientsSupportedPerFabric")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4475,10 +5091,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -4487,43 +5099,62 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 70L
-    }
+    const val ID = 70L
   }
 
-  class ModeSelect : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Description(0L),
-      StandardNamespace(1L),
-      SupportedModes(2L),
-      CurrentMode(3L),
-      StartUpMode(4L),
-      OnMode(5L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ModeSelect : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Description : Attribute(0L, "Description")
+
+      object StandardNamespace : Attribute(1L, "StandardNamespace")
+
+      object SupportedModes : Attribute(2L, "SupportedModes")
+
+      object CurrentMode : Attribute(3L, "CurrentMode")
+
+      object StartUpMode : Attribute(4L, "StartUpMode")
+
+      object OnMode : Attribute(5L, "OnMode")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4568,10 +5199,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -4580,41 +5207,58 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 80L
-    }
+    const val ID = 80L
   }
 
-  class LaundryWasherMode : BaseCluster {
-    enum class Attribute(val id: Long) {
-      SupportedModes(0L),
-      CurrentMode(1L),
-      StartUpMode(2L),
-      OnMode(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object LaundryWasherMode : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object SupportedModes : Attribute(0L, "SupportedModes")
+
+      object CurrentMode : Attribute(1L, "CurrentMode")
+
+      object StartUpMode : Attribute(2L, "StartUpMode")
+
+      object OnMode : Attribute(3L, "OnMode")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4659,10 +5303,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -4671,41 +5311,58 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 81L
-    }
+    const val ID = 81L
   }
 
-  class RefrigeratorAndTemperatureControlledCabinetMode : BaseCluster {
-    enum class Attribute(val id: Long) {
-      SupportedModes(0L),
-      CurrentMode(1L),
-      StartUpMode(2L),
-      OnMode(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object RefrigeratorAndTemperatureControlledCabinetMode : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object SupportedModes : Attribute(0L, "SupportedModes")
+
+      object CurrentMode : Attribute(1L, "CurrentMode")
+
+      object StartUpMode : Attribute(2L, "StartUpMode")
+
+      object OnMode : Attribute(3L, "OnMode")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4750,10 +5407,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -4762,41 +5415,58 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 82L
-    }
+    const val ID = 82L
   }
 
-  class LaundryWasherControls : BaseCluster {
-    enum class Attribute(val id: Long) {
-      SpinSpeeds(0L),
-      SpinSpeedCurrent(1L),
-      NumberOfRinses(2L),
-      SupportedRinses(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object LaundryWasherControls : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object SpinSpeeds : Attribute(0L, "SpinSpeeds")
+
+      object SpinSpeedCurrent : Attribute(1L, "SpinSpeedCurrent")
+
+      object NumberOfRinses : Attribute(2L, "NumberOfRinses")
+
+      object SupportedRinses : Attribute(3L, "SupportedRinses")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4809,53 +5479,58 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 83L
-    }
+    const val ID = 83L
   }
 
-  class RvcRunMode : BaseCluster {
-    enum class Attribute(val id: Long) {
-      SupportedModes(0L),
-      CurrentMode(1L),
-      StartUpMode(2L),
-      OnMode(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object RvcRunMode : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object SupportedModes : Attribute(0L, "SupportedModes")
+
+      object CurrentMode : Attribute(1L, "CurrentMode")
+
+      object StartUpMode : Attribute(2L, "StartUpMode")
+
+      object OnMode : Attribute(3L, "OnMode")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4900,10 +5575,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -4912,41 +5583,58 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 84L
-    }
+    const val ID = 84L
   }
 
-  class RvcCleanMode : BaseCluster {
-    enum class Attribute(val id: Long) {
-      SupportedModes(0L),
-      CurrentMode(1L),
-      StartUpMode(2L),
-      OnMode(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object RvcCleanMode : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object SupportedModes : Attribute(0L, "SupportedModes")
+
+      object CurrentMode : Attribute(1L, "CurrentMode")
+
+      object StartUpMode : Attribute(2L, "StartUpMode")
+
+      object OnMode : Attribute(3L, "OnMode")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -4991,10 +5679,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -5003,43 +5687,62 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 85L
-    }
+    const val ID = 85L
   }
 
-  class TemperatureControl : BaseCluster {
-    enum class Attribute(val id: Long) {
-      TemperatureSetpoint(0L),
-      MinTemperature(1L),
-      MaxTemperature(2L),
-      Step(3L),
-      SelectedTemperatureLevel(4L),
-      SupportedTemperatureLevels(5L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object TemperatureControl : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object TemperatureSetpoint : Attribute(0L, "TemperatureSetpoint")
+
+      object MinTemperature : Attribute(1L, "MinTemperature")
+
+      object MaxTemperature : Attribute(2L, "MaxTemperature")
+
+      object Step : Attribute(3L, "Step")
+
+      object SelectedTemperatureLevel : Attribute(4L, "SelectedTemperatureLevel")
+
+      object SupportedTemperatureLevels : Attribute(5L, "SupportedTemperatureLevels")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5085,10 +5788,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -5097,40 +5796,56 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 86L
-    }
+    const val ID = 86L
   }
 
-  class RefrigeratorAlarm : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Mask(0L),
-      State(2L),
-      Supported(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object RefrigeratorAlarm : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Mask : Attribute(0L, "Mask")
+
+      object State : Attribute(2L, "State")
+
+      object Supported : Attribute(3L, "Supported")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5163,10 +5878,6 @@ class ClusterIDMapping {
       return Event.value(id).toString()
     }
 
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
@@ -5175,37 +5886,54 @@ class ClusterIDMapping {
       return Event.valueOf(name).id
     }
 
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 87L
-    }
+    const val ID = 87L
   }
 
-  class DishwasherMode : BaseCluster {
-    enum class Attribute(val id: Long) {
-      SupportedModes(0L),
-      CurrentMode(1L),
-      StartUpMode(2L),
-      OnMode(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object DishwasherMode : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object SupportedModes : Attribute(0L, "SupportedModes")
+
+      object CurrentMode : Attribute(1L, "CurrentMode")
+
+      object StartUpMode : Attribute(2L, "StartUpMode")
+
+      object OnMode : Attribute(3L, "OnMode")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5250,10 +5978,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -5262,38 +5986,52 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 89L
-    }
+    const val ID = 89L
   }
 
-  class AirQuality : BaseCluster {
-    enum class Attribute(val id: Long) {
-      AirQuality(0L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object AirQuality : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object AirQuality : Attribute(0L, "AirQuality")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5306,62 +6044,76 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 91L
-    }
+    const val ID = 91L
   }
 
-  class SmokeCoAlarm : BaseCluster {
-    enum class Attribute(val id: Long) {
-      ExpressedState(0L),
-      SmokeState(1L),
-      COState(2L),
-      BatteryAlert(3L),
-      DeviceMuted(4L),
-      TestInProgress(5L),
-      HardwareFaultAlert(6L),
-      EndOfServiceAlert(7L),
-      InterconnectSmokeAlarm(8L),
-      InterconnectCOAlarm(9L),
-      ContaminationState(10L),
-      SmokeSensitivityLevel(11L),
-      ExpiryDate(12L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object SmokeCoAlarm : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object ExpressedState : Attribute(0L, "ExpressedState")
+
+      object SmokeState : Attribute(1L, "SmokeState")
+
+      object COState : Attribute(2L, "COState")
+
+      object BatteryAlert : Attribute(3L, "BatteryAlert")
+
+      object DeviceMuted : Attribute(4L, "DeviceMuted")
+
+      object TestInProgress : Attribute(5L, "TestInProgress")
+
+      object HardwareFaultAlert : Attribute(6L, "HardwareFaultAlert")
+
+      object EndOfServiceAlert : Attribute(7L, "EndOfServiceAlert")
+
+      object InterconnectSmokeAlarm : Attribute(8L, "InterconnectSmokeAlarm")
+
+      object InterconnectCOAlarm : Attribute(9L, "InterconnectCOAlarm")
+
+      object ContaminationState : Attribute(10L, "ContaminationState")
+
+      object SmokeSensitivityLevel : Attribute(11L, "SmokeSensitivityLevel")
+
+      object ExpiryDate : Attribute(12L, "ExpiryDate")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5436,33 +6188,54 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 92L
-    }
+    const val ID = 92L
   }
 
-  class DishwasherAlarm : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Mask(0L),
-      Latch(1L),
-      State(2L),
-      Supported(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object DishwasherAlarm : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Mask : Attribute(0L, "Mask")
+
+      object Latch : Attribute(1L, "Latch")
+
+      object State : Attribute(2L, "State")
+
+      object Supported : Attribute(3L, "Supported")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5560,35 +6333,58 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 93L
-    }
+    const val ID = 93L
   }
 
-  class OperationalState : BaseCluster {
-    enum class Attribute(val id: Long) {
-      PhaseList(0L),
-      CurrentPhase(1L),
-      CountdownTime(2L),
-      OperationalStateList(3L),
-      OperationalState(4L),
-      OperationalError(5L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object OperationalState : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object PhaseList : Attribute(0L, "PhaseList")
+
+      object CurrentPhase : Attribute(1L, "CurrentPhase")
+
+      object CountdownTime : Attribute(2L, "CountdownTime")
+
+      object OperationalStateList : Attribute(3L, "OperationalStateList")
+
+      object OperationalState : Attribute(4L, "OperationalState")
+
+      object OperationalError : Attribute(5L, "OperationalError")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5657,35 +6453,58 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 96L
-    }
+    const val ID = 96L
   }
 
-  class RvcOperationalState : BaseCluster {
-    enum class Attribute(val id: Long) {
-      PhaseList(0L),
-      CurrentPhase(1L),
-      CountdownTime(2L),
-      OperationalStateList(3L),
-      OperationalState(4L),
-      OperationalError(5L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object RvcOperationalState : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object PhaseList : Attribute(0L, "PhaseList")
+
+      object CurrentPhase : Attribute(1L, "CurrentPhase")
+
+      object CountdownTime : Attribute(2L, "CountdownTime")
+
+      object OperationalStateList : Attribute(3L, "OperationalStateList")
+
+      object OperationalState : Attribute(4L, "OperationalState")
+
+      object OperationalError : Attribute(5L, "OperationalError")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5754,35 +6573,58 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 97L
-    }
+    const val ID = 97L
   }
 
-  class HepaFilterMonitoring : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Condition(0L),
-      DegradationDirection(1L),
-      ChangeIndication(2L),
-      InPlaceIndicator(3L),
-      LastChangedTime(4L),
-      ReplacementProductList(5L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object HepaFilterMonitoring : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Condition : Attribute(0L, "Condition")
+
+      object DegradationDirection : Attribute(1L, "DegradationDirection")
+
+      object ChangeIndication : Attribute(2L, "ChangeIndication")
+
+      object InPlaceIndicator : Attribute(3L, "InPlaceIndicator")
+
+      object LastChangedTime : Attribute(4L, "LastChangedTime")
+
+      object ReplacementProductList : Attribute(5L, "ReplacementProductList")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5811,10 +6653,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -5823,43 +6661,62 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 113L
-    }
+    const val ID = 113L
   }
 
-  class ActivatedCarbonFilterMonitoring : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Condition(0L),
-      DegradationDirection(1L),
-      ChangeIndication(2L),
-      InPlaceIndicator(3L),
-      LastChangedTime(4L),
-      ReplacementProductList(5L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ActivatedCarbonFilterMonitoring : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Condition : Attribute(0L, "Condition")
+
+      object DegradationDirection : Attribute(1L, "DegradationDirection")
+
+      object ChangeIndication : Attribute(2L, "ChangeIndication")
+
+      object InPlaceIndicator : Attribute(3L, "InPlaceIndicator")
+
+      object LastChangedTime : Attribute(4L, "LastChangedTime")
+
+      object ReplacementProductList : Attribute(5L, "ReplacementProductList")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -5888,10 +6745,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -5900,73 +6753,126 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 114L
-    }
+    const val ID = 114L
   }
 
-  class DoorLock : BaseCluster {
-    enum class Attribute(val id: Long) {
-      LockState(0L),
-      LockType(1L),
-      ActuatorEnabled(2L),
-      DoorState(3L),
-      DoorOpenEvents(4L),
-      DoorClosedEvents(5L),
-      OpenPeriod(6L),
-      NumberOfTotalUsersSupported(17L),
-      NumberOfPINUsersSupported(18L),
-      NumberOfRFIDUsersSupported(19L),
-      NumberOfWeekDaySchedulesSupportedPerUser(20L),
-      NumberOfYearDaySchedulesSupportedPerUser(21L),
-      NumberOfHolidaySchedulesSupported(22L),
-      MaxPINCodeLength(23L),
-      MinPINCodeLength(24L),
-      MaxRFIDCodeLength(25L),
-      MinRFIDCodeLength(26L),
-      CredentialRulesSupport(27L),
-      NumberOfCredentialsSupportedPerUser(28L),
-      Language(33L),
-      LEDSettings(34L),
-      AutoRelockTime(35L),
-      SoundVolume(36L),
-      OperatingMode(37L),
-      SupportedOperatingModes(38L),
-      DefaultConfigurationRegister(39L),
-      EnableLocalProgramming(40L),
-      EnableOneTouchLocking(41L),
-      EnableInsideStatusLED(42L),
-      EnablePrivacyModeButton(43L),
-      LocalProgrammingFeatures(44L),
-      WrongCodeEntryLimit(48L),
-      UserCodeTemporaryDisableTime(49L),
-      SendPINOverTheAir(50L),
-      RequirePINforRemoteOperation(51L),
-      ExpiringUserTimeout(53L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object DoorLock : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object LockState : Attribute(0L, "LockState")
+
+      object LockType : Attribute(1L, "LockType")
+
+      object ActuatorEnabled : Attribute(2L, "ActuatorEnabled")
+
+      object DoorState : Attribute(3L, "DoorState")
+
+      object DoorOpenEvents : Attribute(4L, "DoorOpenEvents")
+
+      object DoorClosedEvents : Attribute(5L, "DoorClosedEvents")
+
+      object OpenPeriod : Attribute(6L, "OpenPeriod")
+
+      object NumberOfTotalUsersSupported : Attribute(17L, "NumberOfTotalUsersSupported")
+
+      object NumberOfPINUsersSupported : Attribute(18L, "NumberOfPINUsersSupported")
+
+      object NumberOfRFIDUsersSupported : Attribute(19L, "NumberOfRFIDUsersSupported")
+
+      object NumberOfWeekDaySchedulesSupportedPerUser :
+        Attribute(20L, "NumberOfWeekDaySchedulesSupportedPerUser")
+
+      object NumberOfYearDaySchedulesSupportedPerUser :
+        Attribute(21L, "NumberOfYearDaySchedulesSupportedPerUser")
+
+      object NumberOfHolidaySchedulesSupported :
+        Attribute(22L, "NumberOfHolidaySchedulesSupported")
+
+      object MaxPINCodeLength : Attribute(23L, "MaxPINCodeLength")
+
+      object MinPINCodeLength : Attribute(24L, "MinPINCodeLength")
+
+      object MaxRFIDCodeLength : Attribute(25L, "MaxRFIDCodeLength")
+
+      object MinRFIDCodeLength : Attribute(26L, "MinRFIDCodeLength")
+
+      object CredentialRulesSupport : Attribute(27L, "CredentialRulesSupport")
+
+      object NumberOfCredentialsSupportedPerUser :
+        Attribute(28L, "NumberOfCredentialsSupportedPerUser")
+
+      object Language : Attribute(33L, "Language")
+
+      object LEDSettings : Attribute(34L, "LEDSettings")
+
+      object AutoRelockTime : Attribute(35L, "AutoRelockTime")
+
+      object SoundVolume : Attribute(36L, "SoundVolume")
+
+      object OperatingMode : Attribute(37L, "OperatingMode")
+
+      object SupportedOperatingModes : Attribute(38L, "SupportedOperatingModes")
+
+      object DefaultConfigurationRegister : Attribute(39L, "DefaultConfigurationRegister")
+
+      object EnableLocalProgramming : Attribute(40L, "EnableLocalProgramming")
+
+      object EnableOneTouchLocking : Attribute(41L, "EnableOneTouchLocking")
+
+      object EnableInsideStatusLED : Attribute(42L, "EnableInsideStatusLED")
+
+      object EnablePrivacyModeButton : Attribute(43L, "EnablePrivacyModeButton")
+
+      object LocalProgrammingFeatures : Attribute(44L, "LocalProgrammingFeatures")
+
+      object WrongCodeEntryLimit : Attribute(48L, "WrongCodeEntryLimit")
+
+      object UserCodeTemporaryDisableTime : Attribute(49L, "UserCodeTemporaryDisableTime")
+
+      object SendPINOverTheAir : Attribute(50L, "SendPINOverTheAir")
+
+      object RequirePINforRemoteOperation : Attribute(51L, "RequirePINforRemoteOperation")
+
+      object ExpiringUserTimeout : Attribute(53L, "ExpiringUserTimeout")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -6385,51 +7291,90 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 257L
-    }
+    const val ID = 257L
   }
 
-  class WindowCovering : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Type(0L),
-      PhysicalClosedLimitLift(1L),
-      PhysicalClosedLimitTilt(2L),
-      CurrentPositionLift(3L),
-      CurrentPositionTilt(4L),
-      NumberOfActuationsLift(5L),
-      NumberOfActuationsTilt(6L),
-      ConfigStatus(7L),
-      CurrentPositionLiftPercentage(8L),
-      CurrentPositionTiltPercentage(9L),
-      OperationalStatus(10L),
-      TargetPositionLiftPercent100ths(11L),
-      TargetPositionTiltPercent100ths(12L),
-      EndProductType(13L),
-      CurrentPositionLiftPercent100ths(14L),
-      CurrentPositionTiltPercent100ths(15L),
-      InstalledOpenLimitLift(16L),
-      InstalledClosedLimitLift(17L),
-      InstalledOpenLimitTilt(18L),
-      InstalledClosedLimitTilt(19L),
-      Mode(23L),
-      SafetyStatus(26L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object WindowCovering : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Type : Attribute(0L, "Type")
+
+      object PhysicalClosedLimitLift : Attribute(1L, "PhysicalClosedLimitLift")
+
+      object PhysicalClosedLimitTilt : Attribute(2L, "PhysicalClosedLimitTilt")
+
+      object CurrentPositionLift : Attribute(3L, "CurrentPositionLift")
+
+      object CurrentPositionTilt : Attribute(4L, "CurrentPositionTilt")
+
+      object NumberOfActuationsLift : Attribute(5L, "NumberOfActuationsLift")
+
+      object NumberOfActuationsTilt : Attribute(6L, "NumberOfActuationsTilt")
+
+      object ConfigStatus : Attribute(7L, "ConfigStatus")
+
+      object CurrentPositionLiftPercentage : Attribute(8L, "CurrentPositionLiftPercentage")
+
+      object CurrentPositionTiltPercentage : Attribute(9L, "CurrentPositionTiltPercentage")
+
+      object OperationalStatus : Attribute(10L, "OperationalStatus")
+
+      object TargetPositionLiftPercent100ths : Attribute(11L, "TargetPositionLiftPercent100ths")
+
+      object TargetPositionTiltPercent100ths : Attribute(12L, "TargetPositionTiltPercent100ths")
+
+      object EndProductType : Attribute(13L, "EndProductType")
+
+      object CurrentPositionLiftPercent100ths : Attribute(14L, "CurrentPositionLiftPercent100ths")
+
+      object CurrentPositionTiltPercent100ths : Attribute(15L, "CurrentPositionTiltPercent100ths")
+
+      object InstalledOpenLimitLift : Attribute(16L, "InstalledOpenLimitLift")
+
+      object InstalledClosedLimitLift : Attribute(17L, "InstalledClosedLimitLift")
+
+      object InstalledOpenLimitTilt : Attribute(18L, "InstalledOpenLimitTilt")
+
+      object InstalledClosedLimitTilt : Attribute(19L, "InstalledClosedLimitTilt")
+
+      object Mode : Attribute(23L, "Mode")
+
+      object SafetyStatus : Attribute(26L, "SafetyStatus")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -6528,10 +7473,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -6540,47 +7481,70 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 258L
-    }
+    const val ID = 258L
   }
 
-  class BarrierControl : BaseCluster {
-    enum class Attribute(val id: Long) {
-      BarrierMovingState(1L),
-      BarrierSafetyStatus(2L),
-      BarrierCapabilities(3L),
-      BarrierOpenEvents(4L),
-      BarrierCloseEvents(5L),
-      BarrierCommandOpenEvents(6L),
-      BarrierCommandCloseEvents(7L),
-      BarrierOpenPeriod(8L),
-      BarrierClosePeriod(9L),
-      BarrierPosition(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object BarrierControl : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object BarrierMovingState : Attribute(1L, "BarrierMovingState")
+
+      object BarrierSafetyStatus : Attribute(2L, "BarrierSafetyStatus")
+
+      object BarrierCapabilities : Attribute(3L, "BarrierCapabilities")
+
+      object BarrierOpenEvents : Attribute(4L, "BarrierOpenEvents")
+
+      object BarrierCloseEvents : Attribute(5L, "BarrierCloseEvents")
+
+      object BarrierCommandOpenEvents : Attribute(6L, "BarrierCommandOpenEvents")
+
+      object BarrierCommandCloseEvents : Attribute(7L, "BarrierCommandCloseEvents")
+
+      object BarrierOpenPeriod : Attribute(8L, "BarrierOpenPeriod")
+
+      object BarrierClosePeriod : Attribute(9L, "BarrierClosePeriod")
+
+      object BarrierPosition : Attribute(10L, "BarrierPosition")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -6626,10 +7590,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -6638,60 +7598,96 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 259L
-    }
+    const val ID = 259L
   }
 
-  class PumpConfigurationAndControl : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MaxPressure(0L),
-      MaxSpeed(1L),
-      MaxFlow(2L),
-      MinConstPressure(3L),
-      MaxConstPressure(4L),
-      MinCompPressure(5L),
-      MaxCompPressure(6L),
-      MinConstSpeed(7L),
-      MaxConstSpeed(8L),
-      MinConstFlow(9L),
-      MaxConstFlow(10L),
-      MinConstTemp(11L),
-      MaxConstTemp(12L),
-      PumpStatus(16L),
-      EffectiveOperationMode(17L),
-      EffectiveControlMode(18L),
-      Capacity(19L),
-      Speed(20L),
-      LifetimeRunningHours(21L),
-      Power(22L),
-      LifetimeEnergyConsumed(23L),
-      OperationMode(32L),
-      ControlMode(33L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object PumpConfigurationAndControl : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MaxPressure : Attribute(0L, "MaxPressure")
+
+      object MaxSpeed : Attribute(1L, "MaxSpeed")
+
+      object MaxFlow : Attribute(2L, "MaxFlow")
+
+      object MinConstPressure : Attribute(3L, "MinConstPressure")
+
+      object MaxConstPressure : Attribute(4L, "MaxConstPressure")
+
+      object MinCompPressure : Attribute(5L, "MinCompPressure")
+
+      object MaxCompPressure : Attribute(6L, "MaxCompPressure")
+
+      object MinConstSpeed : Attribute(7L, "MinConstSpeed")
+
+      object MaxConstSpeed : Attribute(8L, "MaxConstSpeed")
+
+      object MinConstFlow : Attribute(9L, "MinConstFlow")
+
+      object MaxConstFlow : Attribute(10L, "MaxConstFlow")
+
+      object MinConstTemp : Attribute(11L, "MinConstTemp")
+
+      object MaxConstTemp : Attribute(12L, "MaxConstTemp")
+
+      object PumpStatus : Attribute(16L, "PumpStatus")
+
+      object EffectiveOperationMode : Attribute(17L, "EffectiveOperationMode")
+
+      object EffectiveControlMode : Attribute(18L, "EffectiveControlMode")
+
+      object Capacity : Attribute(19L, "Capacity")
+
+      object Speed : Attribute(20L, "Speed")
+
+      object LifetimeRunningHours : Attribute(21L, "LifetimeRunningHours")
+
+      object Power : Attribute(22L, "Power")
+
+      object LifetimeEnergyConsumed : Attribute(23L, "LifetimeEnergyConsumed")
+
+      object OperationMode : Attribute(32L, "OperationMode")
+
+      object ControlMode : Attribute(33L, "ControlMode")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -6740,10 +7736,6 @@ class ClusterIDMapping {
       return Event.value(id).toString()
     }
 
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
@@ -6752,82 +7744,145 @@ class ClusterIDMapping {
       return Event.valueOf(name).id
     }
 
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 512L
-    }
+    const val ID = 512L
   }
 
-  class Thermostat : BaseCluster {
-    enum class Attribute(val id: Long) {
-      LocalTemperature(0L),
-      OutdoorTemperature(1L),
-      Occupancy(2L),
-      AbsMinHeatSetpointLimit(3L),
-      AbsMaxHeatSetpointLimit(4L),
-      AbsMinCoolSetpointLimit(5L),
-      AbsMaxCoolSetpointLimit(6L),
-      PICoolingDemand(7L),
-      PIHeatingDemand(8L),
-      HVACSystemTypeConfiguration(9L),
-      LocalTemperatureCalibration(16L),
-      OccupiedCoolingSetpoint(17L),
-      OccupiedHeatingSetpoint(18L),
-      UnoccupiedCoolingSetpoint(19L),
-      UnoccupiedHeatingSetpoint(20L),
-      MinHeatSetpointLimit(21L),
-      MaxHeatSetpointLimit(22L),
-      MinCoolSetpointLimit(23L),
-      MaxCoolSetpointLimit(24L),
-      MinSetpointDeadBand(25L),
-      RemoteSensing(26L),
-      ControlSequenceOfOperation(27L),
-      SystemMode(28L),
-      ThermostatRunningMode(30L),
-      StartOfWeek(32L),
-      NumberOfWeeklyTransitions(33L),
-      NumberOfDailyTransitions(34L),
-      TemperatureSetpointHold(35L),
-      TemperatureSetpointHoldDuration(36L),
-      ThermostatProgrammingOperationMode(37L),
-      ThermostatRunningState(41L),
-      SetpointChangeSource(48L),
-      SetpointChangeAmount(49L),
-      SetpointChangeSourceTimestamp(50L),
-      OccupiedSetback(52L),
-      OccupiedSetbackMin(53L),
-      OccupiedSetbackMax(54L),
-      UnoccupiedSetback(55L),
-      UnoccupiedSetbackMin(56L),
-      UnoccupiedSetbackMax(57L),
-      EmergencyHeatDelta(58L),
-      ACType(64L),
-      ACCapacity(65L),
-      ACRefrigerantType(66L),
-      ACCompressorType(67L),
-      ACErrorCode(68L),
-      ACLouverPosition(69L),
-      ACCoilTemperature(70L),
-      ACCapacityformat(71L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Thermostat : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object LocalTemperature : Attribute(0L, "LocalTemperature")
+
+      object OutdoorTemperature : Attribute(1L, "OutdoorTemperature")
+
+      object Occupancy : Attribute(2L, "Occupancy")
+
+      object AbsMinHeatSetpointLimit : Attribute(3L, "AbsMinHeatSetpointLimit")
+
+      object AbsMaxHeatSetpointLimit : Attribute(4L, "AbsMaxHeatSetpointLimit")
+
+      object AbsMinCoolSetpointLimit : Attribute(5L, "AbsMinCoolSetpointLimit")
+
+      object AbsMaxCoolSetpointLimit : Attribute(6L, "AbsMaxCoolSetpointLimit")
+
+      object PICoolingDemand : Attribute(7L, "PICoolingDemand")
+
+      object PIHeatingDemand : Attribute(8L, "PIHeatingDemand")
+
+      object HVACSystemTypeConfiguration : Attribute(9L, "HVACSystemTypeConfiguration")
+
+      object LocalTemperatureCalibration : Attribute(16L, "LocalTemperatureCalibration")
+
+      object OccupiedCoolingSetpoint : Attribute(17L, "OccupiedCoolingSetpoint")
+
+      object OccupiedHeatingSetpoint : Attribute(18L, "OccupiedHeatingSetpoint")
+
+      object UnoccupiedCoolingSetpoint : Attribute(19L, "UnoccupiedCoolingSetpoint")
+
+      object UnoccupiedHeatingSetpoint : Attribute(20L, "UnoccupiedHeatingSetpoint")
+
+      object MinHeatSetpointLimit : Attribute(21L, "MinHeatSetpointLimit")
+
+      object MaxHeatSetpointLimit : Attribute(22L, "MaxHeatSetpointLimit")
+
+      object MinCoolSetpointLimit : Attribute(23L, "MinCoolSetpointLimit")
+
+      object MaxCoolSetpointLimit : Attribute(24L, "MaxCoolSetpointLimit")
+
+      object MinSetpointDeadBand : Attribute(25L, "MinSetpointDeadBand")
+
+      object RemoteSensing : Attribute(26L, "RemoteSensing")
+
+      object ControlSequenceOfOperation : Attribute(27L, "ControlSequenceOfOperation")
+
+      object SystemMode : Attribute(28L, "SystemMode")
+
+      object ThermostatRunningMode : Attribute(30L, "ThermostatRunningMode")
+
+      object StartOfWeek : Attribute(32L, "StartOfWeek")
+
+      object NumberOfWeeklyTransitions : Attribute(33L, "NumberOfWeeklyTransitions")
+
+      object NumberOfDailyTransitions : Attribute(34L, "NumberOfDailyTransitions")
+
+      object TemperatureSetpointHold : Attribute(35L, "TemperatureSetpointHold")
+
+      object TemperatureSetpointHoldDuration : Attribute(36L, "TemperatureSetpointHoldDuration")
+
+      object ThermostatProgrammingOperationMode :
+        Attribute(37L, "ThermostatProgrammingOperationMode")
+
+      object ThermostatRunningState : Attribute(41L, "ThermostatRunningState")
+
+      object SetpointChangeSource : Attribute(48L, "SetpointChangeSource")
+
+      object SetpointChangeAmount : Attribute(49L, "SetpointChangeAmount")
+
+      object SetpointChangeSourceTimestamp : Attribute(50L, "SetpointChangeSourceTimestamp")
+
+      object OccupiedSetback : Attribute(52L, "OccupiedSetback")
+
+      object OccupiedSetbackMin : Attribute(53L, "OccupiedSetbackMin")
+
+      object OccupiedSetbackMax : Attribute(54L, "OccupiedSetbackMax")
+
+      object UnoccupiedSetback : Attribute(55L, "UnoccupiedSetback")
+
+      object UnoccupiedSetbackMin : Attribute(56L, "UnoccupiedSetbackMin")
+
+      object UnoccupiedSetbackMax : Attribute(57L, "UnoccupiedSetbackMax")
+
+      object EmergencyHeatDelta : Attribute(58L, "EmergencyHeatDelta")
+
+      object ACType : Attribute(64L, "ACType")
+
+      object ACCapacity : Attribute(65L, "ACCapacity")
+
+      object ACRefrigerantType : Attribute(66L, "ACRefrigerantType")
+
+      object ACCompressorType : Attribute(67L, "ACCompressorType")
+
+      object ACErrorCode : Attribute(68L, "ACErrorCode")
+
+      object ACLouverPosition : Attribute(69L, "ACLouverPosition")
+
+      object ACCoilTemperature : Attribute(70L, "ACCoilTemperature")
+
+      object ACCapacityformat : Attribute(71L, "ACCapacityformat")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -6912,10 +7967,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -6924,49 +7975,74 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 513L
-    }
+    const val ID = 513L
   }
 
-  class FanControl : BaseCluster {
-    enum class Attribute(val id: Long) {
-      FanMode(0L),
-      FanModeSequence(1L),
-      PercentSetting(2L),
-      PercentCurrent(3L),
-      SpeedMax(4L),
-      SpeedSetting(5L),
-      SpeedCurrent(6L),
-      RockSupport(7L),
-      RockSetting(8L),
-      WindSupport(9L),
-      WindSetting(10L),
-      AirflowDirection(11L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object FanControl : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object FanMode : Attribute(0L, "FanMode")
+
+      object FanModeSequence : Attribute(1L, "FanModeSequence")
+
+      object PercentSetting : Attribute(2L, "PercentSetting")
+
+      object PercentCurrent : Attribute(3L, "PercentCurrent")
+
+      object SpeedMax : Attribute(4L, "SpeedMax")
+
+      object SpeedSetting : Attribute(5L, "SpeedSetting")
+
+      object SpeedCurrent : Attribute(6L, "SpeedCurrent")
+
+      object RockSupport : Attribute(7L, "RockSupport")
+
+      object RockSetting : Attribute(8L, "RockSetting")
+
+      object WindSupport : Attribute(9L, "WindSupport")
+
+      object WindSetting : Attribute(10L, "WindSetting")
+
+      object AirflowDirection : Attribute(11L, "AirflowDirection")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -7013,10 +8089,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -7025,40 +8097,56 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 514L
-    }
+    const val ID = 514L
   }
 
-  class ThermostatUserInterfaceConfiguration : BaseCluster {
-    enum class Attribute(val id: Long) {
-      TemperatureDisplayMode(0L),
-      KeypadLockout(1L),
-      ScheduleProgrammingVisibility(2L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ThermostatUserInterfaceConfiguration : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object TemperatureDisplayMode : Attribute(0L, "TemperatureDisplayMode")
+
+      object KeypadLockout : Attribute(1L, "KeypadLockout")
+
+      object ScheduleProgrammingVisibility : Attribute(2L, "ScheduleProgrammingVisibility")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -7071,101 +8159,154 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 516L
-    }
+    const val ID = 516L
   }
 
-  class ColorControl : BaseCluster {
-    enum class Attribute(val id: Long) {
-      CurrentHue(0L),
-      CurrentSaturation(1L),
-      RemainingTime(2L),
-      CurrentX(3L),
-      CurrentY(4L),
-      DriftCompensation(5L),
-      CompensationText(6L),
-      ColorTemperatureMireds(7L),
-      ColorMode(8L),
-      Options(15L),
-      NumberOfPrimaries(16L),
-      Primary1X(17L),
-      Primary1Y(18L),
-      Primary1Intensity(19L),
-      Primary2X(21L),
-      Primary2Y(22L),
-      Primary2Intensity(23L),
-      Primary3X(25L),
-      Primary3Y(26L),
-      Primary3Intensity(27L),
-      Primary4X(32L),
-      Primary4Y(33L),
-      Primary4Intensity(34L),
-      Primary5X(36L),
-      Primary5Y(37L),
-      Primary5Intensity(38L),
-      Primary6X(40L),
-      Primary6Y(41L),
-      Primary6Intensity(42L),
-      WhitePointX(48L),
-      WhitePointY(49L),
-      ColorPointRX(50L),
-      ColorPointRY(51L),
-      ColorPointRIntensity(52L),
-      ColorPointGX(54L),
-      ColorPointGY(55L),
-      ColorPointGIntensity(56L),
-      ColorPointBX(58L),
-      ColorPointBY(59L),
-      ColorPointBIntensity(60L),
-      EnhancedCurrentHue(16384L),
-      EnhancedColorMode(16385L),
-      ColorLoopActive(16386L),
-      ColorLoopDirection(16387L),
-      ColorLoopTime(16388L),
-      ColorLoopStartEnhancedHue(16389L),
-      ColorLoopStoredEnhancedHue(16390L),
-      ColorCapabilities(16394L),
-      ColorTempPhysicalMinMireds(16395L),
-      ColorTempPhysicalMaxMireds(16396L),
-      CoupleColorTempToLevelMinMireds(16397L),
-      StartUpColorTemperatureMireds(16400L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ColorControl : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object CurrentHue : Attribute(0L, "CurrentHue")
+
+      object CurrentSaturation : Attribute(1L, "CurrentSaturation")
+
+      object RemainingTime : Attribute(2L, "RemainingTime")
+
+      object CurrentX : Attribute(3L, "CurrentX")
+
+      object CurrentY : Attribute(4L, "CurrentY")
+
+      object DriftCompensation : Attribute(5L, "DriftCompensation")
+
+      object CompensationText : Attribute(6L, "CompensationText")
+
+      object ColorTemperatureMireds : Attribute(7L, "ColorTemperatureMireds")
+
+      object ColorMode : Attribute(8L, "ColorMode")
+
+      object Options : Attribute(15L, "Options")
+
+      object NumberOfPrimaries : Attribute(16L, "NumberOfPrimaries")
+
+      object Primary1X : Attribute(17L, "Primary1X")
+
+      object Primary1Y : Attribute(18L, "Primary1Y")
+
+      object Primary1Intensity : Attribute(19L, "Primary1Intensity")
+
+      object Primary2X : Attribute(21L, "Primary2X")
+
+      object Primary2Y : Attribute(22L, "Primary2Y")
+
+      object Primary2Intensity : Attribute(23L, "Primary2Intensity")
+
+      object Primary3X : Attribute(25L, "Primary3X")
+
+      object Primary3Y : Attribute(26L, "Primary3Y")
+
+      object Primary3Intensity : Attribute(27L, "Primary3Intensity")
+
+      object Primary4X : Attribute(32L, "Primary4X")
+
+      object Primary4Y : Attribute(33L, "Primary4Y")
+
+      object Primary4Intensity : Attribute(34L, "Primary4Intensity")
+
+      object Primary5X : Attribute(36L, "Primary5X")
+
+      object Primary5Y : Attribute(37L, "Primary5Y")
+
+      object Primary5Intensity : Attribute(38L, "Primary5Intensity")
+
+      object Primary6X : Attribute(40L, "Primary6X")
+
+      object Primary6Y : Attribute(41L, "Primary6Y")
+
+      object Primary6Intensity : Attribute(42L, "Primary6Intensity")
+
+      object WhitePointX : Attribute(48L, "WhitePointX")
+
+      object WhitePointY : Attribute(49L, "WhitePointY")
+
+      object ColorPointRX : Attribute(50L, "ColorPointRX")
+
+      object ColorPointRY : Attribute(51L, "ColorPointRY")
+
+      object ColorPointRIntensity : Attribute(52L, "ColorPointRIntensity")
+
+      object ColorPointGX : Attribute(54L, "ColorPointGX")
+
+      object ColorPointGY : Attribute(55L, "ColorPointGY")
+
+      object ColorPointGIntensity : Attribute(56L, "ColorPointGIntensity")
+
+      object ColorPointBX : Attribute(58L, "ColorPointBX")
+
+      object ColorPointBY : Attribute(59L, "ColorPointBY")
+
+      object ColorPointBIntensity : Attribute(60L, "ColorPointBIntensity")
+
+      object EnhancedCurrentHue : Attribute(16384L, "EnhancedCurrentHue")
+
+      object EnhancedColorMode : Attribute(16385L, "EnhancedColorMode")
+
+      object ColorLoopActive : Attribute(16386L, "ColorLoopActive")
+
+      object ColorLoopDirection : Attribute(16387L, "ColorLoopDirection")
+
+      object ColorLoopTime : Attribute(16388L, "ColorLoopTime")
+
+      object ColorLoopStartEnhancedHue : Attribute(16389L, "ColorLoopStartEnhancedHue")
+
+      object ColorLoopStoredEnhancedHue : Attribute(16390L, "ColorLoopStoredEnhancedHue")
+
+      object ColorCapabilities : Attribute(16394L, "ColorCapabilities")
+
+      object ColorTempPhysicalMinMireds : Attribute(16395L, "ColorTempPhysicalMinMireds")
+
+      object ColorTempPhysicalMaxMireds : Attribute(16396L, "ColorTempPhysicalMaxMireds")
+
+      object CoupleColorTempToLevelMinMireds : Attribute(16397L, "CoupleColorTempToLevelMinMireds")
+
+      object StartUpColorTemperatureMireds : Attribute(16400L, "StartUpColorTemperatureMireds")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -7588,10 +8729,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -7600,51 +8737,78 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 768L
-    }
+    const val ID = 768L
   }
 
-  class BallastConfiguration : BaseCluster {
-    enum class Attribute(val id: Long) {
-      PhysicalMinLevel(0L),
-      PhysicalMaxLevel(1L),
-      BallastStatus(2L),
-      MinLevel(16L),
-      MaxLevel(17L),
-      IntrinsicBallastFactor(20L),
-      BallastFactorAdjustment(21L),
-      LampQuantity(32L),
-      LampType(48L),
-      LampManufacturer(49L),
-      LampRatedHours(50L),
-      LampBurnHours(51L),
-      LampAlarmMode(52L),
-      LampBurnHoursTripPoint(53L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object BallastConfiguration : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object PhysicalMinLevel : Attribute(0L, "PhysicalMinLevel")
+
+      object PhysicalMaxLevel : Attribute(1L, "PhysicalMaxLevel")
+
+      object BallastStatus : Attribute(2L, "BallastStatus")
+
+      object MinLevel : Attribute(16L, "MinLevel")
+
+      object MaxLevel : Attribute(17L, "MaxLevel")
+
+      object IntrinsicBallastFactor : Attribute(20L, "IntrinsicBallastFactor")
+
+      object BallastFactorAdjustment : Attribute(21L, "BallastFactorAdjustment")
+
+      object LampQuantity : Attribute(32L, "LampQuantity")
+
+      object LampType : Attribute(48L, "LampType")
+
+      object LampManufacturer : Attribute(49L, "LampManufacturer")
+
+      object LampRatedHours : Attribute(50L, "LampRatedHours")
+
+      object LampBurnHours : Attribute(51L, "LampBurnHours")
+
+      object LampAlarmMode : Attribute(52L, "LampAlarmMode")
+
+      object LampBurnHoursTripPoint : Attribute(53L, "LampBurnHoursTripPoint")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -7657,54 +8821,60 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 769L
-    }
+    const val ID = 769L
   }
 
-  class IlluminanceMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      Tolerance(3L),
-      LightSensorType(4L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object IlluminanceMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object Tolerance : Attribute(3L, "Tolerance")
+
+      object LightSensorType : Attribute(4L, "LightSensorType")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -7717,53 +8887,58 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1024L
-    }
+    const val ID = 1024L
   }
 
-  class TemperatureMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      Tolerance(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object TemperatureMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object Tolerance : Attribute(3L, "Tolerance")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -7776,58 +8951,68 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1026L
-    }
+    const val ID = 1026L
   }
 
-  class PressureMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      Tolerance(3L),
-      ScaledValue(16L),
-      MinScaledValue(17L),
-      MaxScaledValue(18L),
-      ScaledTolerance(19L),
-      Scale(20L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object PressureMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object Tolerance : Attribute(3L, "Tolerance")
+
+      object ScaledValue : Attribute(16L, "ScaledValue")
+
+      object MinScaledValue : Attribute(17L, "MinScaledValue")
+
+      object MaxScaledValue : Attribute(18L, "MaxScaledValue")
+
+      object ScaledTolerance : Attribute(19L, "ScaledTolerance")
+
+      object Scale : Attribute(20L, "Scale")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -7840,53 +9025,58 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1027L
-    }
+    const val ID = 1027L
   }
 
-  class FlowMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      Tolerance(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object FlowMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object Tolerance : Attribute(3L, "Tolerance")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -7899,53 +9089,58 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1028L
-    }
+    const val ID = 1028L
   }
 
-  class RelativeHumidityMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      Tolerance(3L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object RelativeHumidityMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object Tolerance : Attribute(3L, "Tolerance")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -7958,61 +9153,80 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1029L
-    }
+    const val ID = 1029L
   }
 
-  class OccupancySensing : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Occupancy(0L),
-      OccupancySensorType(1L),
-      OccupancySensorTypeBitmap(2L),
-      PIROccupiedToUnoccupiedDelay(16L),
-      PIRUnoccupiedToOccupiedDelay(17L),
-      PIRUnoccupiedToOccupiedThreshold(18L),
-      UltrasonicOccupiedToUnoccupiedDelay(32L),
-      UltrasonicUnoccupiedToOccupiedDelay(33L),
-      UltrasonicUnoccupiedToOccupiedThreshold(34L),
-      PhysicalContactOccupiedToUnoccupiedDelay(48L),
-      PhysicalContactUnoccupiedToOccupiedDelay(49L),
-      PhysicalContactUnoccupiedToOccupiedThreshold(50L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object OccupancySensing : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Occupancy : Attribute(0L, "Occupancy")
+
+      object OccupancySensorType : Attribute(1L, "OccupancySensorType")
+
+      object OccupancySensorTypeBitmap : Attribute(2L, "OccupancySensorTypeBitmap")
+
+      object PIROccupiedToUnoccupiedDelay : Attribute(16L, "PIROccupiedToUnoccupiedDelay")
+
+      object PIRUnoccupiedToOccupiedDelay : Attribute(17L, "PIRUnoccupiedToOccupiedDelay")
+
+      object PIRUnoccupiedToOccupiedThreshold : Attribute(18L, "PIRUnoccupiedToOccupiedThreshold")
+
+      object UltrasonicOccupiedToUnoccupiedDelay :
+        Attribute(32L, "UltrasonicOccupiedToUnoccupiedDelay")
+
+      object UltrasonicUnoccupiedToOccupiedDelay :
+        Attribute(33L, "UltrasonicUnoccupiedToOccupiedDelay")
+
+      object UltrasonicUnoccupiedToOccupiedThreshold :
+        Attribute(34L, "UltrasonicUnoccupiedToOccupiedThreshold")
+
+      object PhysicalContactOccupiedToUnoccupiedDelay :
+        Attribute(48L, "PhysicalContactOccupiedToUnoccupiedDelay")
+
+      object PhysicalContactUnoccupiedToOccupiedDelay :
+        Attribute(49L, "PhysicalContactUnoccupiedToOccupiedDelay")
+
+      object PhysicalContactUnoccupiedToOccupiedThreshold :
+        Attribute(50L, "PhysicalContactUnoccupiedToOccupiedThreshold")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8025,60 +9239,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1030L
-    }
+    const val ID = 1030L
   }
 
-  class CarbonMonoxideConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object CarbonMonoxideConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8091,60 +9317,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1036L
-    }
+    const val ID = 1036L
   }
 
-  class CarbonDioxideConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object CarbonDioxideConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8157,60 +9395,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1037L
-    }
+    const val ID = 1037L
   }
 
-  class NitrogenDioxideConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object NitrogenDioxideConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8223,60 +9473,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1043L
-    }
+    const val ID = 1043L
   }
 
-  class OzoneConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object OzoneConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8289,60 +9551,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1045L
-    }
+    const val ID = 1045L
   }
 
-  class Pm25ConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Pm25ConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8355,60 +9629,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1066L
-    }
+    const val ID = 1066L
   }
 
-  class FormaldehydeConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object FormaldehydeConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8421,60 +9707,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1067L
-    }
+    const val ID = 1067L
   }
 
-  class Pm1ConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Pm1ConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8487,60 +9785,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1068L
-    }
+    const val ID = 1068L
   }
 
-  class Pm10ConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Pm10ConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8553,60 +9863,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1069L
-    }
+    const val ID = 1069L
   }
 
-  class TotalVolatileOrganicCompoundsConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object TotalVolatileOrganicCompoundsConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8619,60 +9941,72 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1070L
-    }
+    const val ID = 1070L
   }
 
-  class RadonConcentrationMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasuredValue(0L),
-      MinMeasuredValue(1L),
-      MaxMeasuredValue(2L),
-      PeakMeasuredValue(3L),
-      PeakMeasuredValueWindow(4L),
-      AverageMeasuredValue(5L),
-      AverageMeasuredValueWindow(6L),
-      Uncertainty(7L),
-      MeasurementUnit(8L),
-      MeasurementMedium(9L),
-      LevelValue(10L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object RadonConcentrationMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasuredValue : Attribute(0L, "MeasuredValue")
+
+      object MinMeasuredValue : Attribute(1L, "MinMeasuredValue")
+
+      object MaxMeasuredValue : Attribute(2L, "MaxMeasuredValue")
+
+      object PeakMeasuredValue : Attribute(3L, "PeakMeasuredValue")
+
+      object PeakMeasuredValueWindow : Attribute(4L, "PeakMeasuredValueWindow")
+
+      object AverageMeasuredValue : Attribute(5L, "AverageMeasuredValue")
+
+      object AverageMeasuredValueWindow : Attribute(6L, "AverageMeasuredValueWindow")
+
+      object Uncertainty : Attribute(7L, "Uncertainty")
+
+      object MeasurementUnit : Attribute(8L, "MeasurementUnit")
+
+      object MeasurementMedium : Attribute(9L, "MeasurementMedium")
+
+      object LevelValue : Attribute(10L, "LevelValue")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8685,50 +10019,52 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1071L
-    }
+    const val ID = 1071L
   }
 
-  class WakeOnLan : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MACAddress(0L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object WakeOnLan : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MACAddress : Attribute(0L, "MACAddress")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8741,52 +10077,56 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1283L
-    }
+    const val ID = 1283L
   }
 
-  class Channel : BaseCluster {
-    enum class Attribute(val id: Long) {
-      ChannelList(0L),
-      Lineup(1L),
-      CurrentChannel(2L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object Channel : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object ChannelList : Attribute(0L, "ChannelList")
+
+      object Lineup : Attribute(1L, "Lineup")
+
+      object CurrentChannel : Attribute(2L, "CurrentChannel")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8866,10 +10206,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -8878,39 +10214,54 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1284L
-    }
+    const val ID = 1284L
   }
 
-  class TargetNavigator : BaseCluster {
-    enum class Attribute(val id: Long) {
-      TargetList(0L),
-      CurrentTarget(1L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object TargetNavigator : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object TargetList : Attribute(0L, "TargetList")
+
+      object CurrentTarget : Attribute(1L, "CurrentTarget")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -8956,10 +10307,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -8968,44 +10315,64 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1285L
-    }
+    const val ID = 1285L
   }
 
-  class MediaPlayback : BaseCluster {
-    enum class Attribute(val id: Long) {
-      CurrentState(0L),
-      StartTime(1L),
-      Duration(2L),
-      SampledPosition(3L),
-      PlaybackSpeed(4L),
-      SeekRangeEnd(5L),
-      SeekRangeStart(6L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object MediaPlayback : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object CurrentState : Attribute(0L, "CurrentState")
+
+      object StartTime : Attribute(1L, "StartTime")
+
+      object Duration : Attribute(2L, "Duration")
+
+      object SampledPosition : Attribute(3L, "SampledPosition")
+
+      object PlaybackSpeed : Attribute(4L, "PlaybackSpeed")
+
+      object SeekRangeEnd : Attribute(5L, "SeekRangeEnd")
+
+      object SeekRangeStart : Attribute(6L, "SeekRangeStart")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -9092,10 +10459,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -9104,39 +10467,54 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1286L
-    }
+    const val ID = 1286L
   }
 
-  class MediaInput : BaseCluster {
-    enum class Attribute(val id: Long) {
-      InputList(0L),
-      CurrentInput(1L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object MediaInput : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object InputList : Attribute(0L, "InputList")
+
+      object CurrentInput : Attribute(1L, "CurrentInput")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -9201,10 +10579,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -9213,37 +10587,50 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1287L
-    }
+    const val ID = 1287L
   }
 
-  class LowPower : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object LowPower : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -9272,10 +10659,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -9284,37 +10667,50 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1288L
-    }
+    const val ID = 1288L
   }
 
-  class KeypadInput : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object KeypadInput : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -9359,10 +10755,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -9371,39 +10763,54 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1289L
-    }
+    const val ID = 1289L
   }
 
-  class ContentLauncher : BaseCluster {
-    enum class Attribute(val id: Long) {
-      AcceptHeader(0L),
-      SupportedStreamingProtocols(1L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ContentLauncher : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object AcceptHeader : Attribute(0L, "AcceptHeader")
+
+      object SupportedStreamingProtocols : Attribute(1L, "SupportedStreamingProtocols")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -9469,10 +10876,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -9481,39 +10884,54 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1290L
-    }
+    const val ID = 1290L
   }
 
-  class AudioOutput : BaseCluster {
-    enum class Attribute(val id: Long) {
-      OutputList(0L),
-      CurrentOutput(1L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object AudioOutput : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object OutputList : Attribute(0L, "OutputList")
+
+      object CurrentOutput : Attribute(1L, "CurrentOutput")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -9576,10 +10994,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -9588,39 +11002,54 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1291L
-    }
+    const val ID = 1291L
   }
 
-  class ApplicationLauncher : BaseCluster {
-    enum class Attribute(val id: Long) {
-      CatalogList(0L),
-      CurrentApp(1L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ApplicationLauncher : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object CatalogList : Attribute(0L, "CatalogList")
+
+      object CurrentApp : Attribute(1L, "CurrentApp")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -9700,10 +11129,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -9712,45 +11137,66 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1292L
-    }
+    const val ID = 1292L
   }
 
-  class ApplicationBasic : BaseCluster {
-    enum class Attribute(val id: Long) {
-      VendorName(0L),
-      VendorID(1L),
-      ApplicationName(2L),
-      ProductID(3L),
-      Application(4L),
-      Status(5L),
-      ApplicationVersion(6L),
-      AllowedVendorList(7L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ApplicationBasic : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object VendorName : Attribute(0L, "VendorName")
+
+      object VendorID : Attribute(1L, "VendorID")
+
+      object ApplicationName : Attribute(2L, "ApplicationName")
+
+      object ProductID : Attribute(3L, "ProductID")
+
+      object Application : Attribute(4L, "Application")
+
+      object Status : Attribute(5L, "Status")
+
+      object ApplicationVersion : Attribute(6L, "ApplicationVersion")
+
+      object AllowedVendorList : Attribute(7L, "AllowedVendorList")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -9763,49 +11209,50 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
-    override fun getCommandName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getAttributeID(name: String): Long {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    override fun getCommandID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
-    companion object {
-      const val ID = 1293L
-    }
+    const val ID = 1293L
   }
 
-  class AccountLogin : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object AccountLogin : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -9869,10 +11316,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -9881,165 +11324,317 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 1294L
-    }
+    const val ID = 1294L
   }
 
-  class ElectricalMeasurement : BaseCluster {
-    enum class Attribute(val id: Long) {
-      MeasurementType(0L),
-      DcVoltage(256L),
-      DcVoltageMin(257L),
-      DcVoltageMax(258L),
-      DcCurrent(259L),
-      DcCurrentMin(260L),
-      DcCurrentMax(261L),
-      DcPower(262L),
-      DcPowerMin(263L),
-      DcPowerMax(264L),
-      DcVoltageMultiplier(512L),
-      DcVoltageDivisor(513L),
-      DcCurrentMultiplier(514L),
-      DcCurrentDivisor(515L),
-      DcPowerMultiplier(516L),
-      DcPowerDivisor(517L),
-      AcFrequency(768L),
-      AcFrequencyMin(769L),
-      AcFrequencyMax(770L),
-      NeutralCurrent(771L),
-      TotalActivePower(772L),
-      TotalReactivePower(773L),
-      TotalApparentPower(774L),
-      Measured1stHarmonicCurrent(775L),
-      Measured3rdHarmonicCurrent(776L),
-      Measured5thHarmonicCurrent(777L),
-      Measured7thHarmonicCurrent(778L),
-      Measured9thHarmonicCurrent(779L),
-      Measured11thHarmonicCurrent(780L),
-      MeasuredPhase1stHarmonicCurrent(781L),
-      MeasuredPhase3rdHarmonicCurrent(782L),
-      MeasuredPhase5thHarmonicCurrent(783L),
-      MeasuredPhase7thHarmonicCurrent(784L),
-      MeasuredPhase9thHarmonicCurrent(785L),
-      MeasuredPhase11thHarmonicCurrent(786L),
-      AcFrequencyMultiplier(1024L),
-      AcFrequencyDivisor(1025L),
-      PowerMultiplier(1026L),
-      PowerDivisor(1027L),
-      HarmonicCurrentMultiplier(1028L),
-      PhaseHarmonicCurrentMultiplier(1029L),
-      InstantaneousVoltage(1280L),
-      InstantaneousLineCurrent(1281L),
-      InstantaneousActiveCurrent(1282L),
-      InstantaneousReactiveCurrent(1283L),
-      InstantaneousPower(1284L),
-      RmsVoltage(1285L),
-      RmsVoltageMin(1286L),
-      RmsVoltageMax(1287L),
-      RmsCurrent(1288L),
-      RmsCurrentMin(1289L),
-      RmsCurrentMax(1290L),
-      ActivePower(1291L),
-      ActivePowerMin(1292L),
-      ActivePowerMax(1293L),
-      ReactivePower(1294L),
-      ApparentPower(1295L),
-      PowerFactor(1296L),
-      AverageRmsVoltageMeasurementPeriod(1297L),
-      AverageRmsUnderVoltageCounter(1299L),
-      RmsExtremeOverVoltagePeriod(1300L),
-      RmsExtremeUnderVoltagePeriod(1301L),
-      RmsVoltageSagPeriod(1302L),
-      RmsVoltageSwellPeriod(1303L),
-      AcVoltageMultiplier(1536L),
-      AcVoltageDivisor(1537L),
-      AcCurrentMultiplier(1538L),
-      AcCurrentDivisor(1539L),
-      AcPowerMultiplier(1540L),
-      AcPowerDivisor(1541L),
-      OverloadAlarmsMask(1792L),
-      VoltageOverload(1793L),
-      CurrentOverload(1794L),
-      AcOverloadAlarmsMask(2048L),
-      AcVoltageOverload(2049L),
-      AcCurrentOverload(2050L),
-      AcActivePowerOverload(2051L),
-      AcReactivePowerOverload(2052L),
-      AverageRmsOverVoltage(2053L),
-      AverageRmsUnderVoltage(2054L),
-      RmsExtremeOverVoltage(2055L),
-      RmsExtremeUnderVoltage(2056L),
-      RmsVoltageSag(2057L),
-      RmsVoltageSwell(2058L),
-      LineCurrentPhaseB(2305L),
-      ActiveCurrentPhaseB(2306L),
-      ReactiveCurrentPhaseB(2307L),
-      RmsVoltagePhaseB(2309L),
-      RmsVoltageMinPhaseB(2310L),
-      RmsVoltageMaxPhaseB(2311L),
-      RmsCurrentPhaseB(2312L),
-      RmsCurrentMinPhaseB(2313L),
-      RmsCurrentMaxPhaseB(2314L),
-      ActivePowerPhaseB(2315L),
-      ActivePowerMinPhaseB(2316L),
-      ActivePowerMaxPhaseB(2317L),
-      ReactivePowerPhaseB(2318L),
-      ApparentPowerPhaseB(2319L),
-      PowerFactorPhaseB(2320L),
-      AverageRmsVoltageMeasurementPeriodPhaseB(2321L),
-      AverageRmsOverVoltageCounterPhaseB(2322L),
-      AverageRmsUnderVoltageCounterPhaseB(2323L),
-      RmsExtremeOverVoltagePeriodPhaseB(2324L),
-      RmsExtremeUnderVoltagePeriodPhaseB(2325L),
-      RmsVoltageSagPeriodPhaseB(2326L),
-      RmsVoltageSwellPeriodPhaseB(2327L),
-      LineCurrentPhaseC(2561L),
-      ActiveCurrentPhaseC(2562L),
-      ReactiveCurrentPhaseC(2563L),
-      RmsVoltagePhaseC(2565L),
-      RmsVoltageMinPhaseC(2566L),
-      RmsVoltageMaxPhaseC(2567L),
-      RmsCurrentPhaseC(2568L),
-      RmsCurrentMinPhaseC(2569L),
-      RmsCurrentMaxPhaseC(2570L),
-      ActivePowerPhaseC(2571L),
-      ActivePowerMinPhaseC(2572L),
-      ActivePowerMaxPhaseC(2573L),
-      ReactivePowerPhaseC(2574L),
-      ApparentPowerPhaseC(2575L),
-      PowerFactorPhaseC(2576L),
-      AverageRmsVoltageMeasurementPeriodPhaseC(2577L),
-      AverageRmsOverVoltageCounterPhaseC(2578L),
-      AverageRmsUnderVoltageCounterPhaseC(2579L),
-      RmsExtremeOverVoltagePeriodPhaseC(2580L),
-      RmsExtremeUnderVoltagePeriodPhaseC(2581L),
-      RmsVoltageSagPeriodPhaseC(2582L),
-      RmsVoltageSwellPeriodPhaseC(2583L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object ElectricalMeasurement : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object MeasurementType : Attribute(0L, "MeasurementType")
+
+      object DcVoltage : Attribute(256L, "DcVoltage")
+
+      object DcVoltageMin : Attribute(257L, "DcVoltageMin")
+
+      object DcVoltageMax : Attribute(258L, "DcVoltageMax")
+
+      object DcCurrent : Attribute(259L, "DcCurrent")
+
+      object DcCurrentMin : Attribute(260L, "DcCurrentMin")
+
+      object DcCurrentMax : Attribute(261L, "DcCurrentMax")
+
+      object DcPower : Attribute(262L, "DcPower")
+
+      object DcPowerMin : Attribute(263L, "DcPowerMin")
+
+      object DcPowerMax : Attribute(264L, "DcPowerMax")
+
+      object DcVoltageMultiplier : Attribute(512L, "DcVoltageMultiplier")
+
+      object DcVoltageDivisor : Attribute(513L, "DcVoltageDivisor")
+
+      object DcCurrentMultiplier : Attribute(514L, "DcCurrentMultiplier")
+
+      object DcCurrentDivisor : Attribute(515L, "DcCurrentDivisor")
+
+      object DcPowerMultiplier : Attribute(516L, "DcPowerMultiplier")
+
+      object DcPowerDivisor : Attribute(517L, "DcPowerDivisor")
+
+      object AcFrequency : Attribute(768L, "AcFrequency")
+
+      object AcFrequencyMin : Attribute(769L, "AcFrequencyMin")
+
+      object AcFrequencyMax : Attribute(770L, "AcFrequencyMax")
+
+      object NeutralCurrent : Attribute(771L, "NeutralCurrent")
+
+      object TotalActivePower : Attribute(772L, "TotalActivePower")
+
+      object TotalReactivePower : Attribute(773L, "TotalReactivePower")
+
+      object TotalApparentPower : Attribute(774L, "TotalApparentPower")
+
+      object Measured1stHarmonicCurrent : Attribute(775L, "Measured1stHarmonicCurrent")
+
+      object Measured3rdHarmonicCurrent : Attribute(776L, "Measured3rdHarmonicCurrent")
+
+      object Measured5thHarmonicCurrent : Attribute(777L, "Measured5thHarmonicCurrent")
+
+      object Measured7thHarmonicCurrent : Attribute(778L, "Measured7thHarmonicCurrent")
+
+      object Measured9thHarmonicCurrent : Attribute(779L, "Measured9thHarmonicCurrent")
+
+      object Measured11thHarmonicCurrent : Attribute(780L, "Measured11thHarmonicCurrent")
+
+      object MeasuredPhase1stHarmonicCurrent : Attribute(781L, "MeasuredPhase1stHarmonicCurrent")
+
+      object MeasuredPhase3rdHarmonicCurrent : Attribute(782L, "MeasuredPhase3rdHarmonicCurrent")
+
+      object MeasuredPhase5thHarmonicCurrent : Attribute(783L, "MeasuredPhase5thHarmonicCurrent")
+
+      object MeasuredPhase7thHarmonicCurrent : Attribute(784L, "MeasuredPhase7thHarmonicCurrent")
+
+      object MeasuredPhase9thHarmonicCurrent : Attribute(785L, "MeasuredPhase9thHarmonicCurrent")
+
+      object MeasuredPhase11thHarmonicCurrent : Attribute(786L, "MeasuredPhase11thHarmonicCurrent")
+
+      object AcFrequencyMultiplier : Attribute(1024L, "AcFrequencyMultiplier")
+
+      object AcFrequencyDivisor : Attribute(1025L, "AcFrequencyDivisor")
+
+      object PowerMultiplier : Attribute(1026L, "PowerMultiplier")
+
+      object PowerDivisor : Attribute(1027L, "PowerDivisor")
+
+      object HarmonicCurrentMultiplier : Attribute(1028L, "HarmonicCurrentMultiplier")
+
+      object PhaseHarmonicCurrentMultiplier : Attribute(1029L, "PhaseHarmonicCurrentMultiplier")
+
+      object InstantaneousVoltage : Attribute(1280L, "InstantaneousVoltage")
+
+      object InstantaneousLineCurrent : Attribute(1281L, "InstantaneousLineCurrent")
+
+      object InstantaneousActiveCurrent : Attribute(1282L, "InstantaneousActiveCurrent")
+
+      object InstantaneousReactiveCurrent : Attribute(1283L, "InstantaneousReactiveCurrent")
+
+      object InstantaneousPower : Attribute(1284L, "InstantaneousPower")
+
+      object RmsVoltage : Attribute(1285L, "RmsVoltage")
+
+      object RmsVoltageMin : Attribute(1286L, "RmsVoltageMin")
+
+      object RmsVoltageMax : Attribute(1287L, "RmsVoltageMax")
+
+      object RmsCurrent : Attribute(1288L, "RmsCurrent")
+
+      object RmsCurrentMin : Attribute(1289L, "RmsCurrentMin")
+
+      object RmsCurrentMax : Attribute(1290L, "RmsCurrentMax")
+
+      object ActivePower : Attribute(1291L, "ActivePower")
+
+      object ActivePowerMin : Attribute(1292L, "ActivePowerMin")
+
+      object ActivePowerMax : Attribute(1293L, "ActivePowerMax")
+
+      object ReactivePower : Attribute(1294L, "ReactivePower")
+
+      object ApparentPower : Attribute(1295L, "ApparentPower")
+
+      object PowerFactor : Attribute(1296L, "PowerFactor")
+
+      object AverageRmsVoltageMeasurementPeriod :
+        Attribute(1297L, "AverageRmsVoltageMeasurementPeriod")
+
+      object AverageRmsUnderVoltageCounter : Attribute(1299L, "AverageRmsUnderVoltageCounter")
+
+      object RmsExtremeOverVoltagePeriod : Attribute(1300L, "RmsExtremeOverVoltagePeriod")
+
+      object RmsExtremeUnderVoltagePeriod : Attribute(1301L, "RmsExtremeUnderVoltagePeriod")
+
+      object RmsVoltageSagPeriod : Attribute(1302L, "RmsVoltageSagPeriod")
+
+      object RmsVoltageSwellPeriod : Attribute(1303L, "RmsVoltageSwellPeriod")
+
+      object AcVoltageMultiplier : Attribute(1536L, "AcVoltageMultiplier")
+
+      object AcVoltageDivisor : Attribute(1537L, "AcVoltageDivisor")
+
+      object AcCurrentMultiplier : Attribute(1538L, "AcCurrentMultiplier")
+
+      object AcCurrentDivisor : Attribute(1539L, "AcCurrentDivisor")
+
+      object AcPowerMultiplier : Attribute(1540L, "AcPowerMultiplier")
+
+      object AcPowerDivisor : Attribute(1541L, "AcPowerDivisor")
+
+      object OverloadAlarmsMask : Attribute(1792L, "OverloadAlarmsMask")
+
+      object VoltageOverload : Attribute(1793L, "VoltageOverload")
+
+      object CurrentOverload : Attribute(1794L, "CurrentOverload")
+
+      object AcOverloadAlarmsMask : Attribute(2048L, "AcOverloadAlarmsMask")
+
+      object AcVoltageOverload : Attribute(2049L, "AcVoltageOverload")
+
+      object AcCurrentOverload : Attribute(2050L, "AcCurrentOverload")
+
+      object AcActivePowerOverload : Attribute(2051L, "AcActivePowerOverload")
+
+      object AcReactivePowerOverload : Attribute(2052L, "AcReactivePowerOverload")
+
+      object AverageRmsOverVoltage : Attribute(2053L, "AverageRmsOverVoltage")
+
+      object AverageRmsUnderVoltage : Attribute(2054L, "AverageRmsUnderVoltage")
+
+      object RmsExtremeOverVoltage : Attribute(2055L, "RmsExtremeOverVoltage")
+
+      object RmsExtremeUnderVoltage : Attribute(2056L, "RmsExtremeUnderVoltage")
+
+      object RmsVoltageSag : Attribute(2057L, "RmsVoltageSag")
+
+      object RmsVoltageSwell : Attribute(2058L, "RmsVoltageSwell")
+
+      object LineCurrentPhaseB : Attribute(2305L, "LineCurrentPhaseB")
+
+      object ActiveCurrentPhaseB : Attribute(2306L, "ActiveCurrentPhaseB")
+
+      object ReactiveCurrentPhaseB : Attribute(2307L, "ReactiveCurrentPhaseB")
+
+      object RmsVoltagePhaseB : Attribute(2309L, "RmsVoltagePhaseB")
+
+      object RmsVoltageMinPhaseB : Attribute(2310L, "RmsVoltageMinPhaseB")
+
+      object RmsVoltageMaxPhaseB : Attribute(2311L, "RmsVoltageMaxPhaseB")
+
+      object RmsCurrentPhaseB : Attribute(2312L, "RmsCurrentPhaseB")
+
+      object RmsCurrentMinPhaseB : Attribute(2313L, "RmsCurrentMinPhaseB")
+
+      object RmsCurrentMaxPhaseB : Attribute(2314L, "RmsCurrentMaxPhaseB")
+
+      object ActivePowerPhaseB : Attribute(2315L, "ActivePowerPhaseB")
+
+      object ActivePowerMinPhaseB : Attribute(2316L, "ActivePowerMinPhaseB")
+
+      object ActivePowerMaxPhaseB : Attribute(2317L, "ActivePowerMaxPhaseB")
+
+      object ReactivePowerPhaseB : Attribute(2318L, "ReactivePowerPhaseB")
+
+      object ApparentPowerPhaseB : Attribute(2319L, "ApparentPowerPhaseB")
+
+      object PowerFactorPhaseB : Attribute(2320L, "PowerFactorPhaseB")
+
+      object AverageRmsVoltageMeasurementPeriodPhaseB :
+        Attribute(2321L, "AverageRmsVoltageMeasurementPeriodPhaseB")
+
+      object AverageRmsOverVoltageCounterPhaseB :
+        Attribute(2322L, "AverageRmsOverVoltageCounterPhaseB")
+
+      object AverageRmsUnderVoltageCounterPhaseB :
+        Attribute(2323L, "AverageRmsUnderVoltageCounterPhaseB")
+
+      object RmsExtremeOverVoltagePeriodPhaseB :
+        Attribute(2324L, "RmsExtremeOverVoltagePeriodPhaseB")
+
+      object RmsExtremeUnderVoltagePeriodPhaseB :
+        Attribute(2325L, "RmsExtremeUnderVoltagePeriodPhaseB")
+
+      object RmsVoltageSagPeriodPhaseB : Attribute(2326L, "RmsVoltageSagPeriodPhaseB")
+
+      object RmsVoltageSwellPeriodPhaseB : Attribute(2327L, "RmsVoltageSwellPeriodPhaseB")
+
+      object LineCurrentPhaseC : Attribute(2561L, "LineCurrentPhaseC")
+
+      object ActiveCurrentPhaseC : Attribute(2562L, "ActiveCurrentPhaseC")
+
+      object ReactiveCurrentPhaseC : Attribute(2563L, "ReactiveCurrentPhaseC")
+
+      object RmsVoltagePhaseC : Attribute(2565L, "RmsVoltagePhaseC")
+
+      object RmsVoltageMinPhaseC : Attribute(2566L, "RmsVoltageMinPhaseC")
+
+      object RmsVoltageMaxPhaseC : Attribute(2567L, "RmsVoltageMaxPhaseC")
+
+      object RmsCurrentPhaseC : Attribute(2568L, "RmsCurrentPhaseC")
+
+      object RmsCurrentMinPhaseC : Attribute(2569L, "RmsCurrentMinPhaseC")
+
+      object RmsCurrentMaxPhaseC : Attribute(2570L, "RmsCurrentMaxPhaseC")
+
+      object ActivePowerPhaseC : Attribute(2571L, "ActivePowerPhaseC")
+
+      object ActivePowerMinPhaseC : Attribute(2572L, "ActivePowerMinPhaseC")
+
+      object ActivePowerMaxPhaseC : Attribute(2573L, "ActivePowerMaxPhaseC")
+
+      object ReactivePowerPhaseC : Attribute(2574L, "ReactivePowerPhaseC")
+
+      object ApparentPowerPhaseC : Attribute(2575L, "ApparentPowerPhaseC")
+
+      object PowerFactorPhaseC : Attribute(2576L, "PowerFactorPhaseC")
+
+      object AverageRmsVoltageMeasurementPeriodPhaseC :
+        Attribute(2577L, "AverageRmsVoltageMeasurementPeriodPhaseC")
+
+      object AverageRmsOverVoltageCounterPhaseC :
+        Attribute(2578L, "AverageRmsOverVoltageCounterPhaseC")
+
+      object AverageRmsUnderVoltageCounterPhaseC :
+        Attribute(2579L, "AverageRmsUnderVoltageCounterPhaseC")
+
+      object RmsExtremeOverVoltagePeriodPhaseC :
+        Attribute(2580L, "RmsExtremeOverVoltagePeriodPhaseC")
+
+      object RmsExtremeUnderVoltagePeriodPhaseC :
+        Attribute(2581L, "RmsExtremeUnderVoltagePeriodPhaseC")
+
+      object RmsVoltageSagPeriodPhaseC : Attribute(2582L, "RmsVoltageSagPeriodPhaseC")
+
+      object RmsVoltageSwellPeriodPhaseC : Attribute(2583L, "RmsVoltageSwellPeriodPhaseC")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -10087,10 +11682,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -10099,119 +11690,214 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 2820L
-    }
+    const val ID = 2820L
   }
 
-  class UnitTesting : BaseCluster {
-    enum class Attribute(val id: Long) {
-      Boolean(0L),
-      Bitmap8(1L),
-      Bitmap16(2L),
-      Bitmap32(3L),
-      Bitmap64(4L),
-      Int8u(5L),
-      Int16u(6L),
-      Int24u(7L),
-      Int32u(8L),
-      Int40u(9L),
-      Int48u(10L),
-      Int56u(11L),
-      Int64u(12L),
-      Int8s(13L),
-      Int16s(14L),
-      Int24s(15L),
-      Int32s(16L),
-      Int40s(17L),
-      Int48s(18L),
-      Int56s(19L),
-      Int64s(20L),
-      Enum8(21L),
-      Enum16(22L),
-      FloatSingle(23L),
-      FloatDouble(24L),
-      OctetString(25L),
-      ListInt8u(26L),
-      ListOctetString(27L),
-      ListStructOctetString(28L),
-      LongOctetString(29L),
-      CharString(30L),
-      LongCharString(31L),
-      EpochUs(32L),
-      EpochS(33L),
-      VendorId(34L),
-      ListNullablesAndOptionalsStruct(35L),
-      EnumAttr(36L),
-      StructAttr(37L),
-      RangeRestrictedInt8u(38L),
-      RangeRestrictedInt8s(39L),
-      RangeRestrictedInt16u(40L),
-      RangeRestrictedInt16s(41L),
-      ListLongOctetString(42L),
-      ListFabricScoped(43L),
-      TimedWriteBoolean(48L),
-      GeneralErrorBoolean(49L),
-      ClusterErrorBoolean(50L),
-      Unsupported(255L),
-      NullableBoolean(16384L),
-      NullableBitmap8(16385L),
-      NullableBitmap16(16386L),
-      NullableBitmap32(16387L),
-      NullableBitmap64(16388L),
-      NullableInt8u(16389L),
-      NullableInt16u(16390L),
-      NullableInt24u(16391L),
-      NullableInt32u(16392L),
-      NullableInt40u(16393L),
-      NullableInt48u(16394L),
-      NullableInt56u(16395L),
-      NullableInt64u(16396L),
-      NullableInt8s(16397L),
-      NullableInt16s(16398L),
-      NullableInt24s(16399L),
-      NullableInt32s(16400L),
-      NullableInt40s(16401L),
-      NullableInt48s(16402L),
-      NullableInt56s(16403L),
-      NullableInt64s(16404L),
-      NullableEnum8(16405L),
-      NullableEnum16(16406L),
-      NullableFloatSingle(16407L),
-      NullableFloatDouble(16408L),
-      NullableOctetString(16409L),
-      NullableCharString(16414L),
-      NullableEnumAttr(16420L),
-      NullableStruct(16421L),
-      NullableRangeRestrictedInt8u(16422L),
-      NullableRangeRestrictedInt8s(16423L),
-      NullableRangeRestrictedInt16u(16424L),
-      NullableRangeRestrictedInt16s(16425L),
-      WriteOnlyInt8u(16426L),
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object UnitTesting : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object Boolean : Attribute(0L, "Boolean")
+
+      object Bitmap8 : Attribute(1L, "Bitmap8")
+
+      object Bitmap16 : Attribute(2L, "Bitmap16")
+
+      object Bitmap32 : Attribute(3L, "Bitmap32")
+
+      object Bitmap64 : Attribute(4L, "Bitmap64")
+
+      object Int8u : Attribute(5L, "Int8u")
+
+      object Int16u : Attribute(6L, "Int16u")
+
+      object Int24u : Attribute(7L, "Int24u")
+
+      object Int32u : Attribute(8L, "Int32u")
+
+      object Int40u : Attribute(9L, "Int40u")
+
+      object Int48u : Attribute(10L, "Int48u")
+
+      object Int56u : Attribute(11L, "Int56u")
+
+      object Int64u : Attribute(12L, "Int64u")
+
+      object Int8s : Attribute(13L, "Int8s")
+
+      object Int16s : Attribute(14L, "Int16s")
+
+      object Int24s : Attribute(15L, "Int24s")
+
+      object Int32s : Attribute(16L, "Int32s")
+
+      object Int40s : Attribute(17L, "Int40s")
+
+      object Int48s : Attribute(18L, "Int48s")
+
+      object Int56s : Attribute(19L, "Int56s")
+
+      object Int64s : Attribute(20L, "Int64s")
+
+      object Enum8 : Attribute(21L, "Enum8")
+
+      object Enum16 : Attribute(22L, "Enum16")
+
+      object FloatSingle : Attribute(23L, "FloatSingle")
+
+      object FloatDouble : Attribute(24L, "FloatDouble")
+
+      object OctetString : Attribute(25L, "OctetString")
+
+      object ListInt8u : Attribute(26L, "ListInt8u")
+
+      object ListOctetString : Attribute(27L, "ListOctetString")
+
+      object ListStructOctetString : Attribute(28L, "ListStructOctetString")
+
+      object LongOctetString : Attribute(29L, "LongOctetString")
+
+      object CharString : Attribute(30L, "CharString")
+
+      object LongCharString : Attribute(31L, "LongCharString")
+
+      object EpochUs : Attribute(32L, "EpochUs")
+
+      object EpochS : Attribute(33L, "EpochS")
+
+      object VendorId : Attribute(34L, "VendorId")
+
+      object ListNullablesAndOptionalsStruct : Attribute(35L, "ListNullablesAndOptionalsStruct")
+
+      object EnumAttr : Attribute(36L, "EnumAttr")
+
+      object StructAttr : Attribute(37L, "StructAttr")
+
+      object RangeRestrictedInt8u : Attribute(38L, "RangeRestrictedInt8u")
+
+      object RangeRestrictedInt8s : Attribute(39L, "RangeRestrictedInt8s")
+
+      object RangeRestrictedInt16u : Attribute(40L, "RangeRestrictedInt16u")
+
+      object RangeRestrictedInt16s : Attribute(41L, "RangeRestrictedInt16s")
+
+      object ListLongOctetString : Attribute(42L, "ListLongOctetString")
+
+      object ListFabricScoped : Attribute(43L, "ListFabricScoped")
+
+      object TimedWriteBoolean : Attribute(48L, "TimedWriteBoolean")
+
+      object GeneralErrorBoolean : Attribute(49L, "GeneralErrorBoolean")
+
+      object ClusterErrorBoolean : Attribute(50L, "ClusterErrorBoolean")
+
+      object Unsupported : Attribute(255L, "Unsupported")
+
+      object NullableBoolean : Attribute(16384L, "NullableBoolean")
+
+      object NullableBitmap8 : Attribute(16385L, "NullableBitmap8")
+
+      object NullableBitmap16 : Attribute(16386L, "NullableBitmap16")
+
+      object NullableBitmap32 : Attribute(16387L, "NullableBitmap32")
+
+      object NullableBitmap64 : Attribute(16388L, "NullableBitmap64")
+
+      object NullableInt8u : Attribute(16389L, "NullableInt8u")
+
+      object NullableInt16u : Attribute(16390L, "NullableInt16u")
+
+      object NullableInt24u : Attribute(16391L, "NullableInt24u")
+
+      object NullableInt32u : Attribute(16392L, "NullableInt32u")
+
+      object NullableInt40u : Attribute(16393L, "NullableInt40u")
+
+      object NullableInt48u : Attribute(16394L, "NullableInt48u")
+
+      object NullableInt56u : Attribute(16395L, "NullableInt56u")
+
+      object NullableInt64u : Attribute(16396L, "NullableInt64u")
+
+      object NullableInt8s : Attribute(16397L, "NullableInt8s")
+
+      object NullableInt16s : Attribute(16398L, "NullableInt16s")
+
+      object NullableInt24s : Attribute(16399L, "NullableInt24s")
+
+      object NullableInt32s : Attribute(16400L, "NullableInt32s")
+
+      object NullableInt40s : Attribute(16401L, "NullableInt40s")
+
+      object NullableInt48s : Attribute(16402L, "NullableInt48s")
+
+      object NullableInt56s : Attribute(16403L, "NullableInt56s")
+
+      object NullableInt64s : Attribute(16404L, "NullableInt64s")
+
+      object NullableEnum8 : Attribute(16405L, "NullableEnum8")
+
+      object NullableEnum16 : Attribute(16406L, "NullableEnum16")
+
+      object NullableFloatSingle : Attribute(16407L, "NullableFloatSingle")
+
+      object NullableFloatDouble : Attribute(16408L, "NullableFloatDouble")
+
+      object NullableOctetString : Attribute(16409L, "NullableOctetString")
+
+      object NullableCharString : Attribute(16414L, "NullableCharString")
+
+      object NullableEnumAttr : Attribute(16420L, "NullableEnumAttr")
+
+      object NullableStruct : Attribute(16421L, "NullableStruct")
+
+      object NullableRangeRestrictedInt8u : Attribute(16422L, "NullableRangeRestrictedInt8u")
+
+      object NullableRangeRestrictedInt8s : Attribute(16423L, "NullableRangeRestrictedInt8s")
+
+      object NullableRangeRestrictedInt16u : Attribute(16424L, "NullableRangeRestrictedInt16u")
+
+      object NullableRangeRestrictedInt16s : Attribute(16425L, "NullableRangeRestrictedInt16s")
+
+      object WriteOnlyInt8u : Attribute(16426L, "WriteOnlyInt8u")
+
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -10590,29 +12276,46 @@ class ClusterIDMapping {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 4294048773L
-    }
+    const val ID = 4294048773L
   }
 
-  class FaultInjection : BaseCluster {
-    enum class Attribute(val id: Long) {
-      GeneratedCommandList(65528L),
-      AcceptedCommandList(65529L),
-      EventList(65530L),
-      AttributeList(65531L),
-      FeatureMap(65532L),
-      ClusterRevision(65533L);
+  object FaultInjection : ClusterIDMapping() {
+    sealed class Attribute(val id: Long, val name: String) {
+      object GeneratedCommandList : Attribute(65528L, "GeneratedCommandList")
+
+      object AcceptedCommandList : Attribute(65529L, "AcceptedCommandList")
+
+      object EventList : Attribute(65530L, "EventList")
+
+      object AttributeList : Attribute(65531L, "AttributeList")
+
+      object FeatureMap : Attribute(65532L, "FeatureMap")
+
+      object ClusterRevision : Attribute(65533L, "ClusterRevision")
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -10680,10 +12383,6 @@ class ClusterIDMapping {
       return Attribute.value(id).toString()
     }
 
-    override fun getEventName(id: Long): String {
-      throw IllegalArgumentException()
-    }
-
     override fun getCommandName(id: Long): String {
       return Command.value(id).toString()
     }
@@ -10692,329 +12391,339 @@ class ClusterIDMapping {
       return Attribute.valueOf(name).id
     }
 
-    override fun getEventID(name: String): Long {
-      throw NoSuchFieldError()
-    }
-
     override fun getCommandID(name: String): Long {
       return Command.valueOf(name).id
     }
 
-    companion object {
-      const val ID = 4294048774L
-    }
+    const val ID = 4294048774L
   }
 
   companion object {
-    fun getCluster(clusterId: Long): BaseCluster? {
+    fun getCluster(clusterId: Long): ClusterIDMapping? {
       if (clusterId == Identify.ID) {
-        return Identify()
+        return Identify
       }
       if (clusterId == Groups.ID) {
-        return Groups()
+        return Groups
       }
       if (clusterId == Scenes.ID) {
-        return Scenes()
+        return Scenes
       }
       if (clusterId == OnOff.ID) {
-        return OnOff()
+        return OnOff
       }
       if (clusterId == OnOffSwitchConfiguration.ID) {
-        return OnOffSwitchConfiguration()
+        return OnOffSwitchConfiguration
       }
       if (clusterId == LevelControl.ID) {
-        return LevelControl()
+        return LevelControl
       }
       if (clusterId == BinaryInputBasic.ID) {
-        return BinaryInputBasic()
+        return BinaryInputBasic
       }
       if (clusterId == PulseWidthModulation.ID) {
-        return PulseWidthModulation()
+        return PulseWidthModulation
       }
       if (clusterId == Descriptor.ID) {
-        return Descriptor()
+        return Descriptor
       }
       if (clusterId == Binding.ID) {
-        return Binding()
+        return Binding
       }
       if (clusterId == AccessControl.ID) {
-        return AccessControl()
+        return AccessControl
       }
       if (clusterId == Actions.ID) {
-        return Actions()
+        return Actions
       }
       if (clusterId == BasicInformation.ID) {
-        return BasicInformation()
+        return BasicInformation
       }
       if (clusterId == OtaSoftwareUpdateProvider.ID) {
-        return OtaSoftwareUpdateProvider()
+        return OtaSoftwareUpdateProvider
       }
       if (clusterId == OtaSoftwareUpdateRequestor.ID) {
-        return OtaSoftwareUpdateRequestor()
+        return OtaSoftwareUpdateRequestor
       }
       if (clusterId == LocalizationConfiguration.ID) {
-        return LocalizationConfiguration()
+        return LocalizationConfiguration
       }
       if (clusterId == TimeFormatLocalization.ID) {
-        return TimeFormatLocalization()
+        return TimeFormatLocalization
       }
       if (clusterId == UnitLocalization.ID) {
-        return UnitLocalization()
+        return UnitLocalization
       }
       if (clusterId == PowerSourceConfiguration.ID) {
-        return PowerSourceConfiguration()
+        return PowerSourceConfiguration
       }
       if (clusterId == PowerSource.ID) {
-        return PowerSource()
+        return PowerSource
       }
       if (clusterId == GeneralCommissioning.ID) {
-        return GeneralCommissioning()
+        return GeneralCommissioning
       }
       if (clusterId == NetworkCommissioning.ID) {
-        return NetworkCommissioning()
+        return NetworkCommissioning
       }
       if (clusterId == DiagnosticLogs.ID) {
-        return DiagnosticLogs()
+        return DiagnosticLogs
       }
       if (clusterId == GeneralDiagnostics.ID) {
-        return GeneralDiagnostics()
+        return GeneralDiagnostics
       }
       if (clusterId == SoftwareDiagnostics.ID) {
-        return SoftwareDiagnostics()
+        return SoftwareDiagnostics
       }
       if (clusterId == ThreadNetworkDiagnostics.ID) {
-        return ThreadNetworkDiagnostics()
+        return ThreadNetworkDiagnostics
       }
       if (clusterId == WiFiNetworkDiagnostics.ID) {
-        return WiFiNetworkDiagnostics()
+        return WiFiNetworkDiagnostics
       }
       if (clusterId == EthernetNetworkDiagnostics.ID) {
-        return EthernetNetworkDiagnostics()
+        return EthernetNetworkDiagnostics
       }
       if (clusterId == TimeSynchronization.ID) {
-        return TimeSynchronization()
+        return TimeSynchronization
       }
       if (clusterId == BridgedDeviceBasicInformation.ID) {
-        return BridgedDeviceBasicInformation()
+        return BridgedDeviceBasicInformation
       }
       if (clusterId == Switch.ID) {
-        return Switch()
+        return Switch
       }
       if (clusterId == AdministratorCommissioning.ID) {
-        return AdministratorCommissioning()
+        return AdministratorCommissioning
       }
       if (clusterId == OperationalCredentials.ID) {
-        return OperationalCredentials()
+        return OperationalCredentials
       }
       if (clusterId == GroupKeyManagement.ID) {
-        return GroupKeyManagement()
+        return GroupKeyManagement
       }
       if (clusterId == FixedLabel.ID) {
-        return FixedLabel()
+        return FixedLabel
       }
       if (clusterId == UserLabel.ID) {
-        return UserLabel()
+        return UserLabel
       }
       if (clusterId == ProxyConfiguration.ID) {
-        return ProxyConfiguration()
+        return ProxyConfiguration
       }
       if (clusterId == ProxyDiscovery.ID) {
-        return ProxyDiscovery()
+        return ProxyDiscovery
       }
       if (clusterId == ProxyValid.ID) {
-        return ProxyValid()
+        return ProxyValid
       }
       if (clusterId == BooleanState.ID) {
-        return BooleanState()
+        return BooleanState
       }
       if (clusterId == IcdManagement.ID) {
-        return IcdManagement()
+        return IcdManagement
       }
       if (clusterId == ModeSelect.ID) {
-        return ModeSelect()
+        return ModeSelect
       }
       if (clusterId == LaundryWasherMode.ID) {
-        return LaundryWasherMode()
+        return LaundryWasherMode
       }
       if (clusterId == RefrigeratorAndTemperatureControlledCabinetMode.ID) {
-        return RefrigeratorAndTemperatureControlledCabinetMode()
+        return RefrigeratorAndTemperatureControlledCabinetMode
       }
       if (clusterId == LaundryWasherControls.ID) {
-        return LaundryWasherControls()
+        return LaundryWasherControls
       }
       if (clusterId == RvcRunMode.ID) {
-        return RvcRunMode()
+        return RvcRunMode
       }
       if (clusterId == RvcCleanMode.ID) {
-        return RvcCleanMode()
+        return RvcCleanMode
       }
       if (clusterId == TemperatureControl.ID) {
-        return TemperatureControl()
+        return TemperatureControl
       }
       if (clusterId == RefrigeratorAlarm.ID) {
-        return RefrigeratorAlarm()
+        return RefrigeratorAlarm
       }
       if (clusterId == DishwasherMode.ID) {
-        return DishwasherMode()
+        return DishwasherMode
       }
       if (clusterId == AirQuality.ID) {
-        return AirQuality()
+        return AirQuality
       }
       if (clusterId == SmokeCoAlarm.ID) {
-        return SmokeCoAlarm()
+        return SmokeCoAlarm
       }
       if (clusterId == DishwasherAlarm.ID) {
-        return DishwasherAlarm()
+        return DishwasherAlarm
       }
       if (clusterId == OperationalState.ID) {
-        return OperationalState()
+        return OperationalState
       }
       if (clusterId == RvcOperationalState.ID) {
-        return RvcOperationalState()
+        return RvcOperationalState
       }
       if (clusterId == HepaFilterMonitoring.ID) {
-        return HepaFilterMonitoring()
+        return HepaFilterMonitoring
       }
       if (clusterId == ActivatedCarbonFilterMonitoring.ID) {
-        return ActivatedCarbonFilterMonitoring()
+        return ActivatedCarbonFilterMonitoring
       }
       if (clusterId == DoorLock.ID) {
-        return DoorLock()
+        return DoorLock
       }
       if (clusterId == WindowCovering.ID) {
-        return WindowCovering()
+        return WindowCovering
       }
       if (clusterId == BarrierControl.ID) {
-        return BarrierControl()
+        return BarrierControl
       }
       if (clusterId == PumpConfigurationAndControl.ID) {
-        return PumpConfigurationAndControl()
+        return PumpConfigurationAndControl
       }
       if (clusterId == Thermostat.ID) {
-        return Thermostat()
+        return Thermostat
       }
       if (clusterId == FanControl.ID) {
-        return FanControl()
+        return FanControl
       }
       if (clusterId == ThermostatUserInterfaceConfiguration.ID) {
-        return ThermostatUserInterfaceConfiguration()
+        return ThermostatUserInterfaceConfiguration
       }
       if (clusterId == ColorControl.ID) {
-        return ColorControl()
+        return ColorControl
       }
       if (clusterId == BallastConfiguration.ID) {
-        return BallastConfiguration()
+        return BallastConfiguration
       }
       if (clusterId == IlluminanceMeasurement.ID) {
-        return IlluminanceMeasurement()
+        return IlluminanceMeasurement
       }
       if (clusterId == TemperatureMeasurement.ID) {
-        return TemperatureMeasurement()
+        return TemperatureMeasurement
       }
       if (clusterId == PressureMeasurement.ID) {
-        return PressureMeasurement()
+        return PressureMeasurement
       }
       if (clusterId == FlowMeasurement.ID) {
-        return FlowMeasurement()
+        return FlowMeasurement
       }
       if (clusterId == RelativeHumidityMeasurement.ID) {
-        return RelativeHumidityMeasurement()
+        return RelativeHumidityMeasurement
       }
       if (clusterId == OccupancySensing.ID) {
-        return OccupancySensing()
+        return OccupancySensing
       }
       if (clusterId == CarbonMonoxideConcentrationMeasurement.ID) {
-        return CarbonMonoxideConcentrationMeasurement()
+        return CarbonMonoxideConcentrationMeasurement
       }
       if (clusterId == CarbonDioxideConcentrationMeasurement.ID) {
-        return CarbonDioxideConcentrationMeasurement()
+        return CarbonDioxideConcentrationMeasurement
       }
       if (clusterId == NitrogenDioxideConcentrationMeasurement.ID) {
-        return NitrogenDioxideConcentrationMeasurement()
+        return NitrogenDioxideConcentrationMeasurement
       }
       if (clusterId == OzoneConcentrationMeasurement.ID) {
-        return OzoneConcentrationMeasurement()
+        return OzoneConcentrationMeasurement
       }
       if (clusterId == Pm25ConcentrationMeasurement.ID) {
-        return Pm25ConcentrationMeasurement()
+        return Pm25ConcentrationMeasurement
       }
       if (clusterId == FormaldehydeConcentrationMeasurement.ID) {
-        return FormaldehydeConcentrationMeasurement()
+        return FormaldehydeConcentrationMeasurement
       }
       if (clusterId == Pm1ConcentrationMeasurement.ID) {
-        return Pm1ConcentrationMeasurement()
+        return Pm1ConcentrationMeasurement
       }
       if (clusterId == Pm10ConcentrationMeasurement.ID) {
-        return Pm10ConcentrationMeasurement()
+        return Pm10ConcentrationMeasurement
       }
       if (clusterId == TotalVolatileOrganicCompoundsConcentrationMeasurement.ID) {
-        return TotalVolatileOrganicCompoundsConcentrationMeasurement()
+        return TotalVolatileOrganicCompoundsConcentrationMeasurement
       }
       if (clusterId == RadonConcentrationMeasurement.ID) {
-        return RadonConcentrationMeasurement()
+        return RadonConcentrationMeasurement
       }
       if (clusterId == WakeOnLan.ID) {
-        return WakeOnLan()
+        return WakeOnLan
       }
       if (clusterId == Channel.ID) {
-        return Channel()
+        return Channel
       }
       if (clusterId == TargetNavigator.ID) {
-        return TargetNavigator()
+        return TargetNavigator
       }
       if (clusterId == MediaPlayback.ID) {
-        return MediaPlayback()
+        return MediaPlayback
       }
       if (clusterId == MediaInput.ID) {
-        return MediaInput()
+        return MediaInput
       }
       if (clusterId == LowPower.ID) {
-        return LowPower()
+        return LowPower
       }
       if (clusterId == KeypadInput.ID) {
-        return KeypadInput()
+        return KeypadInput
       }
       if (clusterId == ContentLauncher.ID) {
-        return ContentLauncher()
+        return ContentLauncher
       }
       if (clusterId == AudioOutput.ID) {
-        return AudioOutput()
+        return AudioOutput
       }
       if (clusterId == ApplicationLauncher.ID) {
-        return ApplicationLauncher()
+        return ApplicationLauncher
       }
       if (clusterId == ApplicationBasic.ID) {
-        return ApplicationBasic()
+        return ApplicationBasic
       }
       if (clusterId == AccountLogin.ID) {
-        return AccountLogin()
+        return AccountLogin
       }
       if (clusterId == ElectricalMeasurement.ID) {
-        return ElectricalMeasurement()
+        return ElectricalMeasurement
       }
       if (clusterId == UnitTesting.ID) {
-        return UnitTesting()
+        return UnitTesting
       }
       if (clusterId == FaultInjection.ID) {
-        return FaultInjection()
+        return FaultInjection
       }
       return null
     }
   }
 
-  interface BaseCluster {
-    fun getID(): Long
+  abstract fun getID(): Long
 
-    @Throws(NoSuchFieldError::class) fun getAttributeName(id: Long): String
+  @Throws(NoSuchFieldError::class)
+  open fun getAttributeName(id: Long): String {
+    throw NoSuchFieldError()
+  }
 
-    @Throws(NoSuchFieldError::class) fun getEventName(id: Long): String
+  @Throws(NoSuchFieldError::class)
+  open fun getEventName(id: Long): String {
+    throw NoSuchFieldError()
+  }
 
-    @Throws(NoSuchFieldError::class) fun getCommandName(id: Long): String
+  @Throws(NoSuchFieldError::class)
+  open fun getCommandName(id: Long): String {
+    throw NoSuchFieldError()
+  }
 
-    @Throws(IllegalArgumentException::class) fun getAttributeID(name: String): Long
+  @Throws(IllegalArgumentException::class)
+  open fun getAttributeID(name: String): Long {
+    throw IllegalArgumentException()
+  }
 
-    @Throws(IllegalArgumentException::class) fun getEventID(name: String): Long
+  @Throws(IllegalArgumentException::class)
+  open fun getEventID(name: String): Long {
+    throw IllegalArgumentException()
+  }
 
-    @Throws(IllegalArgumentException::class) fun getCommandID(name: String): Long
+  @Throws(IllegalArgumentException::class)
+  open fun getCommandID(name: String): Long {
+    throw IllegalArgumentException()
   }
 }

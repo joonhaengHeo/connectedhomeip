@@ -16,25 +16,38 @@
  */
 package chip.devicecontroller
 
-class ClusterIDMapping {
+sealed class ClusterIDMapping {
   {%- for cluster in clientClusters | sort(attribute='code') %}
-  class {{cluster.name}}: BaseCluster {
+  object {{cluster.name}}: ClusterIDMapping() {
     {%- if cluster.attributes %}
-    enum class Attribute(val id: Long) {
+    sealed class Attribute(val id: Long, val name: String) {
         {%- for attribute in cluster.attributes | sort(attribute='code') %}
-            {{attribute.definition.name | upfirst}}({{attribute.definition.code}}L)
-            {%- if loop.index0 < loop.length - 1 -%}{{", "}}{%- endif -%}
-        {%- endfor -%};
+            object {{attribute.definition.name | upfirst}}: Attribute({{attribute.definition.code}}L, "{{attribute.definition.name | upfirst}}")
+        {%- endfor %}
 
       companion object {
+        fun values(): List<Attribute> {
+          return Attribute::class.sealedSubclasses.map { it.objectInstance!! }
+        }
+
         @Throws(NoSuchFieldError::class)
         fun value(id: Long): Attribute {
-          for (attribute in Attribute.values()) {
+          for (attribute in values()) {
             if (attribute.id == id) {
               return attribute
             }
           }
           throw NoSuchFieldError()
+        }
+
+        @Throws(IllegalArgumentException::class)
+        fun valueOf(value: String): Attribute {
+          for (attribute in values()) {
+            if (attribute.name == value) {
+              return attribute
+            }
+          }
+          throw IllegalArgumentException()
         }
       }
     }
@@ -107,90 +120,86 @@ class ClusterIDMapping {
 
     override fun getID(): Long { return ID }
 
+    {%- if cluster.attributes %}
     override fun getAttributeName(id: Long): String {
-        {%- if cluster.attributes %}
-        return Attribute.value(id).toString()
-        {%- else %}
-        throw IllegalArgumentException()
-        {%- endif %}
+      return Attribute.value(id).toString()
     }
+    {%- endif %}
 
+    {%- if cluster.events %}
     override fun getEventName(id: Long): String {
-        {%- if cluster.events %}
         return Event.value(id).toString()
-        {%- else %}
-        throw IllegalArgumentException()
-        {%- endif %}
     }
+    {%- endif %}
 
+    {%- if cluster.commands %}
     override fun getCommandName(id: Long): String {
-        {%- if cluster.commands %}
         return Command.value(id).toString()
-        {%- else %}
-        throw IllegalArgumentException()
-        {%- endif %}
     }
+    {%- endif %}
 
+    {%- if cluster.attributes %}
     override fun getAttributeID(name: String): Long {
-        {%- if cluster.attributes %}
-        return Attribute.valueOf(name).id
-        {%- else %}
-        throw NoSuchFieldError()
-        {%- endif %}
+      return Attribute.valueOf(name).id
     }
+    {%- endif %}
 
+    {%- if cluster.events %}
     override fun getEventID(name: String): Long {
-        {%- if cluster.events %}
-        return Event.valueOf(name).id
-        {%- else %}
-        throw NoSuchFieldError()
-        {%- endif %}
+      return Event.valueOf(name).id
     }
+    {%- endif %}
 
+    {%- if cluster.commands %}
     override fun getCommandID(name: String): Long {
-        {%- if cluster.commands %}
-        return Command.valueOf(name).id
-        {%- else %}
-        throw NoSuchFieldError()
-        {%- endif %}
+      return Command.valueOf(name).id
     }
+    {%- endif %}
 
-    companion object {
-      const val ID = {{cluster.code}}L
-    }
+    const val ID = {{cluster.code}}L
   }
   {%- endfor -%}
 
   companion object {
-    fun getCluster(clusterId: Long): BaseCluster? {
+    fun getCluster(clusterId: Long): ClusterIDMapping? {
       {%- for cluster in clientClusters | sort(attribute='code') %}
       if (clusterId == {{cluster.name}}.ID) {
-        return {{cluster.name}}()
+        return {{cluster.name}}
       }
       {%- endfor %}
       return null
     }
   }
 
-  interface BaseCluster {
-    fun getID(): Long
+  abstract fun getID(): Long
 
-    @Throws(NoSuchFieldError::class)
-    fun getAttributeName(id: Long): String
+  @Throws(NoSuchFieldError::class)
+  open fun getAttributeName(id: Long): String {
+    throw NoSuchFieldError()
+  }
 
-    @Throws(NoSuchFieldError::class)
-    fun getEventName(id: Long): String
+  @Throws(NoSuchFieldError::class)
+  open fun getEventName(id: Long): String {
+    throw NoSuchFieldError()
+  }
 
-    @Throws(NoSuchFieldError::class)
-    fun getCommandName(id: Long): String
+  @Throws(NoSuchFieldError::class)
+  open fun getCommandName(id: Long): String {
+    throw NoSuchFieldError()
+  }
 
-    @Throws(IllegalArgumentException::class)
-    fun getAttributeID(name: String): Long
+  @Throws(IllegalArgumentException::class)
+  open fun getAttributeID(name: String): Long {
+    throw IllegalArgumentException()
+  }
 
-    @Throws(IllegalArgumentException::class)
-    fun getEventID(name: String): Long
+  @Throws(IllegalArgumentException::class)
+  open fun getEventID(name: String): Long {
+    throw IllegalArgumentException()
+  }
 
-    @Throws(IllegalArgumentException::class)
-    fun getCommandID(name: String): Long
+  @Throws(IllegalArgumentException::class)
+  open fun getCommandID(name: String): Long {
+    throw IllegalArgumentException()
   }
 }
