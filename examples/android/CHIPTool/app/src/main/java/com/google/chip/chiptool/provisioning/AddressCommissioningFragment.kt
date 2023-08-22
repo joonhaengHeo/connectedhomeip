@@ -63,7 +63,7 @@ class AddressCommissioningFragment : Fragment() {
             discriminator = discriminator.toInt(),
             setupPinCode = pincode.toLong(),
             ipAddress = address
-          )
+          ), null
         )
     }
 

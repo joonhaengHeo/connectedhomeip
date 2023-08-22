@@ -35,6 +35,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import chip.onboardingpayload.OnboardingPayload
 import chip.onboardingpayload.OnboardingPayloadException
@@ -43,6 +44,7 @@ import chip.onboardingpayload.UnrecognizedQrCodeException
 import com.google.chip.chiptool.R
 import com.google.chip.chiptool.SelectActionFragment
 import com.google.chip.chiptool.databinding.BarcodeFragmentBinding
+import com.google.chip.chiptool.provisioning.DeviceProvisioningFragment
 import com.google.chip.chiptool.util.FragmentUtil
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScanning
@@ -58,6 +60,9 @@ class BarcodeFragment : Fragment() {
   private var _binding: BarcodeFragmentBinding? = null
   private val binding
     get() = _binding!!
+
+  private val easyMode
+    get() = arguments?.getBoolean(ARG_EASY_MODE) ?: false
 
   private fun aspectRatio(width: Int, height: Int): Int {
     val previewRatio = max(width, height).toDouble() / min(width, height)
@@ -82,6 +87,8 @@ class BarcodeFragment : Fragment() {
     _binding = BarcodeFragmentBinding.inflate(inflater, container, false)
 
     startCamera()
+
+    binding.inputAddressBtn.isVisible = !easyMode
     binding.inputAddressBtn.setOnClickListener {
       FragmentUtil.getHost(this@BarcodeFragment, SelectActionFragment.Callback::class.java)
         ?.onShowDeviceAddressInput()
@@ -195,7 +202,7 @@ class BarcodeFragment : Fragment() {
       Toast.makeText(requireContext(), "Unrecognized QR Code", Toast.LENGTH_SHORT).show()
     }
     FragmentUtil.getHost(this@BarcodeFragment, Callback::class.java)
-      ?.onCHIPDeviceInfoReceived(CHIPDeviceInfo.fromSetupPayload(payload))
+      ?.onCHIPDeviceInfoReceived(CHIPDeviceInfo.fromSetupPayload(payload), qrCode)
   }
 
   private fun handleScannedQrCode(barcode: Barcode) {
@@ -210,7 +217,7 @@ class BarcodeFragment : Fragment() {
         return@post
       }
       FragmentUtil.getHost(this@BarcodeFragment, Callback::class.java)
-        ?.onCHIPDeviceInfoReceived(CHIPDeviceInfo.fromSetupPayload(payload))
+        ?.onCHIPDeviceInfoReceived(CHIPDeviceInfo.fromSetupPayload(payload), barcode.displayValue)
     }
   }
 
@@ -251,14 +258,22 @@ class BarcodeFragment : Fragment() {
   /** Interface for notifying the host. */
   interface Callback {
     /** Notifies host of the [CHIPDeviceInfo] from the scanned QR code. */
-    fun onCHIPDeviceInfoReceived(deviceInfo: CHIPDeviceInfo)
+    fun onCHIPDeviceInfoReceived(deviceInfo: CHIPDeviceInfo, setupCode: String?)
   }
 
   companion object {
     private const val TAG = "BarcodeFragment"
     private const val REQUEST_CODE_CAMERA_PERMISSION = 100
+    private const val ARG_EASY_MODE = "easy_mode"
 
-    @JvmStatic fun newInstance() = BarcodeFragment()
+    @JvmStatic fun newInstance(easyMode: Boolean = false): BarcodeFragment {
+      return BarcodeFragment().apply {
+        arguments =
+          Bundle(1).apply {
+            putBoolean(ARG_EASY_MODE, easyMode)
+          }
+      }
+    }
 
     private const val RATIO_4_3_VALUE = 4.0 / 3.0
     private const val RATIO_16_9_VALUE = 16.0 / 9.0

@@ -78,7 +78,7 @@
       android:id="@+id/endpointIdEd"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:inputType="text"
+      android:inputType="number"
       android:hint="@string/wildcard_help_label" />
 
   <TextView

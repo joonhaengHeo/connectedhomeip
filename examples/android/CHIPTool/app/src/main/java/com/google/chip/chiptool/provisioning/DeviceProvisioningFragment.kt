@@ -56,6 +56,9 @@ class DeviceProvisioningFragment : Fragment() {
   private val networkCredentialsParcelable: NetworkCredentialsParcelable?
     get() = arguments?.getParcelable(ARG_NETWORK_CREDENTIALS)
 
+  private val setupCode: String?
+    get() = arguments?.getString(ARG_SETUP_CODE)
+
   private lateinit var deviceController: ChipDeviceController
 
   private lateinit var scope: CoroutineScope
@@ -77,7 +80,9 @@ class DeviceProvisioningFragment : Fragment() {
 
     return inflater.inflate(R.layout.barcode_fragment, container, false).apply {
       if (savedInstanceState == null) {
-        if (deviceInfo.ipAddress != null) {
+        if (setupCode != null) {
+          pairDeviceWithCode()
+        } else if (deviceInfo.ipAddress != null) {
           pairDeviceWithAddress()
         } else {
           startConnectingToDevice()
@@ -230,6 +235,19 @@ class DeviceProvisioningFragment : Fragment() {
     }
   }
 
+  private fun pairDeviceWithCode() {
+    scope.launch {
+      deviceController.setCompletionListener(ConnectionCallback())
+
+      val deviceId = DeviceIdUtil.getNextAvailableId(requireContext())
+
+      setAttestationDelegate()
+
+      deviceController.pairDeviceWithCode(deviceId, setupCode, false, true,null, null)
+      DeviceIdUtil.setNextAvailableId(requireContext(), deviceId + 1)
+    }
+  }
+
   private fun showMessage(msgResId: Int, stringArgs: String? = null) {
     requireActivity().runOnUiThread {
       val context = requireContext()
@@ -251,11 +269,11 @@ class DeviceProvisioningFragment : Fragment() {
     override fun onCommissioningComplete(nodeId: Long, errorCode: Int) {
       if (errorCode == STATUS_PAIRING_SUCCESS) {
         FragmentUtil.getHost(this@DeviceProvisioningFragment, Callback::class.java)
-          ?.onCommissioningComplete(0)
+          ?.onCommissioningComplete(0, nodeId.toULong())
       } else {
         showMessage(R.string.rendezvous_over_ble_pairing_failure_text)
         FragmentUtil.getHost(this@DeviceProvisioningFragment, Callback::class.java)
-          ?.onCommissioningComplete(errorCode)
+          ?.onCommissioningComplete(errorCode, null)
       }
     }
 
@@ -265,7 +283,7 @@ class DeviceProvisioningFragment : Fragment() {
       if (code != STATUS_PAIRING_SUCCESS) {
         showMessage(R.string.rendezvous_over_ble_pairing_failure_text)
         FragmentUtil.getHost(this@DeviceProvisioningFragment, Callback::class.java)
-          ?.onCommissioningComplete(code)
+          ?.onCommissioningComplete(code, null)
       }
     }
 
@@ -289,12 +307,13 @@ class DeviceProvisioningFragment : Fragment() {
   /** Callback from [DeviceProvisioningFragment] notifying any registered listeners. */
   interface Callback {
     /** Notifies that commissioning has been completed. */
-    fun onCommissioningComplete(code: Int)
+    fun onCommissioningComplete(code: Int, nodeId: ULong?)
   }
 
   companion object {
     private const val TAG = "DeviceProvisioningFragment"
     private const val ARG_DEVICE_INFO = "device_info"
+    private const val ARG_SETUP_CODE = "setup_code"
     private const val ARG_NETWORK_CREDENTIALS = "network_credentials"
     private const val STATUS_PAIRING_SUCCESS = 0
 
@@ -311,12 +330,14 @@ class DeviceProvisioningFragment : Fragment() {
      */
     fun newInstance(
       deviceInfo: CHIPDeviceInfo,
+      setupCode: String?,
       networkCredentialsParcelable: NetworkCredentialsParcelable?,
     ): DeviceProvisioningFragment {
       return DeviceProvisioningFragment().apply {
         arguments =
-          Bundle(2).apply {
+          Bundle(3).apply {
             putParcelable(ARG_DEVICE_INFO, deviceInfo)
+            putString(ARG_SETUP_CODE, setupCode)
             putParcelable(ARG_NETWORK_CREDENTIALS, networkCredentialsParcelable)
           }
       }

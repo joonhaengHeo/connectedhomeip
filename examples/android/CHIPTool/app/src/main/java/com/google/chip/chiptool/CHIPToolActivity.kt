@@ -17,6 +17,8 @@
  */
 package com.google.chip.chiptool
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.nfc.NdefMessage
@@ -24,6 +26,8 @@ import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.Menu
+import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -58,7 +62,11 @@ class CHIPToolActivity :
     setContentView(R.layout.top_activity)
 
     if (savedInstanceState == null) {
-      val fragment = SelectActionFragment.newInstance()
+      val fragment = if (isEasyMode()) {
+        EasyModeFragment.newInstance()
+      } else {
+        SelectActionFragment.newInstance()
+      }
       supportFragmentManager
         .beginTransaction()
         .add(R.id.nav_host_fragment, fragment, fragment.javaClass.simpleName)
@@ -75,32 +83,86 @@ class CHIPToolActivity :
     }
   }
 
+  private fun isEasyMode(): Boolean {
+    val prefs = getSharedPreferences(CONFIG_PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+    return prefs.getBoolean(PREF_EASY_MODE, USE_EASY_MODE)
+  }
+
+  private fun setEasyMode(easyMode: Boolean) {
+    val prefs = getSharedPreferences(CONFIG_PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+    val prefEdits = prefs.edit()
+    prefEdits.putBoolean(PREF_EASY_MODE, easyMode)
+    prefEdits.apply()
+  }
+
+  private fun addNodeId(nodeId: ULong) {
+    val prefs = getSharedPreferences(CONFIG_PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
+    val nodeSet = prefs.getStringSet(PREF_COMMISSIONED_NODE_ID, setOf()) ?: setOf()
+    val mutableNodeSet = mutableSetOf<String>().apply {
+      addAll(nodeSet)
+      add(nodeId.toString())
+    }
+    val prefEdits = prefs.edit()
+    prefEdits.putStringSet(PREF_COMMISSIONED_NODE_ID, mutableNodeSet)
+    prefEdits.apply()
+  }
+
+  @SuppressLint("UseSwitchCompatOrMaterialCode")
+  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    menuInflater.inflate(R.menu.option_menu, menu)
+    val switch = menu?.getItem(0)?.actionView?.findViewById<Switch>(R.id.easymode_switch) ?: return false
+
+    switch.isChecked = isEasyMode()
+    switch.setOnCheckedChangeListener { _, _ ->
+      Log.d(TAG, "switch : ${switch.isChecked}")
+      setEasyMode(switch.isChecked)
+      if (isEasyMode()) {
+        showFragment(EasyModeFragment.newInstance(), false)
+      } else {
+        showFragment(SelectActionFragment.newInstance(), false)
+      }
+
+    }
+    return true
+  }
+
   override fun onSaveInstanceState(outState: Bundle) {
     outState.putString(ARG_PROVISION_NETWORK_TYPE, networkType?.name)
 
     super.onSaveInstanceState(outState)
   }
 
-  override fun onCHIPDeviceInfoReceived(deviceInfo: CHIPDeviceInfo) {
+  override fun onCHIPDeviceInfoReceived(deviceInfo: CHIPDeviceInfo, setupCode: String?) {
     this.deviceInfo = deviceInfo
-    if (networkType == null) {
+    if (isEasyMode()) {
+      showFragment(DeviceProvisioningFragment.newInstance(deviceInfo!!, setupCode, null))
+    } else if (networkType == null) {
       showFragment(CHIPDeviceDetailsFragment.newInstance(deviceInfo))
     } else {
       if (deviceInfo.ipAddress != null) {
-        showFragment(DeviceProvisioningFragment.newInstance(deviceInfo!!, null))
+        showFragment(DeviceProvisioningFragment.newInstance(deviceInfo!!, setupCode, null))
       } else {
         showFragment(EnterNetworkFragment.newInstance(networkType!!), false)
       }
     }
   }
 
-  override fun onCommissioningComplete(code: Int) {
+  override fun onCommissioningComplete(code: Int, nodeId: ULong?) {
     runOnUiThread {
       Toast.makeText(this, getString(R.string.commissioning_completed, code), Toast.LENGTH_SHORT)
         .show()
     }
     ChipClient.getDeviceController(this).close()
-    showFragment(SelectActionFragment.newInstance(), false)
+
+    if (nodeId != null) {
+      addNodeId(nodeId)
+    }
+
+    if (isEasyMode()) {
+      showFragment(EasyModeFragment.newInstance(), false)
+    } else {
+      showFragment(SelectActionFragment.newInstance(), false)
+    }
   }
 
   override fun onShowDeviceAddressInput() {
@@ -108,7 +170,7 @@ class CHIPToolActivity :
   }
 
   override fun onNetworkCredentialsEntered(networkCredentials: NetworkCredentialsParcelable) {
-    showFragment(DeviceProvisioningFragment.newInstance(deviceInfo!!, networkCredentials))
+    showFragment(DeviceProvisioningFragment.newInstance(deviceInfo!!, null, networkCredentials))
   }
 
   override fun handleReadFromLedgerClicked(deviceInfo: CHIPDeviceInfo) {
@@ -176,7 +238,7 @@ class CHIPToolActivity :
             2 -> ProvisionNetworkType.THREAD
             else -> null
           }
-        onCHIPDeviceInfoReceived(deviceInfo)
+        onCHIPDeviceInfoReceived(deviceInfo, uri.toString().toUpperCase())
       }
       .create()
       .show()
@@ -226,7 +288,7 @@ class CHIPToolActivity :
 
       AlertDialog.Builder(this)
         .setTitle(R.string.provision_custom_flow_alert_title)
-        .setItems(buttons) { _, _ -> onCHIPDeviceInfoReceived(deviceInfo) }
+        .setItems(buttons) { _, _ -> onCHIPDeviceInfoReceived(deviceInfo, null) }
         .create()
         .show()
     } catch (ex: UnrecognizedQrCodeException) {
@@ -240,5 +302,11 @@ class CHIPToolActivity :
     private const val TAG = "CHIPToolActivity"
     private const val ADDRESS_COMMISSIONING_FRAGMENT_TAG = "address_commissioning_fragment"
     private const val ARG_PROVISION_NETWORK_TYPE = "provision_network_type"
+
+    private const val USE_EASY_MODE = true
+    private const val PREF_EASY_MODE = "easy_mode"
+    const val PREF_COMMISSIONED_NODE_ID = "node_id"
+
+    const val CONFIG_PREFERENCE_FILE_KEY = "config"
   }
 }

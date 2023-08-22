@@ -219,4 +219,15 @@
     <string name="wifi_connect_btn_text">Connect</string>
 
     <string name="unpair_device_btn_text">Unpair</string>
+
+    <string name="menu_easy_mode">Easy Mode</string>
+    <string name="easy_mode_fabric_id_text">Fabric ID :</string>
+    <string name="easy_mode_node_id_text">Node ID :</string>
+    <string name="easy_mode_endpoint_id_text">Endpoint :</string>
+    <string name="easy_mode_cluster_text">Cluster :</string>
+    <string name="easy_mode_generate_fabric_text">Generate Fabric</string>
+    <string name="easy_mode_commission_text">Commission</string>
+    <string name="easy_mode_unpair_text">Unpair</string>
+    <string name="easy_mode_connect_text">Connect</string>
+    <string name="easy_mode_connecting_text">Connecting...</string>
 </resources>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/fabricIdTv"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/easy_mode_fabric_id_text" />
+    <Spinner
+        android:id="@+id/fabricListSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/fabricIdTv"
+        android:layout_toStartOf="@id/generateFabricBtn"
+        android:gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/generateFabricBtn"
+        android:layout_height="50dp"
+        android:layout_width="150sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_alignParentEnd="true"
+        android:text="@string/easy_mode_generate_fabric_text" />
+
+    <TextView
+        android:id="@+id/nodeIdTv"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/fabricIdTv"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/easy_mode_node_id_text" />
+
+    <Spinner
+        android:id="@+id/nodeListSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/fabricListSpinner"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/nodeIdTv"
+        android:layout_toStartOf="@id/commissioningBtn"
+        android:gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/commissioningBtn"
+        android:layout_width="150sp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/generateFabricBtn"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_alignParentEnd="true"
+        android:text="@string/easy_mode_commission_text" />
+
+    <TextView
+        android:id="@+id/endpointIdTv"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/nodeIdTv"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/easy_mode_endpoint_id_text" />
+
+    <Spinner
+        android:id="@+id/endpointListSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/nodeListSpinner"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/nodeIdTv"
+        android:layout_toStartOf="@id/unpairBtn"
+        android:gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/unpairBtn"
+        android:layout_width="150sp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/commissioningBtn"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_alignParentEnd="true"
+        android:text="@string/easy_mode_unpair_text" />
+
+    <TextView
+        android:id="@+id/clusterTv"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/endpointIdTv"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/easy_mode_cluster_text" />
+
+    <Spinner
+        android:id="@+id/clusterListSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/endpointListSpinner"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/clusterTv"
+        android:layout_toStartOf="@id/connectBtn"
+        android:layout_alignParentEnd="@id/connectBtn"
+        android:gravity="center_horizontal" />
+
+    <ToggleButton
+        android:id="@+id/connectBtn"
+        android:layout_height="50dp"
+        android:layout_width="150sp"
+        android:layout_below="@+id/unpairBtn"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_alignParentEnd="true"
+        android:textOff="@string/easy_mode_connect_text"
+        android:textOn="@string/easy_mode_connecting_text" />
+</RelativeLayout>
