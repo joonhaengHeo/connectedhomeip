@@ -130,8 +130,8 @@ void GetConnectedDeviceCallback::OnDeviceConnectionFailureFn(void * context, con
 }
 
 ReportCallback::ReportCallback(jobject wrapperCallback, jobject subscriptionEstablishedCallback, jobject reportCallback,
-                               jobject resubscriptionAttemptCallback) :
-    mClusterCacheAdapter(*this, Optional<EventNumber>::Missing(), false /*cacheData*/)
+                               jobject resubscriptionAttemptCallback, bool cacheData) :
+    mClusterCacheAdapter(*this, Optional<EventNumber>::Missing(), cacheData)
 {
     JNIEnv * env = JniReferences::GetInstance().GetEnvForCurrentThread();
     VerifyOrReturn(env != nullptr, ChipLogError(Controller, "Could not get JNIEnv for current thread"));
@@ -223,6 +223,58 @@ void ReportCallback::OnReportEnd()
     DeviceLayer::StackUnlock unlock;
     env->CallVoidMethod(mReportCallbackRef, onReportMethod, mNodeStateObj);
     VerifyOrReturn(!env->ExceptionCheck(), env->ExceptionDescribe());
+}
+
+jobject ReportCallback::getEndpointState(EndpointId endpointId)
+{
+    VerifyOrReturnError(mNodeStateObj != nullptr, nullptr);
+
+    CHIP_ERROR err = CHIP_NO_ERROR;
+    JNIEnv * env   = JniReferences::GetInstance().GetEnvForCurrentThread();
+
+    jmethodID getEndpointStateMethod;
+    err = JniReferences::GetInstance().FindMethod(env, mNodeStateObj, "getEndpointState",
+                                                  "(I)Lchip/devicecontroller/model/EndpointState;", &getEndpointStateMethod);
+    VerifyOrReturnError(err == CHIP_NO_ERROR, nullptr);
+    jobject endpointStateObj = env->CallObjectMethod(mNodeStateObj, getEndpointStateMethod, static_cast<jint>(endpointId));
+    VerifyOrReturnError(!env->ExceptionCheck(), nullptr);
+
+    return endpointStateObj;
+}
+
+void ReportCallback::OnAttributeChanged(app::ClusterStateCache * cache, const app::ConcreteAttributePath & path)
+{
+    jobject endpointStateObj = getEndpointState(path.mEndpointId);
+    VerifyOrReturn(endpointStateObj != nullptr, ChipLogError(Controller, "OnAttributeChanged : endpointStateObj is null"));
+
+    CHIP_ERROR err = CHIP_NO_ERROR;
+    JNIEnv * env   = JniReferences::GetInstance().GetEnvForCurrentThread();
+
+    jmethodID getClusterStateMethod;
+    err = JniReferences::GetInstance().FindMethod(env, endpointStateObj, "getClusterState", "(J)Lchip/devicecontroller/model/ClusterState;", &getClusterStateMethod);
+    VerifyOrReturn(err == CHIP_NO_ERROR, ChipLogError(Controller, "OnAttributeChanged : Could not find getClusterState method"));
+    jobject clusterStateObj = env->CallObjectMethod(endpointStateObj, getClusterStateMethod, static_cast<jlong>(path.mClusterId));
+    VerifyOrReturnError(!env->ExceptionCheck(), env->ExceptionDescribe());
+
+    jmethodID addChangedAttributeMethod;
+    err = JniReferences::GetInstance().FindMethod(env, clusterStateObj, "addChangedAttribute", "(J)V", &addChangedAttributeMethod);
+    VerifyOrReturn(err == CHIP_NO_ERROR, ChipLogError(Controller, "OnAttributeChanged : Could not find addChangedAttribute method"));
+    env->CallVoidMethod(clusterStateObj, addChangedAttributeMethod, static_cast<jlong>(path.mAttributeId));
+    VerifyOrReturnError(!env->ExceptionCheck(), env->ExceptionDescribe());
+}
+
+void ReportCallback::OnEndpointAdded(app::ClusterStateCache * cache, EndpointId endpointId) {
+    jobject endpointStateObj = getEndpointState(endpointId);
+    VerifyOrReturn(endpointStateObj != nullptr, ChipLogError(Controller, "OnEndpointAdded : endpointStateObj is null"));
+
+    CHIP_ERROR err = CHIP_NO_ERROR;
+    JNIEnv * env   = JniReferences::GetInstance().GetEnvForCurrentThread();
+
+    jmethodID setAddedFlagMethod;
+    err = JniReferences::GetInstance().FindMethod(env, endpointStateObj, "setAddedFlag", "()V", &setAddedFlagMethod);
+    VerifyOrReturn(err == CHIP_NO_ERROR, ChipLogError(Controller, "OnEndpointAdded : Could not find setAddedFlag method"));
+    env->CallVoidMethod(endpointStateObj, setAddedFlagMethod);
+    VerifyOrReturnError(!env->ExceptionCheck(), env->ExceptionDescribe());
 }
 
 // Convert TLV blob to Json with structure, the element's tag is replaced with the actual attributeId.

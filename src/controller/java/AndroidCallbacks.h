@@ -50,7 +50,7 @@ struct ReportCallback : public app::ClusterStateCache::Callback
 {
     /** Subscription established callback can be nullptr. */
     ReportCallback(jobject wrapperCallback, jobject subscriptionEstablishedCallback, jobject reportCallback,
-                   jobject resubscriptionAttemptCallback);
+                   jobject resubscriptionAttemptCallback, bool cacheData = true);
     ~ReportCallback();
 
     void OnReportBegin() override;
@@ -79,6 +79,12 @@ struct ReportCallback : public app::ClusterStateCache::Callback
     CHIP_ERROR CreateChipEventPath(const app::ConcreteEventPath & aPath, jobject & outObj);
 
     void UpdateClusterDataVersion();
+
+    void OnAttributeChanged(app::ClusterStateCache * cache, const app::ConcreteAttributePath & path) override;
+
+    void OnEndpointAdded(app::ClusterStateCache * cache, EndpointId endpointId) override;
+
+    jobject getEndpointState(EndpointId endpointId);
 
     app::ReadClient * mReadClient = nullptr;
 

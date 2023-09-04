@@ -20,6 +20,7 @@ package chip.devicecontroller.model;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -33,6 +34,7 @@ public final class ClusterState {
   private Map<Long, AttributeState> attributes;
   private Map<Long, ArrayList<EventState>> events;
   private Optional<Long> dataVersion;
+  private List<Long> changedAttributes = new ArrayList<Long>();
 
   public ClusterState(
       Map<Long, AttributeState> attributes, Map<Long, ArrayList<EventState>> events) {
@@ -55,6 +57,18 @@ public final class ClusterState {
 
   public Optional<Long> getDataVersion() {
     return dataVersion;
+  }
+
+  public boolean isChanged() {
+    return !changedAttributes.isEmpty();
+  }
+
+  void addChangedAttribute(long attributeId) {
+    changedAttributes.add(attributeId);
+    if (attributes.containsKey(attributeId)) {
+      AttributeState state = attributes.get(attributeId);
+      state.setChangeFlag();
+    }
   }
 
   /**

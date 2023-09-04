@@ -28,10 +28,12 @@ public final class AttributeState {
   private final Object valueObject;
   private final byte[] tlv;
   private JSONObject json;
+  private boolean isChanged = false;
 
   public AttributeState(Object valueObject, byte[] tlv, String jsonString) {
     this.valueObject = valueObject;
     this.tlv = tlv;
+
     try {
       this.json = new JSONObject(jsonString);
     } catch (JSONException ex) {
@@ -52,5 +54,13 @@ public final class AttributeState {
 
   public JSONObject getJson() {
     return json;
+  }
+
+  public void setChangeFlag() {
+    isChanged = true;
+  }
+
+  public boolean isChanged() {
+    return isChanged;
   }
 }

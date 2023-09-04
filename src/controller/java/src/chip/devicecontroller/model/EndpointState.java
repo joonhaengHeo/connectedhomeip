@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
 /** Class for tracking CHIP endpoint state in a hierarchical manner. */
 public final class EndpointState {
   private Map<Long, ClusterState> clusters;
+  private boolean isAdded = false;
 
   public EndpointState(Map<Long, ClusterState> clusters) {
     this.clusters = clusters;
@@ -30,6 +31,14 @@ public final class EndpointState {
 
   public Map<Long, ClusterState> getClusterStates() {
     return clusters;
+  }
+
+  void setAddedFlag() {
+    isAdded = true;
+  }
+
+  public boolean isAdded() {
+    return isAdded;
   }
 
   /**

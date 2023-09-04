@@ -215,13 +215,24 @@ class WildcardFragment : Fragment() {
   private fun nodeStateToDebugString(nodeState: NodeState): String {
     val stringBuilder = StringBuilder()
     nodeState.endpointStates.forEach { (endpointId, endpointState) ->
+      if (endpointState.isAdded) {
+        stringBuilder.append("[New]")  
+      }
       stringBuilder.append("Endpoint $endpointId: {\n")
       endpointState.clusterStates.forEach { (clusterId, clusterState) ->
-        stringBuilder.append("\t${ChipIdLookup.clusterIdToName(clusterId)}Cluster: {\n")
+        stringBuilder.append("\t")
+        if (clusterState.isChanged) {
+          stringBuilder.append("[Change]")  
+        }
+        stringBuilder.append("${ChipIdLookup.clusterIdToName(clusterId)}Cluster: {\n")
         clusterState.attributeStates.forEach { (attributeId, attributeState) ->
           val attributeName = ChipIdLookup.attributeIdToName(clusterId, attributeId)
           val tlv = attributeState.tlv
-          stringBuilder.append("\t\t$attributeName: ${TlvReader(tlv).toAny()}\n")
+          stringBuilder.append("\t\t")
+          if (attributeState.isChanged) {
+            stringBuilder.append("[Change]")  
+          }
+          stringBuilder.append("$attributeName: ${TlvReader(tlv).toAny()}\n")
         }
         clusterState.eventStates.forEach { (eventId, events) ->
           for (event in events) {
