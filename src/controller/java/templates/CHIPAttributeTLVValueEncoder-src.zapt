@@ -1,0 +1,69 @@
+{{> header}}
+#include <jni/CHIPCallbackTypes.h>
+#include <jni/CHIPReadCallbacks.h>
+#include "CHIPInvokeCallbacks.h"
+
+#include <app-common/zap-generated/cluster-objects.h>
+#include <controller/java/zap-generated/CHIPClientCallbacks.h>
+#include <zap-generated/CHIPClusters.h>
+
+#include <controller/java/AndroidCallbacks.h>
+#include <controller/java/AndroidClusterExceptions.h>
+#include <controller/java/CHIPDefaultCallbacks.h>
+#include <lib/support/JniReferences.h>
+#include <lib/support/JniTypeWrappers.h>
+#include <jni.h>
+#include <lib/support/CHIPListUtils.h>
+#include <lib/support/CodeUtils.h>
+#include <lib/support/Span.h>
+#include <platform/PlatformManager.h>
+#include <vector>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+
+using namespace chip;
+
+CHIP_ERROR EncodeAttributeValue(const chip::app::AttributePathParams & aPath, jobject value, TLV::TLVWriter & aWriter)
+{
+    JNIEnv * env   = JniReferences::GetInstance().GetEnvForCurrentThread();
+    CHIP_ERROR err = CHIP_NO_ERROR;
+
+    switch(aPath.mClusterId)
+    {
+{{#zcl_clusters}}
+        case app::Clusters::{{asUpperCamelCase name}}::Id:
+        {
+            using namespace app::Clusters::{{asUpperCamelCase name}};
+            switch (aPath.mAttributeId)
+            {
+{{#zcl_attributes_server removeKeys='isOptional'}}
+{{#if_unsupported_attribute_callback type isArray ../id}}
+{{else}}
+{{#if isWritableAttribute}}
+                case Attributes::{{asUpperCamelCase name}}::Id:
+                {
+                    break;
+                }
+{{/if}}
+{{/if_unsupported_attribute_callback}}
+{{/zcl_attributes_server}}
+                default:
+                {
+                    err = CHIP_ERROR_IM_MALFORMED_ATTRIBUTE_PATH_IB;
+                    break;
+                }
+            }
+            break;
+        }
+{{/zcl_clusters}}
+        default:
+        {
+            err = CHIP_ERROR_IM_MALFORMED_ATTRIBUTE_PATH_IB;
+            break;
+        }
+    }
+    return err;
+}
+
+#pragma clang diagnostic pop
