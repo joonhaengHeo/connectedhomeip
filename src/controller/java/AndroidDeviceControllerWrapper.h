@@ -24,6 +24,8 @@
 
 #include <jni.h>
 
+#include <app/icd/client/CheckInHandler.h>
+#include <app/icd/client/DefaultCheckInDelegate.h>
 #include <app/icd/client/DefaultICDClientStorage.h>
 #include <controller/CHIPDeviceController.h>
 #include <credentials/GroupDataProviderImpl.h>
@@ -223,6 +225,8 @@ private:
     chip::Crypto::RawKeySessionKeystore mSessionKeystore;
 
     chip::app::DefaultICDClientStorage mICDClientStorage;
+    chip::app::DefaultCheckInDelegate mCheckInDelegate;
+    chip::app::CheckInHandler mCheckInHandler;
 
     JavaVM * mJavaVM = nullptr;
     chip::JniGlobalReference mJavaObjectRef;

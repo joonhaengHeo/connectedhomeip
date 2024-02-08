@@ -185,6 +185,13 @@ AndroidDeviceControllerWrapper * AndroidDeviceControllerWrapper::AllocateNew(
         return nullptr;
     }
 
+    *errInfoOnFailure = wrapper->mCheckInDelegate.Init(&wrapper->mICDClientStorage);
+    if (*errInfoOnFailure != CHIP_NO_ERROR)
+    {
+        ChipLogError(Controller, "ICD Client Storage failure");
+        return nullptr;
+    }
+
     chip::Controller::FactoryInitParams initParams;
     chip::Controller::SetupParams setupParams;
 
@@ -378,6 +385,13 @@ AndroidDeviceControllerWrapper * AndroidDeviceControllerWrapper::AllocateNew(
 
     if (*errInfoOnFailure != CHIP_NO_ERROR)
     {
+        return nullptr;
+    }
+
+    *errInfoOnFailure = wrapper->mCheckInHandler.Init(DeviceControllerFactory::GetInstance().GetSystemState()->ExchangeMgr(), &wrapper->mICDClientStorage, &wrapper->mCheckInDelegate);
+    if (*errInfoOnFailure != CHIP_NO_ERROR)
+    {
+        ChipLogError(Controller, "ICD Client Storage failure");
         return nullptr;
     }
 
