@@ -576,7 +576,7 @@ class WildcardFragment : Fragment(), AddressUpdateFragment.ICDCheckInMessageCall
         if (eventPath.isNotEmpty() && eventMinEd.text.isNotBlank()) {
           eventMin = eventMinEd.text.toString().toULong().toLong()
         }
-        if (addressUpdateFragment.isICDDevice()) {
+        if (addressUpdateFragment.isICDDevice() && !addressUpdateFragment.isICDDeviceStayActive()) {
           readICDConfig =
             ReadICDConfig(isFabricFilteredEd.selectedItem.toString().toBoolean(), eventMin)
         } else {
@@ -610,7 +610,7 @@ class WildcardFragment : Fragment(), AddressUpdateFragment.ICDCheckInMessageCall
           } else {
             imTimeout.toInt()
           }
-        if (addressUpdateFragment.isICDDevice()) {
+        if (addressUpdateFragment.isICDDevice() && !addressUpdateFragment.isICDDeviceStayActive()) {
           writeICDConfig = WriteInvokeICDConfig(timedRequestTimeoutInt, imTimeoutInt)
         } else {
           write(timedRequestTimeoutInt, imTimeoutInt)
@@ -654,7 +654,7 @@ class WildcardFragment : Fragment(), AddressUpdateFragment.ICDCheckInMessageCall
           if (eventPath.isNotEmpty() && eventMinEd.text.isNotBlank()) {
             eventMin = eventMinEd.text.toString().toULong().toLong()
           }
-          if (addressUpdateFragment.isICDDevice()) {
+          if (addressUpdateFragment.isICDDevice() && !addressUpdateFragment.isICDDeviceStayActive()) {
             subscribeICDConfig =
               SubscribeICDConfig(
                 minIntervalEd.text.toString().toInt(),
@@ -703,7 +703,7 @@ class WildcardFragment : Fragment(), AddressUpdateFragment.ICDCheckInMessageCall
           } else {
             imTimeout.toInt()
           }
-        if (addressUpdateFragment.isICDDevice()) {
+        if (addressUpdateFragment.isICDDevice() && !addressUpdateFragment.isICDDeviceStayActive()) {
           invokeICDConfig = WriteInvokeICDConfig(timedRequestTimeoutInt, imTimeoutInt)
         } else {
           invoke(timedRequestTimeoutInt, imTimeoutInt)

@@ -194,6 +194,10 @@ class AddressUpdateFragment : ICDCheckInCallback, Fragment() {
       null
   }
 
+  fun isICDDeviceStayActive(): Boolean {
+    return (icdTotalRemainStayActiveTimeMs != 0L)
+  }
+
   override fun notifyCheckInMessage(info: ICDClientInfo) {
     externalICDCheckInMessageCallback?.notifyCheckInMessage()
     if (info.peerNodeId != icdDeviceId) {
