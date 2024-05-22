@@ -238,6 +238,16 @@ class CHIPToolActivity :
     }
   }
 
+  override fun onResume() {
+    super.onResume()
+    ChipClient.startDnssd()
+  }
+
+  override fun onPause() {
+    ChipClient.stopDnssd()
+    super.onPause()
+  }
+
   companion object {
     private const val TAG = "CHIPToolActivity"
     private const val ADDRESS_COMMISSIONING_FRAGMENT_TAG = "address_commissioning_fragment"

@@ -114,6 +114,18 @@ object ChipClient {
     icdCheckInCallback = callback
   }
 
+  fun startDnssd() {
+    if (this::chipDeviceController.isInitialized) {
+      chipDeviceController.startDnssd()
+    }
+  }
+
+  fun stopDnssd() {
+    if (this::chipDeviceController.isInitialized) {
+      chipDeviceController.stopDnssd()
+    }
+  }
+
   /**
    * Wrapper around [ChipDeviceController.getConnectedDevicePointer] to return the value directly.
    */
