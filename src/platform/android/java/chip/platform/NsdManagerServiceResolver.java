@@ -26,6 +26,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
@@ -42,8 +43,21 @@ public class NsdManagerServiceResolver implements ServiceResolver {
   private MulticastLock publishMulticastLock;
   private List<NsdManager.RegistrationListener> registrationListeners = new ArrayList<>();
   private final CopyOnWriteArrayList<String> mMFServiceName = new CopyOnWriteArrayList<>();
+  private final List<NsdServiceInfo> mPublishServiceInfo = new ArrayList<>();
   @Nullable private final NsdManagerResolverAvailState nsdManagerResolverAvailState;
   private final long timeout;
+
+  public interface ChipMdnsResolverCallback {
+      void handleServiceResolve(
+      String instanceName,
+      String serviceType,
+      String hostName,
+      String address,
+      int port,
+      Map<String, byte[]> textEntries,
+      long callbackHandle,
+      long contextHandle);
+  }
 
   /**
    * @param context application context
@@ -87,6 +101,10 @@ public class NsdManagerServiceResolver implements ServiceResolver {
       final long callbackHandle,
       final long contextHandle,
       final ChipMdnsCallback chipMdnsCallback) {
+    if (!mPublishServiceInfo.isEmpty()) {
+      unregisterServices();
+    }
+
     NsdServiceInfo serviceInfo = new NsdServiceInfo();
     serviceInfo.setServiceName(instanceName);
     serviceInfo.setServiceType(serviceType);
@@ -117,12 +135,31 @@ public class NsdManagerServiceResolver implements ServiceResolver {
             if (nsdManagerResolverAvailState != null) {
               nsdManagerResolverAvailState.signalFree();
             }
+
+            restoreServices();
           }
         };
 
     ScheduledFuture<?> resolveTimeoutExecutor =
         Executors.newSingleThreadScheduledExecutor()
             .schedule(timeoutRunnable, timeout, TimeUnit.MILLISECONDS);
+    
+    ChipMdnsResolverCallback callback = new ChipMdnsResolverCallback() {
+      @Override
+      public void handleServiceResolve(
+        String instanceName,
+        String serviceType,
+        String hostName,
+        String address,
+        int port,
+        Map<String, byte[]> textEntries,
+        long callbackHandle,
+        long contextHandle) {
+          Log.d(TAG, "handleServiceResolve");
+          chipMdnsCallback.handleServiceResolve(instanceName, serviceType, hostName, address, port, textEntries, callbackHandle, contextHandle);
+          restoreServices();
+        }
+    };
 
     NsdServiceFinderAndResolver serviceFinderResolver =
         new NsdServiceFinderAndResolver(
@@ -130,7 +167,7 @@ public class NsdManagerServiceResolver implements ServiceResolver {
             serviceInfo,
             callbackHandle,
             contextHandle,
-            chipMdnsCallback,
+            callback,
             multicastLock,
             resolveTimeoutExecutor,
             nsdManagerResolverAvailState);
@@ -180,6 +217,17 @@ public class NsdManagerServiceResolver implements ServiceResolver {
       Log.i(TAG, "     " + textEntriesKeys[i] + "=" + value);
     }
 
+    registerServices(serviceInfo);
+    mPublishServiceInfo.add(serviceInfo);
+  }
+
+  private void restoreServices() {
+    for (NsdServiceInfo info: mPublishServiceInfo) {
+      registerServices(info);
+    }
+  }
+  
+  private void registerServices(NsdServiceInfo serviceInfo) {
     NsdManager.RegistrationListener registrationListener =
         new NsdManager.RegistrationListener() {
           @Override
@@ -214,7 +262,7 @@ public class NsdManagerServiceResolver implements ServiceResolver {
       publishMulticastLock.acquire();
     }
     registrationListeners.add(registrationListener);
-    mMFServiceName.add(serviceName);
+    mMFServiceName.add(serviceInfo.getServiceName());
 
     nsdManager.registerService(serviceInfo, NsdManager.PROTOCOL_DNS_SD, registrationListener);
     Log.d(TAG, "publish " + registrationListener + " count = " + registrationListeners.size());
@@ -222,6 +270,11 @@ public class NsdManagerServiceResolver implements ServiceResolver {
 
   @Override
   public void removeServices() {
+    unregisterServices();
+    mPublishServiceInfo.clear();
+  }
+
+  public void unregisterServices() {
     Log.d(TAG, "removeServices: ");
     if (registrationListeners.size() > 0 && publishMulticastLock.isHeld()) {
       publishMulticastLock.release();

@@ -23,6 +23,8 @@ import android.net.nsd.NsdServiceInfo;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.util.Log;
 import androidx.annotation.Nullable;
+import chip.platform.NsdManagerServiceResolver.ChipMdnsResolverCallback;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -36,7 +38,7 @@ class NsdServiceFinderAndResolver implements NsdManager.DiscoveryListener {
   private final NsdServiceInfo targetServiceInfo;
   private final long callbackHandle;
   private final long contextHandle;
-  private final ChipMdnsCallback chipMdnsCallback;
+  private final ChipMdnsResolverCallback chipMdnsCallback;
   private final MulticastLock multicastLock;
   private final ScheduledFuture<?> resolveTimeoutExecutor;
 
@@ -50,7 +52,7 @@ class NsdServiceFinderAndResolver implements NsdManager.DiscoveryListener {
       final NsdServiceInfo targetServiceInfo,
       final long callbackHandle,
       final long contextHandle,
-      final ChipMdnsCallback chipMdnsCallback,
+      final ChipMdnsResolverCallback chipMdnsCallback,
       final MulticastLock multicastLock,
       final ScheduledFuture<?> resolveTimeoutExecutor,
       final NsdManagerServiceResolver.NsdManagerResolverAvailState nsdManagerResolverAvailState) {
@@ -109,7 +111,7 @@ class NsdServiceFinderAndResolver implements NsdManager.DiscoveryListener {
       NsdServiceInfo serviceInfo,
       final long callbackHandle,
       final long contextHandle,
-      final ChipMdnsCallback chipMdnsCallback) {
+      final ChipMdnsResolverCallback chipMdnsCallback) {
     this.nsdManager.resolveService(
         serviceInfo,
         new NsdManager.ResolveListener() {
