@@ -46,7 +46,7 @@ jint AndroidChipInteractionJNI_OnLoad(JavaVM * jvm, void * reserved)
 
     // Get various class references need by the API.
     jclass controllerExceptionCls;
-    err = chip::JniReferences::GetInstance().GetLocalClassRef(env, "chip/devicecontroller/ChipDeviceControllerException",
+    err = chip::JniReferences::GetInstance().GetLocalClassRef(env, "chip/devicecontroller/ChipInteractionClientException",
                                                               controllerExceptionCls);
     VerifyOrReturnValue(err == CHIP_NO_ERROR, JNI_ERR);
 

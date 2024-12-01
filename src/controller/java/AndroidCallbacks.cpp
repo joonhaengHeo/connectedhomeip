@@ -16,7 +16,7 @@
  */
 #include "AndroidCallbacks.h"
 #include <controller/java/AndroidConnectionFailureExceptions.h>
-#include <controller/java/AndroidControllerExceptions.h>
+#include <controller/java/AndroidInteractionClientExceptions.h>
 #ifdef USE_JAVA_TLV_ENCODE_DECODE
 #include <controller/java/CHIPAttributeTLVValueDecoder.h>
 #include <controller/java/CHIPEventTLVValueDecoder.h>
@@ -619,7 +619,8 @@ void ReportCallback::ReportError(const app::ConcreteAttributePath * attributePat
                    ChipLogError(Controller, "mWrapperCallbackRef is not valid in %s", __func__));
     jobject wrapperCallback = mWrapperCallbackRef.ObjectRef();
     jthrowable exception;
-    err = AndroidControllerExceptions::GetInstance().CreateAndroidControllerException(env, message, errorCode, exception);
+    err = AndroidInteractionClientExceptions::GetInstance().CreateAndroidInteractionClientException(env, message, errorCode,
+                                                                                                    exception);
     VerifyOrReturn(
         err == CHIP_NO_ERROR,
         ChipLogError(Controller, "Unable to create AndroidControllerException on ReportCallback::ReportError: %s", ErrorStr(err)));
@@ -750,7 +751,8 @@ void WriteAttributesCallback::ReportError(const app::ConcreteAttributePath * att
     JniLocalReferenceScope scope(env);
     ChipLogError(Controller, "WriteAttributesCallback::ReportError is called with %u", errorCode);
     jthrowable exception;
-    err = AndroidControllerExceptions::GetInstance().CreateAndroidControllerException(env, message, errorCode, exception);
+    err = AndroidInteractionClientExceptions::GetInstance().CreateAndroidInteractionClientException(env, message, errorCode,
+                                                                                                    exception);
     VerifyOrReturn(err == CHIP_NO_ERROR,
                    ChipLogError(Controller,
                                 "Unable to create AndroidControllerException on WriteAttributesCallback::ReportError: %s",
@@ -902,7 +904,8 @@ void InvokeCallback::ReportError(const char * message, ChipError::StorageType er
     JniLocalReferenceScope scope(env);
     ChipLogError(Controller, "InvokeCallback::ReportError is called with %u", errorCode);
     jthrowable exception;
-    err = AndroidControllerExceptions::GetInstance().CreateAndroidControllerException(env, message, errorCode, exception);
+    err = AndroidInteractionClientExceptions::GetInstance().CreateAndroidInteractionClientException(env, message, errorCode,
+                                                                                                    exception);
     VerifyOrReturn(
         err == CHIP_NO_ERROR,
         ChipLogError(Controller, "Unable to create AndroidControllerException: %s on InvokeCallback::ReportError", ErrorStr(err)));
@@ -1149,8 +1152,8 @@ void ExtendableInvokeCallback::OnError(const app::CommandSender * apCommandSende
     JniLocalReferenceScope scope(env);
     ChipLogError(Controller, "ExtendableInvokeCallback::OnError is called with %u", aErrorData.error.AsInteger());
     jthrowable exception;
-    err = AndroidControllerExceptions::GetInstance().CreateAndroidControllerException(env, ErrorStr(aErrorData.error),
-                                                                                      aErrorData.error.AsInteger(), exception);
+    err = AndroidInteractionClientExceptions::GetInstance().CreateAndroidInteractionClientException(
+        env, ErrorStr(aErrorData.error), aErrorData.error.AsInteger(), exception);
     VerifyOrReturn(
         err == CHIP_NO_ERROR,
         ChipLogError(Controller, "Unable to create AndroidControllerException with error: %" CHIP_ERROR_FORMAT, err.Format()));

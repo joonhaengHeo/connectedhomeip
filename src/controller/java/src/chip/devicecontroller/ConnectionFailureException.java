@@ -18,7 +18,7 @@
 package chip.devicecontroller;
 
 @SuppressWarnings("serial")
-public class ConnectionFailureException extends ChipDeviceControllerException {
+public class ConnectionFailureException extends ChipInteractionClientException {
   public enum ConnectionState {
     UNKNOWN, // Unknown state
     NOT_IN_KEY_EXCHANGE, // Not currently in key exchange process
