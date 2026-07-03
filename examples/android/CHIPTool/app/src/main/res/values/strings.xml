@@ -304,6 +304,8 @@
     <string name="mode_select_change_to_mode_text">Change</string>
     <string name="mode_select_write_text">Write</string>
 
+    <string name="camera_btn_text">Camera</string>
+
     <string name="icd_btn_text">Intermittently Connected Device</string>
     <string name="icd_registration_completed">ICD device registration completed, How to trigger to switch to Active Mode : %1$s</string>
 </resources>
