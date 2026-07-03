@@ -36,21 +36,21 @@ void WebRTCTransportProviderClient::Init(uint64_t nodeId, uint8_t fabricIndex, u
     mEndpointId = static_cast<EndpointId>(endpoint);
 }
 
-void WebRTCTransportProviderClient::InitCallbacks(OnCommandSenderResponseCallback onCommandSenderResponseCallback,
-                                                  OnCommandSenderErrorCallback onCommandSenderErrorCallback,
-                                                  OnCommandSenderDoneCallback onCommandSenderDoneCallback)
+void WebRTCTransportProviderClient::InitCallbacks(OnCommandResponseCallback onCommandResponseCallback,
+                                                  OnCommandErrorCallback onCommandErrorCallback,
+                                                  OnCommandDoneCallback onCommandDoneCallback)
 {
-    gOnCommandSenderResponseCallback = onCommandSenderResponseCallback;
-    gOnCommandSenderErrorCallback    = onCommandSenderErrorCallback;
-    gOnCommandSenderDoneCallback     = onCommandSenderDoneCallback;
+    gOnCommandResponseCallback = onCommandResponseCallback;
+    gOnCommandErrorCallback    = onCommandErrorCallback;
+    gOnCommandDoneCallback     = onCommandDoneCallback;
 }
 
-PyChipError WebRTCTransportProviderClient::SendCommand(void * appContext, uint16_t endpointId, uint32_t clusterId,
+CHIP_ERROR WebRTCTransportProviderClient::SendCommand(void * appContext, uint16_t endpointId, uint32_t clusterId,
                                                        uint32_t commandId, const uint8_t * payload, size_t length)
 {
     CHIP_ERROR error     = CHIP_NO_ERROR;
     ClusterId aClusterID = static_cast<ClusterId>(clusterId);
-    VerifyOrReturnValue(aClusterID == Clusters::WebRTCTransportProvider::Id, ToPyChipError(CHIP_ERROR_INTERNAL),
+    VerifyOrReturnValue(aClusterID == Clusters::WebRTCTransportProvider::Id, CHIP_ERROR_INTERNAL,
                         ChipLogError(Camera, "Unsupported cluster ID: 0x%" PRIx32, aClusterID));
     mAppContext          = appContext; // update closure to invoke response handling
     CommandId aCommandID = static_cast<CommandId>(commandId);
@@ -69,7 +69,7 @@ PyChipError WebRTCTransportProviderClient::SendCommand(void * appContext, uint16
         break;
     }
 
-    return ToPyChipError(error);
+    return error;
 }
 
 void WebRTCTransportProviderClient::OnResponse(chip::app::CommandSender * client, const chip::app::ConcreteCommandPath & path,
@@ -132,10 +132,10 @@ void WebRTCTransportProviderClient::OnResponse(chip::app::CommandSender * client
         }
         size = writer.GetLengthWritten();
     }
-    if (gOnCommandSenderResponseCallback != nullptr && mAppContext != nullptr)
+    if (gOnCommandResponseCallback != nullptr && mAppContext != nullptr)
     {
-        gOnCommandSenderResponseCallback(
-            mAppContext, path.mEndpointId, path.mClusterId, path.mCommandId, 0, to_underlying(status.mStatus),
+        gOnCommandResponseCallback(
+            mAppContext, path.mEndpointId, path.mClusterId, path.mCommandId, 0, status.mStatus,
             status.mClusterStatus.has_value() ? *status.mClusterStatus : kUndefinedClusterStatus, buffer, size);
     }
 }
@@ -145,15 +145,15 @@ void WebRTCTransportProviderClient::OnError(const chip::app::CommandSender * cli
     ChipLogError(Camera, "WebRTCTransportProviderClient: OnError for command %u: %" CHIP_ERROR_FORMAT,
                  static_cast<unsigned>(mCommandType), error.Format());
     StatusIB status(error);
-    if (gOnCommandSenderErrorCallback != nullptr && mAppContext != nullptr)
+    if (gOnCommandErrorCallback != nullptr && mAppContext != nullptr)
     {
-        gOnCommandSenderErrorCallback(mAppContext, to_underlying(status.mStatus),
+        gOnCommandErrorCallback(mAppContext, status.mStatus,
                                       status.mClusterStatus.value_or(kUndefinedClusterStatus),
                                       // If we have an actual IM status, pass 0
                                       // for the error code, because otherwise
                                       // the callee will think we have a stack
                                       // exception.
-                                      error.IsIMStatus() ? ToPyChipError(CHIP_NO_ERROR) : ToPyChipError(error));
+                                      error.IsIMStatus() ? CHIP_NO_ERROR : error);
     }
 }
 
@@ -161,9 +161,9 @@ void WebRTCTransportProviderClient::OnDone(chip::app::CommandSender * client)
 {
     MoveToState(State::Idle);
     ChipLogProgress(Camera, "WebRTCTransportProviderClient: OnDone for command %u.", static_cast<unsigned>(mCommandType));
-    if (gOnCommandSenderDoneCallback != nullptr && mAppContext != nullptr)
+    if (gOnCommandDoneCallback != nullptr && mAppContext != nullptr)
     {
-        gOnCommandSenderDoneCallback(mAppContext);
+        gOnCommandDoneCallback(mAppContext);
     }
     // Reset python closure
     mAppContext = nullptr;
@@ -286,6 +286,57 @@ CHIP_ERROR WebRTCTransportProviderClient::SolicitOffer(const uint8_t * payload, 
     return CHIP_NO_ERROR;
 }
 
+CHIP_ERROR WebRTCTransportProviderClient::ProvideICECandidates(const uint8_t * payload, size_t length)
+{
+    ChipLogProgress(Camera, "Sending ProvideICECandidates to node " ChipLogFormatX64, ChipLogValueX64(mPeerId.GetNodeId()));
+
+    if (mState != State::Idle)
+    {
+        ChipLogError(Camera, "Operation NOT POSSIBLE: another sync is in progress");
+        return CHIP_ERROR_INCORRECT_STATE;
+    }
+
+    TLV::TLVReader data;
+    data.Init(payload, length);
+    CHIP_ERROR error = data.Next();
+
+    Clusters::WebRTCTransportProvider::Commands::ProvideICECandidates::DecodableType value;
+    error = (error == CHIP_NO_ERROR) ? value.Decode(data, mPeerId.GetFabricIndex()) : error;
+    ReturnErrorAndLogOnFailure(error, Camera, "Failed to decode command payload value");
+
+    mCommandType = CommandType::kProvideICECandidates;
+
+    mProvideICECandidatesData.webRTCSessionID  = value.webRTCSessionID;
+
+    size_t candidateCount = 0;
+    error = value.ICECandidates.ComputeSize(&candidateCount);
+    ReturnErrorAndLogOnFailure(error, Camera, "Failed to compute ICE candidates size");
+
+    mICECandidatesBuffer.clear();
+    mICECandidatesBuffer.reserve(candidateCount);
+
+    auto iter = value.ICECandidates.begin();
+    while (iter.Next())
+    {
+        mICECandidatesBuffer.push_back(iter.GetValue());
+    }
+    ReturnErrorAndLogOnFailure(iter.GetStatus(), Camera, "Failed to iterate ICE candidates");
+
+    mProvideICECandidatesData.ICECandidates = chip::app::DataModel::List<const chip::app::Clusters::Globals::Structs::ICECandidateStruct::Type>(
+        mICECandidatesBuffer.data(), mICECandidatesBuffer.size());
+
+    InteractionModelEngine * engine     = InteractionModelEngine::GetInstance();
+    CASESessionManager * caseSessionMgr = engine->GetCASESessionManager();
+    VerifyOrReturnError(caseSessionMgr != nullptr, CHIP_ERROR_INCORRECT_STATE);
+
+    MoveToState(State::Connecting);
+
+    caseSessionMgr->FindOrEstablishSession(mPeerId, &mOnConnectedCallback, &mOnConnectionFailureCallback,
+                                           TransportPayloadCapability::kLargePayload);
+
+    return CHIP_NO_ERROR;
+}
+
 CHIP_ERROR WebRTCTransportProviderClient::SendCommandForType(chip::Messaging::ExchangeManager & exchangeMgr,
                                                              const chip::SessionHandle & sessionHandle, CommandType commandType)
 {
@@ -299,6 +350,9 @@ CHIP_ERROR WebRTCTransportProviderClient::SendCommandForType(chip::Messaging::Ex
     case CommandType::kSolicitOffer:
         return SendCommand(exchangeMgr, sessionHandle, Clusters::WebRTCTransportProvider::Commands::SolicitOffer::Id,
                            mSolicitOfferData);
+    case CommandType::kProvideICECandidates:
+        return SendCommand(exchangeMgr, sessionHandle, Clusters::WebRTCTransportProvider::Commands::ProvideICECandidates::Id,
+                           mProvideICECandidatesData);
     default:
         return CHIP_ERROR_INVALID_ARGUMENT;
     }

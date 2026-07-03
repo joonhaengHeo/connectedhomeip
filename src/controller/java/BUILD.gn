@@ -184,6 +184,7 @@ shared_library("jni") {
     deps += [
       "${chip_root}/src/app/clusters/ota-provider",
       "${chip_root}/src/controller:nodatamodel",
+      "${chip_root}/src/controller/webrtc",
     ]
 
     # Temporary dependency: InteractionModelEngine NEEDS a codegen data model instance
