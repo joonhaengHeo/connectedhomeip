@@ -93,6 +93,22 @@ public:
         return CHIP_NO_ERROR;
     }
 
+    CHIP_ERROR SendCommand(chip::DeviceProxy * device, chip::EndpointId endpointId, chip::ClusterId clusterId,
+                           chip::CommandId commandId,
+                           const chip::app::Clusters::CameraAvStreamManagement::Commands::CaptureSnapshot::Type & value)
+    {
+        ReturnErrorOnFailure(InteractionModelCommands::SendCommand(device, endpointId, clusterId, commandId, value));
+
+        if (value.transferFileDesignator.HasValue() &&
+            value.requestedProtocol == chip::app::Clusters::CameraAvStreamManagement::ProtocolsEnum::kBdx)
+        {
+            auto sender         = mCommandSender.back().get();
+            auto fileDesignator = value.transferFileDesignator.Value();
+            BDXDiagnosticLogsServerDelegate::GetInstance().AddFileDesignator(sender, fileDesignator);
+        }
+        return CHIP_NO_ERROR;
+    }
+
     CHIP_ERROR SendGroupCommand(chip::GroupId groupId, chip::FabricIndex fabricIndex) override
     {
         return InteractionModelCommands::SendGroupCommand(groupId, fabricIndex, mClusterId, mCommandId, mPayload);

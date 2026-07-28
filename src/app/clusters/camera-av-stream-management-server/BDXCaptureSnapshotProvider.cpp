@@ -36,8 +36,6 @@ constexpr System::Clock::Timeout kBdxPollIntervalMs = System::Clock::Millisecond
 // Timeout for the BDX transfer session
 constexpr System::Clock::Timeout kBdxTimeout = System::Clock::Seconds16(5 * 60);
 
-constexpr uint16_t kBdxMaxBlockSize = CHIP_CONFIG_BDX_LOG_TRANSFER_MAX_BLOCK_SIZE;
-
 CHIP_ERROR BDXCaptureSnapshotProvider::InitializeTransfer(CommandHandler * commandObj, const ConcreteCommandPath & path,
                                                          BDXSnapshotTransferDelegate * delegate, const DataModel::Nullable<uint16_t> streamID,
                                                          const Structs::VideoResolutionStruct::Type & resolution, const ImageCodecEnum imageCodec, CharSpan fileDesignator)
@@ -68,7 +66,14 @@ CHIP_ERROR BDXCaptureSnapshotProvider::InitializeTransfer(CommandHandler * comma
 
     TransferSession::TransferInitData initOptions;
     initOptions.TransferCtlFlags = TransferControlFlags::kSenderDrive;
-    initOptions.MaxBlockSize     = kBdxMaxBlockSize;
+    if (sessionHandle->AllowsLargePayload())
+    {
+        initOptions.MaxBlockSize = static_cast<uint16_t>(kMaxLargeAppMessageLen - bdx::kDataBlockHeaderSize);
+    }
+    else
+    {
+        initOptions.MaxBlockSize = static_cast<uint16_t>(kMaxAppMessageLen - bdx::kDataBlockHeaderSize);
+    }
     initOptions.FileDesLength    = static_cast<uint16_t>(fileDesignator.size());
     initOptions.FileDesignator   = Uint8::from_const_char(fileDesignator.data());
 
