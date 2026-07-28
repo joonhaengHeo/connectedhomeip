@@ -52882,6 +52882,15 @@ class CameraAvStreamManagement(Cluster):
             # enum value. This specific value should never be transmitted.
             kUnknownEnumValue = 2
 
+        class ProtocolsEnum(MatterIntEnum):
+            kResponsePayload = 0x00
+            kBdx = 0x01
+            # All received enum values that are not listed above will be mapped
+            # to kUnknownEnumValue. This is a helper enum value that should only
+            # be used by code to process how it handles receiving an unknown
+            # enum value. This specific value should never be transmitted.
+            kUnknownEnumValue = 2
+
         class TriStateAutoEnum(MatterIntEnum):
             kOff = 0x00
             kOn = 0x01
@@ -53356,10 +53365,14 @@ class CameraAvStreamManagement(Cluster):
                     Fields=[
                         ClusterObjectFieldDescriptor(Label="snapshotStreamID", Tag=0, Type=typing.Union[Nullable, uint]),
                         ClusterObjectFieldDescriptor(Label="requestedResolution", Tag=1, Type=CameraAvStreamManagement.Structs.VideoResolutionStruct),
+                        ClusterObjectFieldDescriptor(Label="requestedProtocol", Tag=2, Type=CameraAvStreamManagement.Enums.ProtocolsEnum),
+                        ClusterObjectFieldDescriptor(Label="transferFileDesignator", Tag=3, Type=typing.Optional[str]),
                     ])
 
             snapshotStreamID: typing.Union[Nullable, uint] = NullValue
             requestedResolution: CameraAvStreamManagement.Structs.VideoResolutionStruct = field(default_factory=lambda: CameraAvStreamManagement.Structs.VideoResolutionStruct())
+            requestedProtocol: CameraAvStreamManagement.Enums.ProtocolsEnum = 0
+            transferFileDesignator: typing.Optional[str] = None
 
         @dataclass
         class CaptureSnapshotResponse(ClusterCommand):

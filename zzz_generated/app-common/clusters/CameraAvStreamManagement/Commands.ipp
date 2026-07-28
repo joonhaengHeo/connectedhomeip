@@ -497,6 +497,8 @@ CHIP_ERROR Type::Encode(TLV::TLVWriter & aWriter, TLV::Tag aTag) const
     DataModel::WrappedStructEncoder encoder{ aWriter, aTag };
     encoder.Encode(to_underlying(Fields::kSnapshotStreamID), snapshotStreamID);
     encoder.Encode(to_underlying(Fields::kRequestedResolution), requestedResolution);
+    encoder.Encode(to_underlying(Fields::kRequestedProtocol), requestedProtocol);
+    encoder.Encode(to_underlying(Fields::kTransferFileDesignator), transferFileDesignator);
     return encoder.Finalize();
 }
 
@@ -517,6 +519,14 @@ CHIP_ERROR DecodableType::Decode(TLV::TLVReader & reader)
         else if (__context_tag == to_underlying(Fields::kRequestedResolution))
         {
             err = DataModel::Decode(reader, requestedResolution);
+        }
+        else if (__context_tag == to_underlying(Fields::kRequestedProtocol))
+        {
+            err = DataModel::Decode(reader, requestedProtocol);
+        }
+        else if (__context_tag == to_underlying(Fields::kTransferFileDesignator))
+        {
+            err = DataModel::Decode(reader, transferFileDesignator);
         }
 
         ReturnErrorOnFailure(err);

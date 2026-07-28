@@ -24325,6 +24325,11 @@ typedef NS_ENUM(uint8_t, MTRCameraAVStreamManagementImageCodec) {
     MTRCameraAVStreamManagementImageCodecHEIC MTR_PROVISIONALLY_AVAILABLE = 0x01,
 } MTR_PROVISIONALLY_AVAILABLE;
 
+typedef NS_ENUM(uint8_t, MTRCameraAVStreamManagementProtocols) {
+    MTRCameraAVStreamManagementProtocolsResponsePayload MTR_PROVISIONALLY_AVAILABLE = 0x00,
+    MTRCameraAVStreamManagementProtocolsBDX MTR_PROVISIONALLY_AVAILABLE = 0x01,
+} MTR_PROVISIONALLY_AVAILABLE;
+
 typedef NS_ENUM(uint8_t, MTRCameraAVStreamManagementTriStateAuto) {
     MTRCameraAVStreamManagementTriStateAutoOff MTR_PROVISIONALLY_AVAILABLE = 0x00,
     MTRCameraAVStreamManagementTriStateAutoOn MTR_PROVISIONALLY_AVAILABLE = 0x01,

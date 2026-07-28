@@ -174624,6 +174624,12 @@ public:
 #if MTR_ENABLE_PROVISIONAL
         AddArgument("RequestedResolution", &mComplex_RequestedResolution);
 #endif // MTR_ENABLE_PROVISIONAL
+#if MTR_ENABLE_PROVISIONAL
+        AddArgument("RequestedProtocol", 0, UINT8_MAX, &mRequest.requestedProtocol);
+#endif // MTR_ENABLE_PROVISIONAL
+#if MTR_ENABLE_PROVISIONAL
+        AddArgument("TransferFileDesignator", &mRequest.transferFileDesignator);
+#endif // MTR_ENABLE_PROVISIONAL
         ClusterCommand::AddArguments();
     }
 
@@ -174649,6 +174655,16 @@ public:
         params.requestedResolution = [MTRCameraAVStreamManagementClusterVideoResolutionStruct new];
         params.requestedResolution.width = [NSNumber numberWithUnsignedShort:mRequest.requestedResolution.width];
         params.requestedResolution.height = [NSNumber numberWithUnsignedShort:mRequest.requestedResolution.height];
+#endif // MTR_ENABLE_PROVISIONAL
+#if MTR_ENABLE_PROVISIONAL
+        params.requestedProtocol = [NSNumber numberWithUnsignedChar:chip::to_underlying(mRequest.requestedProtocol)];
+#endif // MTR_ENABLE_PROVISIONAL
+#if MTR_ENABLE_PROVISIONAL
+        if (mRequest.transferFileDesignator.HasValue()) {
+            params.transferFileDesignator = [[NSString alloc] initWithBytes:mRequest.transferFileDesignator.Value().data() length:mRequest.transferFileDesignator.Value().size() encoding:NSUTF8StringEncoding];
+        } else {
+            params.transferFileDesignator = nil;
+        }
 #endif // MTR_ENABLE_PROVISIONAL
         uint16_t repeatCount = mRepeatCount.ValueOr(1);
         uint16_t __block responsesNeeded = repeatCount;

@@ -65105,11 +65105,11 @@ public class ChipClusters {
         }}, commandId, commandArgs, timedInvokeTimeoutMs);
     }
 
-    public void captureSnapshot(CaptureSnapshotResponseCallback callback, @Nullable Integer snapshotStreamID, ChipStructs.CameraAvStreamManagementClusterVideoResolutionStruct requestedResolution) {
-      captureSnapshot(callback, snapshotStreamID, requestedResolution, 0);
+    public void captureSnapshot(CaptureSnapshotResponseCallback callback, @Nullable Integer snapshotStreamID, ChipStructs.CameraAvStreamManagementClusterVideoResolutionStruct requestedResolution, Integer requestedProtocol, Optional<String> transferFileDesignator) {
+      captureSnapshot(callback, snapshotStreamID, requestedResolution, requestedProtocol, transferFileDesignator, 0);
     }
 
-    public void captureSnapshot(CaptureSnapshotResponseCallback callback, @Nullable Integer snapshotStreamID, ChipStructs.CameraAvStreamManagementClusterVideoResolutionStruct requestedResolution, int timedInvokeTimeoutMs) {
+    public void captureSnapshot(CaptureSnapshotResponseCallback callback, @Nullable Integer snapshotStreamID, ChipStructs.CameraAvStreamManagementClusterVideoResolutionStruct requestedResolution, Integer requestedProtocol, Optional<String> transferFileDesignator, int timedInvokeTimeoutMs) {
       final long commandId = 12L;
 
       ArrayList<StructElement> elements = new ArrayList<>();
@@ -65120,6 +65120,14 @@ public class ChipClusters {
       final long requestedResolutionFieldID = 1L;
       BaseTLVType requestedResolutiontlvValue = requestedResolution.encodeTlv();
       elements.add(new StructElement(requestedResolutionFieldID, requestedResolutiontlvValue));
+
+      final long requestedProtocolFieldID = 2L;
+      BaseTLVType requestedProtocoltlvValue = new UIntType(requestedProtocol);
+      elements.add(new StructElement(requestedProtocolFieldID, requestedProtocoltlvValue));
+
+      final long transferFileDesignatorFieldID = 3L;
+      BaseTLVType transferFileDesignatortlvValue = transferFileDesignator.<BaseTLVType>map((nonOptionaltransferFileDesignator) -> new StringType(nonOptionaltransferFileDesignator)).orElse(new EmptyType());
+      elements.add(new StructElement(transferFileDesignatorFieldID, transferFileDesignatortlvValue));
 
       StructType commandArgs = new StructType(elements);
       invoke(new InvokeCallbackImpl(callback) {

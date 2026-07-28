@@ -66,6 +66,19 @@ public:
                                                         const VideoResolutionStruct & resolution,
                                                         ImageSnapshot & outImageSnapshot) override;
 
+#if CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
+    CHIP_ERROR StartSnapshotTransfer(const chip::app::DataModel::Nullable<uint16_t> streamID, const VideoResolutionStruct & resolution) override;
+
+    CHIP_ERROR EndSnapshotTransfer(const chip::app::DataModel::Nullable<uint16_t> streamID, const VideoResolutionStruct & resolution) override;
+
+    CHIP_ERROR ReadSnapshotChunk(const chip::app::DataModel::Nullable<uint16_t> streamID, const VideoResolutionStruct & resolution, chip::MutableByteSpan & outBuffer, bool & outIsEndOfSnapshot) override;
+
+    CHIP_ERROR GetSnapshotInfo(const DataModel::Nullable<uint16_t> streamID,
+                               const VideoResolutionStruct & resolution,
+                               ImageSnapshot & outImageSnapshot,
+                               size_t & outSize) override;
+#endif // CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
+
     CHIP_ERROR
     ValidateStreamUsage(StreamUsageEnum streamUsage, Optional<std::vector<uint16_t>> & videoStreams,
                         Optional<std::vector<uint16_t>> & audioStreams) override;
@@ -122,6 +135,12 @@ private:
     CHIP_ERROR AllocatedSnapshotStreamsLoaded();
 
     CameraDeviceInterface * mCameraDeviceHAL = nullptr;
+
+    std::vector<uint8_t> mCurrentSnapshotPayload;
+    size_t mCurrentSnapshotOffset = 0;
+
+    chip::app::DataModel::Nullable<uint16_t> mCurrentSnapshotStreamID;
+    VideoResolutionStruct mCurrentSnapshotResolution;
 };
 
 } // namespace CameraAvStreamManagement

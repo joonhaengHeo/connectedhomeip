@@ -636,6 +636,8 @@ class CameraAvStreamManagementCluster(
   suspend fun captureSnapshot(
     snapshotStreamID: UShort?,
     requestedResolution: CameraAvStreamManagementClusterVideoResolutionStruct,
+    requestedProtocol: UByte,
+    transferFileDesignator: String?,
     timedInvokeTimeout: Duration? = null,
   ): CaptureSnapshotResponse {
     val commandId: UInt = 12u
@@ -650,6 +652,14 @@ class CameraAvStreamManagementCluster(
 
     val TAG_REQUESTED_RESOLUTION_REQ: Int = 1
     requestedResolution.toTlv(ContextSpecificTag(TAG_REQUESTED_RESOLUTION_REQ), tlvWriter)
+
+    val TAG_REQUESTED_PROTOCOL_REQ: Int = 2
+    tlvWriter.put(ContextSpecificTag(TAG_REQUESTED_PROTOCOL_REQ), requestedProtocol)
+
+    val TAG_TRANSFER_FILE_DESIGNATOR_REQ: Int = 3
+    transferFileDesignator?.let {
+      tlvWriter.put(ContextSpecificTag(TAG_TRANSFER_FILE_DESIGNATOR_REQ), transferFileDesignator)
+    }
     tlvWriter.endStructure()
 
     val request: InvokeRequest =

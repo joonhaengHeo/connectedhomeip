@@ -33337,6 +33337,12 @@ public class ClusterInfoMapping {
     CommandParameterInfo cameraAvStreamManagementcaptureSnapshotsnapshotStreamIDCommandParameterInfo = new CommandParameterInfo("snapshotStreamID", Integer.class, Integer.class);
     cameraAvStreamManagementcaptureSnapshotCommandParams.put("snapshotStreamID",cameraAvStreamManagementcaptureSnapshotsnapshotStreamIDCommandParameterInfo);
 
+
+    CommandParameterInfo cameraAvStreamManagementcaptureSnapshotrequestedProtocolCommandParameterInfo = new CommandParameterInfo("requestedProtocol", Integer.class, Integer.class);
+    cameraAvStreamManagementcaptureSnapshotCommandParams.put("requestedProtocol",cameraAvStreamManagementcaptureSnapshotrequestedProtocolCommandParameterInfo);
+
+    CommandParameterInfo cameraAvStreamManagementcaptureSnapshottransferFileDesignatorCommandParameterInfo = new CommandParameterInfo("transferFileDesignator", Optional.class, String.class);
+    cameraAvStreamManagementcaptureSnapshotCommandParams.put("transferFileDesignator",cameraAvStreamManagementcaptureSnapshottransferFileDesignatorCommandParameterInfo);
     InteractionInfo cameraAvStreamManagementcaptureSnapshotInteractionInfo = new InteractionInfo(
       (cluster, callback, commandArguments) -> {
         ((ChipClusters.CameraAvStreamManagementCluster) cluster)
@@ -33346,6 +33352,12 @@ public class ClusterInfoMapping {
 
            , (ChipStructs.CameraAvStreamManagementClusterVideoResolutionStruct)
              commandArguments.get("requestedResolution")
+
+           , (Integer)
+             commandArguments.get("requestedProtocol")
+
+           , (Optional<String>)
+             commandArguments.get("transferFileDesignator")
 
             );
         },

@@ -57,6 +57,12 @@ Alchemy: v1.6.12
     <item name="AV1" value="0x03"/>
   </enum>
 
+  <enum name="ProtocolsEnum" type="enum8">
+    <cluster code="0x0551"/>
+    <item name="ResponsePayload" value="0x0"/>
+    <item name="BDX" value="0x1"/>
+  </enum>
+
   <struct name="AudioCapabilitiesStruct" apiMaturity="provisional">
     <cluster code="0x0551"/>
     <item fieldId="0" name="MaxNumberOfChannels" type="int8u" min="1"/>
@@ -542,6 +548,8 @@ Alchemy: v1.6.12
       <quality largeMessage="true"/>
       <arg fieldId="0" name="SnapshotStreamID" type="int16u" isNullable="true"/>
       <arg fieldId="1" name="RequestedResolution" type="VideoResolutionStruct"/>
+      <arg fieldId="2" name="RequestedProtocol" type="ProtocolsEnum"/>
+      <arg fieldId="3" name="TransferFileDesignator" type="char_string" length="32" optional="true"/>
       <mandatoryConform>
         <feature name="SNP"/>
       </mandatoryConform>

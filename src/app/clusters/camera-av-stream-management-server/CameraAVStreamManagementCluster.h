@@ -30,6 +30,8 @@
 #include <protocols/interaction_model/StatusCode.h>
 #include <vector>
 
+#include "BDXCaptureSnapshotProvider.h"
+
 namespace chip {
 namespace app {
 namespace Clusters {
@@ -157,7 +159,10 @@ struct ImageSnapshot
  *  Defines interfaces for implementing application-specific logic for various aspects of the CameraAvStreamManagement Cluster.
  *  Specifically, it defines interfaces for the command handling and loading of the allocated streams.
  */
-class CameraAVStreamManagementDelegate
+class CameraAVStreamManagementDelegate :
+#if CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
+                                public BDXSnapshotTransferDelegate
+#endif
 {
 public:
     CameraAVStreamManagementDelegate() = default;
@@ -323,6 +328,23 @@ public:
     virtual Protocols::InteractionModel::Status CaptureSnapshot(const DataModel::Nullable<uint16_t> streamID,
                                                                 const VideoResolutionStruct & resolution,
                                                                 ImageSnapshot & outImageSnapshot) = 0;
+    /**
+     *   @brief Retrieves the snapshot information including parameters and file size.
+     *
+     *   @param streamID          Indicates the streamID representing the snapshot stream.
+     *
+     *   @param resolution        Indicates the preferred resolution of the snapshot image.
+     *
+     *   @param outImageSnapshot  Output parameter to store the retrieved snapshot parameters (e.g., matched resolution and codec).
+     *
+     *   @param outSize           Output parameter to store the total file size of the snapshot image in bytes.
+     *
+     *   @return CHIP_NO_ERROR if the information is successfully retrieved; otherwise, an appropriate CHIP_ERROR.
+     */
+    virtual CHIP_ERROR GetSnapshotInfo(const DataModel::Nullable<uint16_t> streamID, 
+                                       const VideoResolutionStruct & resolution, 
+                                       ImageSnapshot & outImageSnapshot,
+                                       size_t & outSize) = 0;
 
     /**
      *  @brief Callback into the delegate once persistent attributes managed by
@@ -783,6 +805,10 @@ private:
     std::vector<VideoStreamStruct> mAllocatedVideoStreams;
     std::vector<AudioStreamStruct> mAllocatedAudioStreams;
     std::vector<SnapshotStreamStruct> mAllocatedSnapshotStreams;
+
+#if CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
+    BDXCaptureSnapshotProvider mBDXCaptureSnapshotProvider;
+#endif // CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
 
     // Utility function to set and persist attributes
     template <typename T>

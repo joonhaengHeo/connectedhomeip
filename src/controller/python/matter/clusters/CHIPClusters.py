@@ -14475,6 +14475,8 @@ class ChipClusters:
                 "args": {
                     "snapshotStreamID": "int",
                     "requestedResolution": "VideoResolutionStruct",
+                    "requestedProtocol": "int",
+                    "transferFileDesignator": "str",
                 },
             },
         },

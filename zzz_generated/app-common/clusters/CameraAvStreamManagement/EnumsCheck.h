@@ -49,6 +49,18 @@ static auto __attribute__((unused)) EnsureKnownEnumValue(CameraAvStreamManagemen
         return EnumType::kUnknownEnumValue;
     }
 }
+static auto __attribute__((unused)) EnsureKnownEnumValue(CameraAvStreamManagement::ProtocolsEnum val)
+{
+    using EnumType = CameraAvStreamManagement::ProtocolsEnum;
+    switch (val)
+    {
+    case EnumType::kResponsePayload:
+    case EnumType::kBdx:
+        return val;
+    default:
+        return EnumType::kUnknownEnumValue;
+    }
+}
 static auto __attribute__((unused)) EnsureKnownEnumValue(CameraAvStreamManagement::TriStateAutoEnum val)
 {
     using EnumType = CameraAvStreamManagement::TriStateAutoEnum;

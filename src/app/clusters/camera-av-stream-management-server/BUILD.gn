@@ -16,6 +16,8 @@ import("//build_overrides/chip.gni")
 
 source_set("camera-av-stream-management-server") {
   sources = [
+    "BDXCaptureSnapshotProvider.cpp",
+    "BDXCaptureSnapshotProvider.h",
     "CameraAVStreamManagementCluster.cpp",
     "CameraAVStreamManagementCluster.h",
   ]

@@ -795,6 +795,81 @@ Protocols::InteractionModel::Status CameraAVStreamManager::CaptureSnapshot(const
     }
 }
 
+#if CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
+CHIP_ERROR CameraAVStreamManager::StartSnapshotTransfer(const Nullable<uint16_t> streamID, const VideoResolutionStruct & resolution)
+{
+    ImageSnapshot outImageSnapshot;
+    if (mCameraDeviceHAL->GetCameraHALInterface().CaptureSnapshot(streamID, resolution, outImageSnapshot) == CameraError::SUCCESS)
+    {
+        mCurrentSnapshotPayload = outImageSnapshot.data;
+        mCurrentSnapshotOffset = 0;
+
+        mCurrentSnapshotStreamID = streamID;
+        mCurrentSnapshotResolution = resolution;
+        return CHIP_NO_ERROR;
+    }
+    else
+    {
+        return CHIP_ERROR_INTERNAL;
+    }
+}
+
+CHIP_ERROR CameraAVStreamManager::EndSnapshotTransfer(const Nullable<uint16_t> streamID, const VideoResolutionStruct & resolution)
+{
+    mCurrentSnapshotPayload.clear();
+    mCurrentSnapshotOffset = 0;
+
+    mCurrentSnapshotStreamID.SetNull();
+
+    return CHIP_NO_ERROR;
+}
+
+CHIP_ERROR CameraAVStreamManager::ReadSnapshotChunk(const Nullable<uint16_t> streamID, const VideoResolutionStruct & resolution, MutableByteSpan & outBuffer, bool & outIsEndOfSnapshot)
+{
+    if (streamID != mCurrentSnapshotStreamID || 
+        resolution.width != mCurrentSnapshotResolution.width || 
+        resolution.height != mCurrentSnapshotResolution.height)
+    {
+        ChipLogError(AppServer, "Snapshot transfer parameters do not match the started transfer.");
+        return CHIP_ERROR_INVALID_ARGUMENT;
+    }
+
+    if (mCurrentSnapshotPayload.empty() || mCurrentSnapshotOffset >= mCurrentSnapshotPayload.size())
+    {
+        outIsEndOfSnapshot = true;
+        outBuffer.reduce_size(0);
+        return CHIP_NO_ERROR;
+    }
+
+    size_t remainingBytes = mCurrentSnapshotPayload.size() - mCurrentSnapshotOffset;
+    size_t bytesToRead = std::min(outBuffer.size(), remainingBytes);
+
+    memcpy(outBuffer.data(), mCurrentSnapshotPayload.data() + mCurrentSnapshotOffset, bytesToRead);
+    outBuffer.reduce_size(bytesToRead);
+
+    mCurrentSnapshotOffset += bytesToRead;
+    outIsEndOfSnapshot = (mCurrentSnapshotOffset >= mCurrentSnapshotPayload.size());
+
+    return CHIP_NO_ERROR;
+}
+
+CHIP_ERROR CameraAVStreamManager::GetSnapshotInfo(const DataModel::Nullable<uint16_t> streamID, 
+                                                  const VideoResolutionStruct & resolution, 
+                                                  ImageSnapshot & outImageSnapshot,
+                                                  size_t & outSize)
+{
+    if (mCameraDeviceHAL->GetCameraHALInterface().CaptureSnapshot(streamID, resolution, outImageSnapshot) == CameraError::SUCCESS)
+    {
+        outSize = outImageSnapshot.data.size();
+        return CHIP_NO_ERROR;
+    }
+    else
+    {
+        return CHIP_ERROR_INTERNAL;
+    }
+}
+#endif // CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
+
 CHIP_ERROR
 CameraAVStreamManager::AllocatedVideoStreamsLoaded()
 {

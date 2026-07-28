@@ -52,6 +52,18 @@ enum class ImageCodecEnum : uint8_t
     kUnknownEnumValue = 2,
 };
 
+// Enum for ProtocolsEnum
+enum class ProtocolsEnum : uint8_t
+{
+    kResponsePayload = 0x00,
+    kBdx             = 0x01,
+    // All received enum values that are not listed above will be mapped
+    // to kUnknownEnumValue. This is a helper enum value that should only
+    // be used by code to process how it handles receiving and unknown
+    // enum value. This specific should never be transmitted.
+    kUnknownEnumValue = 2,
+};
+
 // Enum for TriStateAutoEnum
 enum class TriStateAutoEnum : uint8_t
 {

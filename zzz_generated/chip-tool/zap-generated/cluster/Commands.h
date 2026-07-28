@@ -16440,6 +16440,8 @@ public:
     {
         AddArgument("SnapshotStreamID", 0, UINT16_MAX, &mRequest.snapshotStreamID);
         AddArgument("RequestedResolution", &mComplex_RequestedResolution);
+        AddArgument("RequestedProtocol", 0, UINT8_MAX, &mRequest.requestedProtocol);
+        AddArgument("TransferFileDesignator", &mRequest.transferFileDesignator);
         ClusterCommand::AddArguments();
     }
 

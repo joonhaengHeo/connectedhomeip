@@ -19980,7 +19980,7 @@ public class ClusterIDMapping {
                         }
                         throw new NoSuchFieldError();
                     }
-                }public enum CaptureSnapshotCommandField {SnapshotStreamID(0),RequestedResolution(1),;
+                }public enum CaptureSnapshotCommandField {SnapshotStreamID(0),RequestedResolution(1),RequestedProtocol(2),TransferFileDesignator(3),;
                     private final int id;
                     CaptureSnapshotCommandField(int id) {
                         this.id = id;

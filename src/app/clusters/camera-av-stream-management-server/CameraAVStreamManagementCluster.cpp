@@ -2592,6 +2592,9 @@ CameraAVStreamManagementCluster::HandleCaptureSnapshot(CommandHandler & handler,
 {
     auto & snapshotStreamID    = commandData.snapshotStreamID;
     auto & requestedResolution = commandData.requestedResolution;
+    auto & requestedProtocol = commandData.requestedProtocol;
+    auto & transferFileDesignator = commandData.transferFileDesignator;
+
     ImageSnapshot image;
 
     if (!CheckSnapshotStreamsAvailability())
@@ -2622,6 +2625,22 @@ CameraAVStreamManagementCluster::HandleCaptureSnapshot(CommandHandler & handler,
         return status;
     }
 
+#if CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
+    else if (requestedProtocol == ProtocolsEnum::kBdx)
+    {
+        VerifyOrReturnError(transferFileDesignator.HasValue(), Status::InvalidCommand);
+        VerifyOrReturnError(transferFileDesignator.Value().size() <= kMaxFileDesignatorLen, Status::ConstraintError);
+        VerifyOrReturnError(!mBDXCaptureSnapshotProvider.IsBusy(), Status::Busy);
+
+        CHIP_ERROR err = mBDXCaptureSnapshotProvider.InitializeTransfer(&handler, commandPath, &mDelegate, snapshotStreamID, image.imageRes, image.imageCodec, transferFileDesignator.Value());
+
+        if (err != CHIP_NO_ERROR)
+        {
+            return DataModel::ActionReturnStatus(err);
+        }
+        return std::nullopt;
+    }
+#endif // CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
     if (image.data.size() > kMaxSnapshotImageSize)
     {
         ChipLogError(Zcl, "CameraAVStreamMgmt[ep=%d]: Snapshot image file size(%lu) exceeded limit %lu", mPath.mEndpointId,

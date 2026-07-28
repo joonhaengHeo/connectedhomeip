@@ -603,8 +603,10 @@ public:
 namespace CaptureSnapshot {
 enum class Fields : uint8_t
 {
-    kSnapshotStreamID    = 0,
-    kRequestedResolution = 1,
+    kSnapshotStreamID       = 0,
+    kRequestedResolution    = 1,
+    kRequestedProtocol      = 2,
+    kTransferFileDesignator = 3,
 };
 
 struct Type
@@ -616,6 +618,8 @@ public:
 
     DataModel::Nullable<uint16_t> snapshotStreamID;
     Structs::VideoResolutionStruct::Type requestedResolution;
+    ProtocolsEnum requestedProtocol = static_cast<ProtocolsEnum>(0);
+    Optional<chip::CharSpan> transferFileDesignator;
 
     CHIP_ERROR Encode(TLV::TLVWriter & aWriter, TLV::Tag aTag) const;
 
@@ -633,6 +637,8 @@ public:
 
     DataModel::Nullable<uint16_t> snapshotStreamID;
     Structs::VideoResolutionStruct::DecodableType requestedResolution;
+    ProtocolsEnum requestedProtocol = static_cast<ProtocolsEnum>(0);
+    Optional<chip::CharSpan> transferFileDesignator;
 
     CHIP_ERROR Decode(TLV::TLVReader & reader);
 };

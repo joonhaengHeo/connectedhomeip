@@ -11246,6 +11246,11 @@ cluster CameraAvStreamManagement = 1361 {
     kHEIC = 1 [spec_name = "HEIC"];
   }
 
+  enum ProtocolsEnum : enum8 {
+    kResponsePayload = 0;
+    kBDX = 1 [spec_name = "BDX"];
+  }
+
   enum TriStateAutoEnum : enum8 {
     kOff = 0;
     kOn = 1;
@@ -11477,6 +11482,8 @@ cluster CameraAvStreamManagement = 1361 {
   request struct CaptureSnapshotRequest {
     nullable int16u snapshotStreamID = 0;
     VideoResolutionStruct requestedResolution = 1;
+    ProtocolsEnum requestedProtocol = 2;
+    optional char_string<32> transferFileDesignator = 3;
   }
 
   response struct CaptureSnapshotResponse = 13 {

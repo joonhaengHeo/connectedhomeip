@@ -39325,6 +39325,10 @@ static void LogAndConvertDecodingError(CHIP_ERROR err, NSError * __autoreleasing
         _snapshotStreamID = nil;
 
         _requestedResolution = [MTRCameraAVStreamManagementClusterVideoResolutionStruct new];
+
+        _requestedProtocol = @(0);
+
+        _transferFileDesignator = nil;
         _timedInvokeTimeoutMs = nil;
         _serverSideProcessingTimeout = nil;
     }
@@ -39337,6 +39341,8 @@ static void LogAndConvertDecodingError(CHIP_ERROR err, NSError * __autoreleasing
 
     other.snapshotStreamID = self.snapshotStreamID;
     other.requestedResolution = self.requestedResolution;
+    other.requestedProtocol = self.requestedProtocol;
+    other.transferFileDesignator = self.transferFileDesignator;
     other.timedInvokeTimeoutMs = self.timedInvokeTimeoutMs;
     other.serverSideProcessingTimeout = self.serverSideProcessingTimeout;
 
@@ -39345,7 +39351,7 @@ static void LogAndConvertDecodingError(CHIP_ERROR err, NSError * __autoreleasing
 
 - (NSString *)description
 {
-    NSString * descriptionString = [NSString stringWithFormat:@"<%@: snapshotStreamID:%@; requestedResolution:%@; >", NSStringFromClass([self class]), _snapshotStreamID, _requestedResolution];
+    NSString * descriptionString = [NSString stringWithFormat:@"<%@: snapshotStreamID:%@; requestedResolution:%@; requestedProtocol:%@; transferFileDesignator:%@; >", NSStringFromClass([self class]), _snapshotStreamID, _requestedResolution, _requestedProtocol, _transferFileDesignator];
     return descriptionString;
 }
 
@@ -39368,6 +39374,15 @@ static void LogAndConvertDecodingError(CHIP_ERROR err, NSError * __autoreleasing
     {
         encodableStruct.requestedResolution.width = self.requestedResolution.width.unsignedShortValue;
         encodableStruct.requestedResolution.height = self.requestedResolution.height.unsignedShortValue;
+    }
+    {
+        encodableStruct.requestedProtocol = static_cast<std::remove_reference_t<decltype(encodableStruct.requestedProtocol)>>(self.requestedProtocol.unsignedCharValue);
+    }
+    {
+        if (self.transferFileDesignator != nil) {
+            auto & definedValue_0 = encodableStruct.transferFileDesignator.Emplace();
+            definedValue_0 = AsCharSpan(self.transferFileDesignator);
+        }
     }
 
     auto buffer = chip::System::PacketBufferHandle::New(chip::System::PacketBuffer::kMaxSizeWithoutReserve, 0);
