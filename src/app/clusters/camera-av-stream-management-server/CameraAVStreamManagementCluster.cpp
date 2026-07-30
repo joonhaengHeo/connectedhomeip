@@ -2592,8 +2592,6 @@ CameraAVStreamManagementCluster::HandleCaptureSnapshot(CommandHandler & handler,
 {
     auto & snapshotStreamID    = commandData.snapshotStreamID;
     auto & requestedResolution = commandData.requestedResolution;
-    auto & requestedProtocol = commandData.requestedProtocol;
-    auto & transferFileDesignator = commandData.transferFileDesignator;
 
     ImageSnapshot image;
 
@@ -2626,7 +2624,10 @@ CameraAVStreamManagementCluster::HandleCaptureSnapshot(CommandHandler & handler,
     }
 
 #if CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
-    else if (requestedProtocol == ProtocolsEnum::kBdx)
+    auto & requestedProtocol = commandData.requestedProtocol;
+    auto & transferFileDesignator = commandData.transferFileDesignator;
+
+    if (requestedProtocol == ProtocolsEnum::kBdx)
     {
         VerifyOrReturnError(transferFileDesignator.HasValue(), Status::InvalidCommand);
         VerifyOrReturnError(transferFileDesignator.Value().size() <= kMaxFileDesignatorLen, Status::ConstraintError);

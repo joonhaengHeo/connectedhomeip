@@ -128,6 +128,8 @@ shared_library("jni") {
   check_includes = false
 
   sources = [
+    "AndroidCaptureSnapshotFromNode.cpp",
+    "AndroidCaptureSnapshotFromNode.h",
     "AndroidCheckInDelegate.cpp",
     "AndroidCheckInDelegate.h",
     "AndroidClusterExceptions.cpp",
@@ -656,6 +658,7 @@ android_library("java") {
     "src/chip/devicecontroller/DeviceAttestationDelegate.java",
     "src/chip/devicecontroller/DiagnosticLogType.java",
     "src/chip/devicecontroller/DiscoveredDevice.java",
+    "src/chip/devicecontroller/DownloadFileCallback.java",
     "src/chip/devicecontroller/DownloadLogCallback.java",
     "src/chip/devicecontroller/GroupKeySecurityPolicy.java",
     "src/chip/devicecontroller/ICDCheckInDelegate.java",

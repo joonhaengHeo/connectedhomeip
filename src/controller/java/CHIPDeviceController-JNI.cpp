@@ -22,6 +22,7 @@
  *
  */
 #include "AndroidCallbacks.h"
+#include "AndroidCaptureSnapshotFromNode.h"
 #include "AndroidCommissioningWindowOpener.h"
 #include "AndroidCurrentFabricRemover.h"
 #include "AndroidDeviceControllerWrapper.h"
@@ -2178,13 +2179,13 @@ JNI_METHOD(jboolean, openPairingWindowWithPINCallback)
     return true;
 }
 
-JNI_METHOD(void, downloadLogFromNode)
+JNI_METHOD(jboolean, downloadLogFromNode)
 (JNIEnv * env, jobject self, jlong handle, jlong deviceId, jint typeEnum, jlong timeout, jobject downloadLogCallback)
 {
     chip::DeviceLayer::StackLock lock;
     CHIP_ERROR err                           = CHIP_NO_ERROR;
     AndroidDeviceControllerWrapper * wrapper = AndroidDeviceControllerWrapper::FromJNIHandle(handle);
-    VerifyOrReturn(wrapper != nullptr,
+    VerifyOrReturnValue(wrapper != nullptr, false,
                    ChipLogError(Controller, "AndroidDeviceControllerWrapper::FromJNIHandle in downloadLogFromNode fails!"));
 
     ChipLogProgress(Controller, "downloadLogFromNode() called with device ID and callback object");
@@ -2196,8 +2197,47 @@ JNI_METHOD(void, downloadLogFromNode)
     if (err != CHIP_NO_ERROR)
     {
         ChipLogError(Controller, "Failed to download Log the device.");
-        JniReferences::GetInstance().ThrowError(env, sChipDeviceControllerExceptionCls, err);
+        return false;
     }
+    return true;
+}
+
+JNI_METHOD(jboolean, captureSnapshotFromNode)
+(JNIEnv * env, jobject self, jlong handle, jlong deviceId, jint endpointId, jint snapshotStreamID, jint requestedResolutionWidth, jint requestedResolutionHeight, jint transferProtocolType, jlong timeout, jobject captureSnapshotCallback)
+{
+    chip::DeviceLayer::StackLock lock;
+    CHIP_ERROR err                           = CHIP_NO_ERROR;
+    AndroidDeviceControllerWrapper * wrapper = AndroidDeviceControllerWrapper::FromJNIHandle(handle);
+    VerifyOrReturnValue(wrapper != nullptr, false,
+                   ChipLogError(Controller, "AndroidDeviceControllerWrapper::FromJNIHandle in captureSnapshotFromNode fails!"));
+
+    ChipLogProgress(Controller, "captureSnapshotFromNode() called with device ID and callback object");
+
+    chip::app::Clusters::CameraAvStreamManagement::Commands::CaptureSnapshot::Type request;
+    if (snapshotStreamID >= 0)
+    {
+        request.snapshotStreamID.SetNonNull(static_cast<uint16_t>(snapshotStreamID));
+    }
+    else
+    {
+        request.snapshotStreamID.SetNull();
+    }
+
+    request.requestedResolution.width = static_cast<uint16_t>(requestedResolutionWidth);
+    request.requestedResolution.height = static_cast<uint16_t>(requestedResolutionHeight);
+
+    request.requestedProtocol = static_cast<chip::app::Clusters::CameraAvStreamManagement::ProtocolsEnum>(transferProtocolType);
+
+    err = AndroidCaptureSnapshotFromNode::CaptureSnapshotFromNode(wrapper->Controller(), static_cast<NodeId>(deviceId), static_cast<EndpointId>(endpointId),
+                                                          request,
+                                                          static_cast<uint16_t>(timeout), captureSnapshotCallback);
+
+    if (err != CHIP_NO_ERROR)
+    {
+        ChipLogError(Controller, "Failed to capture snapshot from the device.");
+        return false;
+    }
+    return true;
 }
 
 JNI_METHOD(void, shutdownCommissioning)

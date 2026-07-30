@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/addressUpdateFragment"
+        android:name="com.google.chip.chiptool.clusterclient.AddressUpdateFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/titleTransferProtocolType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/camera_transfer_protocol_type_title"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addressUpdateFragment" />
+
+    <Spinner
+        android:id="@+id/transferProtocolTypeSp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTransferProtocolType" />
+
+    <!-- Timeout -->
+    <TextView
+        android:id="@+id/timeoutTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:padding="8dp"
+        android:text="@string/camera_timeout_text"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transferProtocolTypeSp" />
+
+    <EditText
+        android:id="@+id/timeoutEd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:inputType="numberDecimal"
+        android:padding="8dp"
+        app:layout_constraintStart_toEndOf="@id/timeoutTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/timeoutTv"
+        app:layout_constraintBottom_toBottomOf="@id/timeoutTv"
+        android:textSize="16sp" />
+
+    <!-- Resolution Width -->
+    <TextView
+        android:id="@+id/widthTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:padding="8dp"
+        android:text="@string/camera_width_text"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timeoutTv" />
+
+    <EditText
+        android:id="@+id/widthEd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:inputType="number"
+        android:text="@string/camera_default_width"
+        android:padding="8dp"
+        app:layout_constraintStart_toEndOf="@id/widthTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/widthTv"
+        app:layout_constraintBottom_toBottomOf="@id/widthTv"
+        android:textSize="16sp" />
+
+    <!-- Resolution Height -->
+    <TextView
+        android:id="@+id/heightTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:padding="8dp"
+        android:text="@string/camera_height_text"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/widthTv" />
+
+    <EditText
+        android:id="@+id/heightEd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:inputType="number"
+        android:text="@string/camera_default_height"
+        android:padding="8dp"
+        app:layout_constraintStart_toEndOf="@id/heightTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/heightTv"
+        app:layout_constraintBottom_toBottomOf="@id/heightTv"
+        android:textSize="16sp" />
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/captureSnapshotBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/camera_capture_snapshot_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/heightTv"/>
+
+    <Button
+        android:id="@+id/liveviewLocalBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/camera_liveview_local_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/captureSnapshotBtn"/>
+
+    <Button
+        android:id="@+id/liveviewRemoteBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/camera_liveview_remote_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/liveviewLocalBtn"/>
+
+    <!-- Status TextView -->
+    <TextView
+        android:id="@+id/cameraStatusTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="4"
+        android:padding="16dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/liveviewRemoteBtn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

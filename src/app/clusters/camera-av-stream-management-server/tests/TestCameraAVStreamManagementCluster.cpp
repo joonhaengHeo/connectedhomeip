@@ -270,6 +270,18 @@ public:
         return Protocols::InteractionModel::Status::Success;
     }
 
+    CHIP_ERROR GetSnapshotInfo(const DataModel::Nullable<uint16_t> streamID, const VideoResolutionStruct & resolution, 
+                                       ImageSnapshot & outImageSnapshot,
+                                       size_t & outSize) override
+    {
+        if (CaptureSnapshot(streamID, resolution, outImageSnapshot) != Protocols::InteractionModel::Status::Success)
+        {
+            return CHIP_ERROR_INTERNAL;
+        }
+        outSize = outImageSnapshot.data.size();
+        return CHIP_NO_ERROR;
+    }
+
     CHIP_ERROR PersistentAttributesLoadedCallback() override { return CHIP_NO_ERROR; }
 
     const std::vector<VideoStreamStruct> & GetAllocatedVideoStreams() const override { return *mAllocatedVideoStreams; }

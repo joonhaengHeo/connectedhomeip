@@ -159,9 +159,9 @@ struct ImageSnapshot
  *  Defines interfaces for implementing application-specific logic for various aspects of the CameraAvStreamManagement Cluster.
  *  Specifically, it defines interfaces for the command handling and loading of the allocated streams.
  */
-class CameraAVStreamManagementDelegate :
+class CameraAVStreamManagementDelegate
 #if CHIP_CONFIG_ENABLE_BDX_CAPTURE_SNAPSHOT_TRANSFER
-                                public BDXSnapshotTransferDelegate
+                                : public BDXSnapshotTransferDelegate
 #endif
 {
 public:

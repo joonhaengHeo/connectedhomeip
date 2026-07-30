@@ -54,6 +54,10 @@ CHIP_ERROR BdxDiagnosticLogsReceiver::OnTransferBegin(chip::bdx::BDXTransferProx
     }
     else
     {
+        ChipLogError(Controller, "OnTransferBegin: %" CHIP_ERROR_FORMAT, CHIP_ERROR_INVALID_DESTINATION_NODE_ID.Format());
+        ChipLogError(Controller, "fileDesignator: %s(%s)", fileDesignator.data(), mFileDesignator.data());
+        ChipLogError(Controller, "fabricIndex: %u(%u)", fabricIndex, mFabricIndex);
+        ChipLogError(Controller, "nodeId: " ChipLogFormatX64 " (" ChipLogFormatX64 ")", ChipLogValueX64(nodeId), ChipLogValueX64(mNodeId));
         TEMPORARY_RETURN_IGNORED transfer->Reject(CHIP_ERROR_INVALID_DESTINATION_NODE_ID);
     }
 

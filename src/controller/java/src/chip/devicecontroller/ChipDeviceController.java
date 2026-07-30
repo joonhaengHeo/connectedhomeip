@@ -945,11 +945,23 @@ public class ChipDeviceController {
    * @param type The log type being downloaded. See detailed in {@link DiagnosticLogType}.
    * @param timeout This function sets the timeout. If set to 0, there will be no timeout.
    * @param callback The callback is registered to convey the status during log downloads. See
-   *     detailed in {@link DownloadLogCallback}.
+   *     detailed in {@link DownloadFileCallback}.
    */
   public boolean downloadLogFromNode(
-      long deviceId, DiagnosticLogType type, long timeout, DownloadLogCallback callback) {
+      long deviceId, DiagnosticLogType type, long timeout, DownloadFileCallback callback) {
     return downloadLogFromNode(deviceControllerPtr, deviceId, type.getValue(), timeout, callback);
+  }
+
+  public boolean captureSnapshotFromNode(
+      long deviceId,
+      int endpointId,
+      int snapshotStreamID,
+      int requestedResolutionWidth,
+      int requestedResolutionHeight,
+      int transferProtocolType,
+      long timeout,
+      DownloadFileCallback callback) {
+    return captureSnapshotFromNode(deviceControllerPtr, deviceId, endpointId, snapshotStreamID, requestedResolutionWidth, requestedResolutionHeight, transferProtocolType, timeout, callback);
   }
 
   public int getFabricIndex() {
@@ -1813,7 +1825,18 @@ public class ChipDeviceController {
       long deviceId,
       int typeEnum,
       long timeout,
-      DownloadLogCallback callback);
+      DownloadFileCallback callback);
+
+  private native boolean captureSnapshotFromNode(
+      long deviceControllerPtr,
+      long deviceId,
+      int endpointId,
+      int snapshotStreamID,
+      int requestedResolutionWidth,
+      int requestedResolutionHeight,
+      int transferProtocolType,
+      long timeout,
+      DownloadFileCallback captureSnapshotCallback);
 
   private native byte[] getAttestationChallenge(long deviceControllerPtr, long devicePtr);
 

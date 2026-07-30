@@ -307,4 +307,22 @@
 
     <string name="icd_btn_text">Intermittently Connected Device</string>
     <string name="icd_registration_completed">ICD device registration completed, How to trigger to switch to Active Mode : %1$s</string>
+
+    <string name="camera_btn_text">Camera</string>
+    <string name="camera_transfer_protocol_type_title">Transfer Protocol</string>
+    <string name="camera_timeout_text">Timeout:</string>
+    <string name="camera_width_text">Width:</string>
+    <string name="camera_default_width">1280</string>
+    <string name="camera_height_text">Height:</string>
+    <string name="camera_default_height">720</string>
+    <string name="camera_capture_snapshot_btn">Capture Snapshot</string>
+    <string name="camera_liveview_local_btn">Liveview Local</string>
+    <string name="camera_liveview_remote_btn">Liveview Remote</string>
+
+    <string name="camera_liveview_local_not_implemented">Liveview Local is not implemented yet.</string>
+    <string name="camera_liveview_remote_not_implemented">Liveview Remote is not implemented yet.</string>
+    <string name="camera_snapshot_download_failed">Snapshot Download Failed</string>
+    <string name="camera_snapshot_download_completed">Snapshot Download Completed</string>
+    <string name="camera_receive_data_size">Receive Data Size : %1$d bytes</string>
+    <string name="camera_cannot_write_storage">Cannot write to external storage.</string>
 </resources>
